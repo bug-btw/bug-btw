@@ -1,5 +1,10 @@
 {
     "output": {
+        "blocklist": [
+            "easyeffects_source",
+            "easyeffects_sie",
+            "AudioIPC Server"
+        ],
         "bass_enhancer#0": {
             "amount": 8.0,
             "blend": 0.5,
@@ -11,49 +16,9 @@
             "output-gain": 0.0,
             "scope": 130.0
         },
-        "blocklist": [
-            "Virtual Surround Sink Stream from VirtualSurround"
-        ],
-        "compressor#0": {
-            "attack": 20.0,
-            "boost-amount": 6.0,
-            "boost-threshold": -72.0,
-            "bypass": false,
-            "dry": -80.01,
-            "hpf-frequency": 10.0,
-            "hpf-mode": "Off",
-            "input-gain": 0.0,
-            "input-to-link": 0.0,
-            "input-to-sidechain": 0.0,
-            "knee": -8.0,
-            "link-to-input": 0.0,
-            "link-to-sidechain": 0.0,
-            "lpf-frequency": 20000.0,
-            "lpf-mode": "Off",
-            "makeup": 2.5,
-            "mode": "Downward",
-            "output-gain": 0.0,
-            "ratio": 3.5,
-            "release": 100.0,
-            "release-threshold": -80.01,
-            "sidechain": {
-                "lookahead": 0.0,
-                "mode": "RMS",
-                "preamp": 0.0,
-                "reactivity": 10.0,
-                "source": "Middle",
-                "stereo-split-source": "Left/Right",
-                "type": "Feed-forward"
-            },
-            "sidechain-to-input": 0.0,
-            "sidechain-to-link": 0.0,
-            "stereo-split": false,
-            "threshold": -14.0,
-            "wet": 0.0
-        },
         "equalizer#0": {
             "balance": 0.0,
-            "bypass": true,
+            "bypass": false,
             "input-gain": 0.0,
             "left": {
                 "band0": {
@@ -198,11 +163,70 @@
             },
             "split-channels": false
         },
+        "compressor#0": {
+            "attack": 20.0,
+            "boost-amount": 6.0,
+            "boost-threshold": -72.0,
+            "bypass": false,
+            "dry": -100.0,
+            "hpf-frequency": 10.0,
+            "hpf-mode": "Off",
+            "input-gain": 0.0,
+            "input-to-link": 0.0,
+            "input-to-sidechain": 0.0,
+            "knee": -8.0,
+            "link-to-input": 0.0,
+            "link-to-sidechain": 0.0,
+            "lpf-frequency": 20000.0,
+            "lpf-mode": "Off",
+            "makeup": 2.5,
+            "mode": "Downward",
+            "output-gain": 0.0,
+            "ratio": 3.5,
+            "release": 100.0,
+            "release-threshold": -100.0,
+            "sidechain": {
+                "lookahead": 0.0,
+                "mode": "RMS",
+                "preamp": 0.0,
+                "reactivity": 10.0,
+                "source": "Middle",
+                "stereo-split-source": "Left/Right",
+                "type": "Feed-forward"
+            },
+            "sidechain-to-input": 0.0,
+            "sidechain-to-link": 0.0,
+            "stereo-split": false,
+            "threshold": -14.0,
+            "wet": 0.0
+        },
+        "stereo_tools#0": {
+            "balance-in": 0.0,
+            "balance-out": 0.0,
+            "bypass": false,
+            "delay": 0.0,
+            "dry": -100.0,
+            "input-gain": 0.0,
+            "middle-level": 0.0,
+            "middle-panorama": 0.0,
+            "mode": "LR > LR (Stereo Default)",
+            "mutel": false,
+            "muter": false,
+            "output-gain": 0.0,
+            "phasel": false,
+            "phaser": false,
+            "sc-level": 1.0,
+            "side-balance": 0.0,
+            "side-level": 0.0,
+            "softclip": false,
+            "stereo-base": 0.0,
+            "stereo-phase": 0.0,
+            "wet": 0.0
+        },
         "limiter#0": {
             "alr": false,
             "alr-attack": 5.0,
             "alr-knee": 0.0,
-            "alr-knee-smooth": -5.0,
             "alr-release": 50.0,
             "attack": 3.0,
             "bypass": false,
@@ -230,45 +254,7 @@
             "equalizer#0",
             "compressor#0",
             "stereo_tools#0",
-            "reverb#0",
             "limiter#0"
-        ],
-        "reverb#0": {
-            "amount": -18.0,
-            "bass-cut": 180.0,
-            "bypass": false,
-            "decay-time": 1.2,
-            "diffusion": 0.65,
-            "dry": 0.0,
-            "hf-damp": 5500.0,
-            "input-gain": 0.0,
-            "output-gain": 0.0,
-            "predelay": 8.0,
-            "room-size": "Large/smooth",
-            "treble-cut": 6500.0
-        },
-        "stereo_tools#0": {
-            "balance-in": 0.0,
-            "balance-out": 0.0,
-            "bypass": false,
-            "delay": 0.0,
-            "dry": -100.0,
-            "input-gain": 0.0,
-            "middle-level": 0.0,
-            "middle-panorama": 0.0,
-            "mode": "LR > LR (Stereo Default)",
-            "mutel": false,
-            "muter": false,
-            "output-gain": 0.0,
-            "phasel": false,
-            "phaser": false,
-            "sc-level": 1.0,
-            "side-balance": 0.0,
-            "side-level": 0.0,
-            "softclip": false,
-            "stereo-base": 0.0,
-            "stereo-phase": 0.0,
-            "wet": 0.0
-        }
+        ]
     }
 }
