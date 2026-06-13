@@ -1,7 +1,9 @@
 # 🐧 bug-btw Utilities
 
-[![Linux](https://img.shields.io/badge/Linux--orange?logo=linux&logoColor=white)](https://project.org/)
-[![Windows](https://img.shields.io/badge/Windows--OS--blue?logo=windows&logoColor=white)](https://microsoft.com/windows/)
+[![Linux](https://img.shields.io/badge/Linux--orange?logo=archlinux&logoColor=white)](https://project.org/)
+[![Linux](https://img.shields.io/badge/Arch%20Linux-OS-blue?logo=archlinux&logoColor=blue)](https://archlinux.org/)
+[![Linux](https://img.shields.io/badge/CachyOS-teal?logo=cachyos&logoColor=teal)](https://cachyos.org/)
+[![Windows](https://img.shields.io/badge/Windows-OS-blue?logo=windows&logoColor=white)](https://microsoft.com/windows/)
 [![Shell Script](https://img.shields.io/badge/Shell-Bash-green?logo=gnu-bash&logoColor=white)](https://www.gnu.org/software/bash/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/rufusg08/-btw/graphs/commit-activity)
