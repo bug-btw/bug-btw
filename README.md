@@ -2,7 +2,7 @@
 
 [![Linux](https://img.shields.io/badge/Linux--orange?logo=linux&logoColor=white)](https://project.org/)
 [![Linux](https://img.shields.io/badge/Arch%20Linux-OS-blue?logo=archlinux&logoColor=blue)](https://archlinux.org/)
-[![Linux](https://img.shields.io/badge/CachyOS-blue?logo=cachyos&logoColor=teal)](https://cachyos.org/)
+[![Linux](https://img.shields.io/badge/Cachy-OS-blue?logo=cachyos&logoColor=teal)](https://cachyos.org/)
 [![Windows](https://img.shields.io/badge/Windows-OS-blue?logo=windows&logoColor=white)](https://microsoft.com/windows/)
 [![Shell Script](https://img.shields.io/badge/Shell-Bash-green?logo=gnu-bash&logoColor=white)](https://www.gnu.org/software/bash/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
