@@ -5,8 +5,8 @@
 [![Linux](https://img.shields.io/badge/Cachy-OS-blue?logo=cachyos&logoColor=teal)](https://cachyos.org/)
 [![Windows](https://img.shields.io/badge/Windows-OS-blue?logo=windows&logoColor=white)](https://microsoft.com/windows/)
 [![Shell Script](https://img.shields.io/badge/Shell-Bash-green?logo=gnu-bash&logoColor=white)](https://www.gnu.org/software/bash/)
-[![![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/rufusg08/-btw/graphs/commit-activity)
-[License](https://img.shields.io/badge/License-BUG-pink.svg)](LICENSE)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/rufusg08/-btw/graphs/commit-activity)
+[![License](https://img.shields.io/badge/License-BUG-pink.svg)](LICENSE)
 
 
 Arch Linux / Windows 10|11 (Intel- x64-x86)
