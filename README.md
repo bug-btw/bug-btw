@@ -1,6 +1,6 @@
 # 🐧 bug-btw Utilities
 
-[![Linux](https://img.shields.io/badge/Linux--orange?logo=linux&logoColor=white)](https://project.org/)
+[![Linux](https://img.shields.io/badge/Linux-Kernel-orange?logo=linux&logoColor=white)](https://project.org/)
 [![Linux](https://img.shields.io/badge/Arch%20Linux-OS-blue?logo=archlinux&logoColor=blue)](https://archlinux.org/)
 [![Linux](https://img.shields.io/badge/Cachy-OS-blue?logo=cachyos&logoColor=teal)](https://cachyos.org/)
 [![Windows](https://img.shields.io/badge/Windows-OS-blue?logo=windows&logoColor=white)](https://microsoft.com/windows/)
