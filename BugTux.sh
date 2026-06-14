@@ -2,6 +2,7 @@
 set -euo pipefail
 
 [ "$EUID" -ne 0 ] && exec sudo bash "$0" "$@"
+trap 'clear; exit 0' INT
 
 CPU_SERVICE="/etc/systemd/system/bugtux-cpu.service"
 SYSCTL_FILE="/etc/sysctl.d/99-bugtux-perf.conf"
@@ -29,21 +30,15 @@ header() {
     echo -e "${C}══════════════════════════════════════════${N}\n"
 }
 
-content_matches() {
-    [ -f "$1" ] && [ "$(cat "$1")" = "$2" ]
-}
+content_matches() { [ -f "$1" ] && [ "$(cat "$1")" = "$2" ]; }
 
 write_if_changed() {
     local file="$1" content="$2"
-    if content_matches "$file" "$content"; then
-        return 1
-    fi
+    if content_matches "$file" "$content"; then return 1; fi
     mkdir -p "$(dirname "$file")"
     printf '%s\n' "$content" > "$file"
     return 0
 }
-
-# ── CPU Governor ───────────────────────────────────────────────────────────────
 
 apply_cpu() {
     local content
@@ -51,13 +46,11 @@ apply_cpu() {
 [Unit]
 Description=BugTux CPU Performance Governor
 After=multi-user.target
-
 [Service]
 Type=oneshot
 ExecStart=/bin/sh -c 'echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor > /dev/null'
 ExecStart=/bin/sh -c 'echo 0 | tee /sys/devices/system/cpu/cpu*/power/energy_perf_bias > /dev/null 2>&1 || true'
 RemainAfterExit=yes
-
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -72,25 +65,18 @@ EOF
     fi
 }
 
-# ── sysctl ─────────────────────────────────────────────────────────────────────
-
 apply_sysctl() {
     local content
     content=$(cat << 'EOF'
-# Memoria
 vm.swappiness = 1
 vm.vfs_cache_pressure = 50
 vm.dirty_ratio = 10
 vm.dirty_background_ratio = 5
 vm.max_map_count = 2147483642
-
-# Kernel scheduler
 kernel.sched_autogroup_enabled = 1
 kernel.sched_migration_cost_ns = 500000
 kernel.nmi_watchdog = 0
 kernel.unprivileged_userns_clone = 1
-
-# Rede
 net.core.default_qdisc = fq
 net.ipv4.tcp_congestion_control = bbr
 net.core.rmem_max = 16777216
@@ -99,8 +85,6 @@ net.core.netdev_max_backlog = 16384
 net.ipv4.tcp_fastopen = 3
 net.ipv4.tcp_tw_reuse = 1
 net.ipv4.tcp_mtu_probing = 1
-
-# Filesystem
 fs.inotify.max_user_watches = 524288
 fs.inotify.max_user_instances = 1024
 fs.file-max = 2097152
@@ -114,8 +98,6 @@ EOF
     fi
 }
 
-# ── scx_lavd ───────────────────────────────────────────────────────────────────
-
 apply_scx() {
     local content
     content=$(cat << 'EOF'
@@ -125,8 +107,7 @@ Environment="SCX_FLAGS=--performance"
 EOF
 )
     if ! command -v scx_lavd &>/dev/null && ! [ -f /usr/lib/scx/scx_lavd ]; then
-        SCX_MSG="$(fail "scx_lavd não encontrado — instale: sudo pacman -S scx-scheds")"
-        return
+        SCX_MSG="$(fail "scx_lavd não encontrado — instale: sudo pacman -S scx-scheds")"; return
     fi
 
     local changed=0
@@ -137,13 +118,10 @@ EOF
         systemctl restart scx_loader 2>/dev/null || true
         SCX_MSG="$(ok "scx_lavd configurado (--performance) via scx_loader")"
     else
-        local current
-        current=$(busctl get-property org.scx.Loader /org/scx/Loader org.scx.Loader CurrentScheduler 2>/dev/null | awk '{print $2}' | tr -d '"' || echo "unknown")
+        local current=$(busctl get-property org.scx.Loader /org/scx/Loader org.scx.Loader CurrentScheduler 2>/dev/null | awk '{print $2}' | tr -d '"' || echo "unknown")
         SCX_MSG="$(skip "scx_lavd (ativo: $current)")"
     fi
 }
-
-# ── IO Scheduler ───────────────────────────────────────────────────────────────
 
 apply_io() {
     local content
@@ -151,24 +129,10 @@ apply_io() {
 [Unit]
 Description=BugTux IO Scheduler
 After=multi-user.target
-
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/sh -c '\
-    for dev in /sys/block/sd*; do \
-        name=$(basename $dev); \
-        rot=$(cat $dev/queue/rotational 2>/dev/null || echo 1); \
-        if [ "$rot" = "0" ]; then \
-            echo mq-deadline > $dev/queue/scheduler 2>/dev/null || true; \
-            echo 0 > $dev/queue/add_random 2>/dev/null || true; \
-            echo 2 > $dev/queue/nomerges 2>/dev/null || true; \
-        fi; \
-    done; \
-    for dev in /sys/block/nvme*; do \
-        echo none > $dev/queue/scheduler 2>/dev/null || true; \
-    done'
-
+ExecStart=/bin/sh -c 'for dev in /sys/block/sd*; do rot=$(cat $dev/queue/rotational 2>/dev/null || echo 1); if [ "$rot" = "0" ]; then echo mq-deadline > $dev/queue/scheduler 2>/dev/null || true; echo 0 > $dev/queue/add_random 2>/dev/null || true; echo 2 > $dev/queue/nomerges 2>/dev/null || true; fi; done; for dev in /sys/block/nvme*; do echo none > $dev/queue/scheduler 2>/dev/null || true; done'
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -182,26 +146,16 @@ EOF
     fi
 }
 
-# ── Intel GPU ──────────────────────────────────────────────────────────────────
-
 apply_gpu() {
     local content
     content=$(cat << 'EOF'
 [Unit]
 Description=BugTux Intel GPU Performance
 After=multi-user.target
-
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/sh -c '\
-    for card in /sys/class/drm/card*/; do \
-        max=$(cat ${card}gt_RP0_freq_mhz 2>/dev/null || echo ""); \
-        [ -z "$max" ] && continue; \
-        echo $max > ${card}gt_min_freq_mhz 2>/dev/null || true; \
-        echo $max > ${card}gt_boost_freq_mhz 2>/dev/null || true; \
-    done'
-
+ExecStart=/bin/sh -c 'for card in /sys/class/drm/card*/; do max=$(cat ${card}gt_RP0_freq_mhz 2>/dev/null || echo ""); [ -z "$max" ] && continue; echo $max > ${card}gt_min_freq_mhz 2>/dev/null || true; echo $max > ${card}gt_boost_freq_mhz 2>/dev/null || true; done'
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -214,8 +168,6 @@ EOF
         GPU_MSG="$(skip "Intel GPU freq")"
     fi
 }
-
-# ── System Limits ──────────────────────────────────────────────────────────────
 
 apply_limits() {
     local content
@@ -232,13 +184,11 @@ apply_limits() {
 EOF
 )
     if write_if_changed "$LIMITS_FILE" "$content"; then
-        LIMITS_MSG="$(ok "System limits → nofile/memlock/rtprio configurados para gaming")"
+        LIMITS_MSG="$(ok "System limits → nofile/memlock/rtprio configurados")"
     else
         LIMITS_MSG="$(skip "System limits")"
     fi
 }
-
-# ── DNS ────────────────────────────────────────────────────────────────────────
 
 select_dns() {
     local choice=0 key seq
@@ -250,14 +200,15 @@ select_dns() {
         else
             echo -e "    ${DNS_LABEL[0]}          ${BLD}${G}→ ${DNS_LABEL[1]} ←${N}" >&2
         fi
-        echo -e "\n${Y}← → navegar  |  Enter confirma  |  Ctrl+C cancela${N}" >&2
+        echo -e "\n${Y}← → navegar  |  Enter confirma  |  Backspace pular  |  Ctrl+C sair${N}" >&2
         read -rsn1 key
-        if [ "$key" = $'\x1b' ]; then
+        if [[ "$key" == $'\x7f' || "$key" == $'\b' ]]; then
+            echo "BACK"; return
+        elif [ "$key" = $'\x1b' ]; then
             read -rsn2 -t 0.1 seq 2>/dev/null || true
             case $seq in '[D') choice=0 ;; '[C') choice=1 ;; esac
         elif [ -z "$key" ]; then
-            echo "$choice"
-            return
+            echo "$choice"; return
         fi
     done
 }
@@ -266,50 +217,45 @@ apply_dns() {
     local idx="$1"
     local d4="${DNS4[$idx]}" d6="${DNS6[$idx]}"
     local d4csv="${d4// /,}" d6csv="${d6// /,}"
-    local conf_content="[global-dns-domain-*]
-servers=${d4csv},${d6csv}"
+    local conf_content="[global-dns-domain-*]\nservers=${d4csv},${d6csv}"
+
     if content_matches "$DNS_CONF" "$conf_content"; then
         DNS_MSG="$(skip "DNS (${DNS_LABEL[$idx]})")"
         return
     fi
     mkdir -p "$(dirname "$DNS_CONF")"
-    printf '%s\n' "$conf_content" > "$DNS_CONF"
+    printf '%b\n' "$conf_content" > "$DNS_CONF"
     while IFS= read -r conn; do
         [ -z "$conn" ] || [ "$conn" = "lo" ] && continue
-        nmcli connection modify "$conn" \
-            ipv4.ignore-auto-dns yes ipv4.dns "$d4" \
-            ipv6.ignore-auto-dns yes ipv6.dns "$d6" 2>/dev/null || true
+        nmcli connection modify "$conn" ipv4.ignore-auto-dns yes ipv4.dns "$d4" ipv6.ignore-auto-dns yes ipv6.dns "$d6" 2>/dev/null || true
     done < <(nmcli -g NAME connection show)
     systemctl restart NetworkManager
     DNS_MSG="$(ok "DNS ${DNS_LABEL[$idx]} → ${d4csv}")"
 }
 
-# ── Main ───────────────────────────────────────────────────────────────────────
-
-trap 'clear; exit 0' INT
+# ── Execução Principal ──
 
 CPU_MSG="" SYSCTL_MSG="" SCX_MSG="" IO_MSG="" GPU_MSG="" LIMITS_MSG="" DNS_MSG=""
 
 step "Aplicando CPU governor..."
 apply_cpu
-
 step "Aplicando sysctl..."
 apply_sysctl
-
 step "Configurando scx_lavd..."
 apply_scx
-
 step "Configurando IO scheduler..."
 apply_io
-
 step "Configurando Intel GPU..."
 apply_gpu
-
 step "Aplicando system limits..."
 apply_limits
 
 dns_idx=$(select_dns)
-apply_dns "$dns_idx"
+if [[ "$dns_idx" == "BACK" ]]; then
+    DNS_MSG="$(skip "DNS (Pulado pelo usuário)")"
+else
+    apply_dns "$dns_idx"
+fi
 
 clear
 header
