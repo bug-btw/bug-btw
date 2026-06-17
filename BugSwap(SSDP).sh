@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
 
-# GARANTE PRIVILÉGIOS DE ROOT E TRATA O CTRL+C
 if [ "$EUID" -ne 0 ]; then exec sudo bash "$0" "$@"; fi
 trap 'clear; exit 0' INT
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-# CORES
 G='\033[0;32m' Y='\033[1;33m' R='\033[0;31m' C='\033[0;36m' B='\033[1;34m' BLD='\033[1m' N='\033[0m'
 ok()   { echo -e "  ${G}[✓]${N}  $*"; }
 warn() { echo -e "  ${Y}[!]${N}  $*"; }
 die()  { echo -e "  ${R}[✗]${N}  $*"; exit 1; }
 hdr()  { echo -e "\n${C}${BLD}── $* ${N}"; }
 
-MNT_DIR="/mnt/SecundarioSSD"
+MNT_DIR="/mnt/KingstonSSD"
 PRIO_SWAP=5
-SWAPPINESS=10
+SWAPPINESS=150
+VFS_CACHE_PRESSURE=10
 ZRAM_SIZE="8G"
 
-# Menu Interativo Vertical
 select_menu() {
     local prompt="$1"
     shift
@@ -69,66 +67,64 @@ for disk in "${RAW_DISKS[@]}"; do
     fi
 done
 
-[ ${#DISKS_AVAILABLE[@]} -eq 0 ] && die "Nenhum SSD secundário encontrado para configurar o Swap."
+[ ${#DISKS_AVAILABLE[@]} -eq 0 ] && die "Nenhum SSD secundário encontrado."
 
-# LOOP DE NAVEGAÇÃO (MÁQUINA DE ESTADOS)
 while true; do
     DISK_IDX=$(select_menu "Selecione o SSD Secundário para aplicar o Swap:" "${DISKS_LABELS[@]}")
-    [[ "$DISK_IDX" == "BACK" ]] && { clear; exit 0; } # Sai do script se voltar na tela inicial
+    [[ "$DISK_IDX" == "BACK" ]] && { clear; exit 0; }
 
     TARGET_DISK="${DISKS_AVAILABLE[$DISK_IDX]}"
-    SIZES=("16GB" "24GB" "32GB" "46GB" "48GB" "56GB" "64GB")
+    SIZES=("8GiB" "12GiB" "16GiB" "24GiB" "32GiB" "46GiB" "48GiB" "56GiB" "64GiB")
 
     while true; do
         SIZE_IDX=$(select_menu "Selecione o tamanho da Partição Swap no $TARGET_DISK:" "${SIZES[@]}")
-        [[ "$SIZE_IDX" == "BACK" ]] && break # Volta para a seleção de SSD
+        [[ "$SIZE_IDX" == "BACK" ]] && break
 
-        TARGET_SIZE="${SIZES[$SIZE_IDX]//GB/}"
+        TARGET_SIZE="${SIZES[$SIZE_IDX]//GiB/}"
 
         clear
         hdr "INICIANDO OTIMIZAÇÃO E PARTICIONAMENTO"
         ok "Disco Alvo   : $TARGET_DISK"
-        ok "Tamanho Swap : ${TARGET_SIZE}GB"
+        ok "Tamanho Swap : ${TARGET_SIZE}GiB"
 
         PART_SWAP="${TARGET_DISK}1"
         PART_DATA="${TARGET_DISK}2"
         [[ "$TARGET_DISK" == *nvme* ]] && PART_SWAP="${TARGET_DISK}p1" && PART_DATA="${TARGET_DISK}p2"
 
-        hdr "LIMPEZA DE SWAPS (INCLUINDO SSD PRIMÁRIO)"
+        hdr "LIMPEZA DE SWAPS"
         while read -r active; do
             [ -n "$active" ] || continue
-            swapoff "$active" 2>/dev/null && warn "Swap desativado em tempo real: $active"
+            swapoff "$active" 2>/dev/null && warn "Swap desativado: $active"
         done < <(swapon --show --noheadings --raw 2>/dev/null | awk '{print $1}')
 
         for f in /swapfile /swapfile_adata /swapfile_kingston /.swapfile /.swapfile_swap-adata //.swapfile; do
-            if [ -f "$f" ]; then rm -f "$f" && ok "Arquivo deletado do SSD Primário: $f"; fi
+            if [ -f "$f" ]; then rm -f "$f" && ok "Arquivo deletado: $f"; fi
         done
 
         umount -fl "${TARGET_DISK}"* 2>/dev/null || true
 
-        hdr "PARTICIONAMENTO DO SSD SECUNDÁRIO ($TARGET_DISK)"
+        hdr "PARTICIONAMENTO"
         wipefs -a "$TARGET_DISK" 2>/dev/null || true
         sgdisk --zap-all "$TARGET_DISK" &>/dev/null || true
 
-        warn "Criando Swap (${TARGET_SIZE}GB) e Partição de Dados..."
         parted -a optimal -s "$TARGET_DISK" mklabel gpt 2>/dev/null
         parted -a optimal -s "$TARGET_DISK" mkpart primary linux-swap 0% ${TARGET_SIZE}GiB 2>/dev/null
         parted -a optimal -s "$TARGET_DISK" mkpart primary xfs ${TARGET_SIZE}GiB 100% 2>/dev/null
 
         udevadm settle; partprobe "$TARGET_DISK" 2>/dev/null; sleep 3; udevadm settle
-        [ -b "$PART_SWAP" ] && [ -b "$PART_DATA" ] || die "Kernel demorou para registrar partições."
+        [ -b "$PART_SWAP" ] && [ -b "$PART_DATA" ] || die "Erro ao registrar partições."
 
         hdr "FORMATANDO E ATIVANDO"
-        mkswap -f -L "swap-secundario" "$PART_SWAP" > /dev/null || die "Falha mkswap"
+        mkswap -f -L "KingstonSwap" "$PART_SWAP" > /dev/null || die "Falha mkswap"
         swapon -p "$PRIO_SWAP" "$PART_SWAP" || die "Falha swapon"
-        ok "Swap de ${TARGET_SIZE}GB Ativado!"
+        ok "Swap de ${TARGET_SIZE}GiB Ativado!"
 
-        mkfs.xfs -f -L "DadosSSD" "$PART_DATA" > /dev/null || die "Falha mkfs.xfs"
+        mkfs.xfs -f -L "KingstonSSD" "$PART_DATA" > /dev/null || die "Falha mkfs.xfs"
         [ -d "$MNT_DIR" ] || mkdir -p "$MNT_DIR"
         mount -t xfs "$PART_DATA" "$MNT_DIR" || die "Falha mount"
-        ok "Partição de Dados Formatada em XFS."
+        ok "Dados formatados em XFS."
 
-        hdr "GRAVANDO NO FSTAB"
+        hdr "CONFIGURANDO FSTAB"
         cp /etc/fstab /etc/fstab.bak
         grep -v -E '^[^#].*[[:space:]]swap[[:space:]]' /etc/fstab | grep -v "$MNT_DIR" > /tmp/fstab_clean
         mv /tmp/fstab_clean /etc/fstab
@@ -136,13 +132,13 @@ while true; do
         UUID_SWAP=$(blkid -s UUID -o value "$PART_SWAP")
         UUID_DATA=$(blkid -s UUID -o value "$PART_DATA")
         echo "UUID=$UUID_SWAP none swap defaults,pri=$PRIO_SWAP 0 0" >> /etc/fstab
-        echo "UUID=$UUID_DATA $MNT_DIR xfs defaults,noatime 0 2" >> /etc/fstab
-        ok "UUIDs gravados com segurança."
+        echo "UUID=$UUID_DATA $MNT_DIR xfs defaults,noatime,rw,user,nofail 0 2" >> /etc/fstab
+        ok "fstab configurado com persistência estável."
 
-        hdr "PERSISTÊNCIA DO ZRAM E TUNING"
+        hdr "PERSISTÊNCIA DO ZRAM"
         cat << EOF > /etc/systemd/system/zram-swap.service
 [Unit]
-Description=ZRAM Swap (8GB)
+Description=ZRAM Swap (8GiB)
 After=local-fs.target
 [Service]
 Type=oneshot
@@ -161,13 +157,14 @@ EOF
         [ -z "$REAL_USER" ] && REAL_USER=$(logname 2>/dev/null)
         if [ -n "$REAL_USER" ]; then chown -R "$REAL_USER":"$REAL_USER" "$MNT_DIR" 2>/dev/null || true; fi
 
-        declare -A KP=([vm.swappiness]=$SWAPPINESS [vm.vfs_cache_pressure]=50 [vm.dirty_ratio]=15 [vm.dirty_background_ratio]=5)
+        hdr "APLICANDO CONTROLE AGRESSIVO DE MEMÓRIA"
+        declare -A KP=([vm.swappiness]=$SWAPPINESS [vm.vfs_cache_pressure]=$VFS_CACHE_PRESSURE [vm.dirty_ratio]=15 [vm.dirty_background_ratio]=5)
         for k in "${!KP[@]}"; do
             sysctl -w "$k=${KP[$k]}" > /dev/null
             grep -q "^${k}" /etc/sysctl.conf 2>/dev/null && sed -i "s|^${k}[[:space:]]*=.*|${k}=${KP[$k]}|" /etc/sysctl.conf || echo "${k}=${KP[$k]}" >> /etc/sysctl.conf
         done
 
-        echo -e "\n${G}══ OTIMIZAÇÃO CONCLUÍDA ══${N}\n"
+        echo -e "\n${G}══ SUCESSO ══${N}\n"
         swapon --show
         exit 0
     done
