@@ -16,6 +16,11 @@ fi
 : "${REAL_HOME:=/root}"
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
+if [ ! -t 0 ] && [ ! -r /dev/tty ]; then
+    echo "BugTuxP requer um terminal interativo (TTY). Execute direto num terminal." >&2
+    exit 1
+fi
+
 G=$'\033[0;32m'
 Y=$'\033[1;33m'
 C=$'\033[0;36m'
@@ -25,7 +30,9 @@ BLD=$'\033[1m'
 DIM=$'\033[2m'
 N=$'\033[0m'
 
-trap 'clear; exit 0' INT TERM
+trap 'tput cnorm 2>/dev/null; clear; exit 0' INT TERM
+trap 'tput cnorm 2>/dev/null' EXIT
+tput civis 2>/dev/null || true
 
 ok()   { echo -e "  ${G}[✓]${N} $*"; }
 skip() { echo -e "  ${Y}[~]${N} $*"; }
@@ -41,6 +48,24 @@ _sys_gpu()    { lspci 2>/dev/null | grep -iE "vga|3d controller" | head -1 | sed
 _sys_distro() { . /etc/os-release 2>/dev/null && echo "${PRETTY_NAME:-${NAME:-Linux}}"; }
 _sys_kernel() { uname -r; }
 _sys_de()     { echo "${XDG_CURRENT_DESKTOP:-${DESKTOP_SESSION:-unknown}}"; }
+
+_is_kde() {
+    local de; de=$(_sys_de)
+    [[ "${de,,}" == *"kde"* || "${de,,}" == *"plasma"* ]]
+}
+
+_require_kde() {
+    if ! _is_kde; then
+        local de; de=$(_sys_de)
+        header
+        warn "Esta função requer KDE Plasma."
+        log  "DE detectado: ${de:-desconhecido}"
+        log  "Operação abortada para proteger seu ambiente de desktop."
+        pause
+        return 1
+    fi
+    return 0
+}
 
 header() {
     clear
@@ -69,7 +94,8 @@ progress() {
     for (( i=0; i<filled; i++ )); do bar+="█"; done
     for (( i=filled; i<width; i++ )); do bar+="░"; done
     printf "\r  ${C}[%s]${N} ${BLD}%3d%%${N} %s" "$bar" "$pct" "${label:0:45}"
-    [ "$pct" -eq 100 ] && echo
+    if [ "$pct" -eq 100 ]; then echo; fi
+    return 0
 }
 
 progress_item() {
@@ -111,7 +137,7 @@ run_as_user() {
         DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$uid/bus" "$@"
 }
 
-own_back()   { chown -R "$REAL_USER":"$REAL_USER" "$@" 2>/dev/null || true; }
+own_back() { chown -R "$REAL_USER":"$REAL_USER" "$@" 2>/dev/null || true; }
 
 pause() {
     echo
@@ -135,7 +161,7 @@ install_pkgs() {
         apt)     apt-get install -y "$@" 2>/dev/null || true ;;
         dnf)     dnf install -y "$@" 2>/dev/null || true ;;
         zypper)  zypper install -y "$@" 2>/dev/null || true ;;
-        *)       warn "🗂 Gerenciador de pacotes não detectado" ;;
+        *)       warn "Gerenciador de pacotes não detectado" ;;
     esac
 }
 
@@ -146,7 +172,8 @@ rebuild_kde_cache() {
 
 select_menu() {
     local prompt="$1"; shift
-    local options=("$@") choice=0 total=${#options[@]} key="" seq=""
+    local options=("$@")
+    local choice=0 total=${#options[@]} key="" seq=""
     while true; do
         clear >&2
         echo -e "${B}${BLD}  $prompt${N}\n" >&2
@@ -156,14 +183,29 @@ select_menu() {
                 && echo -e "  ${BLD}${G}→ ${options[$i]}${N}" >&2 \
                 || echo -e "  ${DIM}  ${options[$i]}${N}" >&2
         done
-        echo -e "\n  ${DIM}↑↓ Navegar  │  ↵ Enter Confirma  │  ⌫ Backspace Voltar  │  Ctrl+C Sair${N}" >&2
+        echo -e "\n  ${DIM}↑↓/jk Navegar  │  1-9 Atalho  │  g/G Topo/Fim  │  ↵ Confirma  │  ⌫ Voltar  │  Ctrl+C Sair${N}" >&2
         IFS= read -rsn1 key </dev/tty 2>/dev/null || key=""
         if [[ "$key" == $'\x7f' || "$key" == $'\b' ]]; then
             echo "BACK"; return 0
         elif [[ "$key" == $'\x1b' ]]; then
             IFS= read -rsn2 -t 0.1 seq </dev/tty 2>/dev/null || seq=""
-            [[ "$seq" == '[A' ]] && [ "$choice" -gt 0 ]              && choice=$(( choice - 1 ))
-            [[ "$seq" == '[B' ]] && [ "$choice" -lt $(( total - 1 )) ] && choice=$(( choice + 1 ))
+            case "$seq" in
+                '[A') choice=$(( (choice - 1 + total) % total )) ;;
+                '[B') choice=$(( (choice + 1) % total )) ;;
+                '[H') choice=0 ;;
+                '[F') choice=$(( total - 1 )) ;;
+                '')   echo "BACK"; return 0 ;;
+            esac
+        elif [[ "$key" == "k" ]]; then
+            choice=$(( (choice - 1 + total) % total ))
+        elif [[ "$key" == "j" ]]; then
+            choice=$(( (choice + 1) % total ))
+        elif [[ "$key" == "g" ]]; then
+            choice=0
+        elif [[ "$key" == "G" ]]; then
+            choice=$(( total - 1 ))
+        elif [[ "$key" =~ ^[1-9]$ ]] && [ "$key" -le "$total" ]; then
+            echo "$(( key - 1 ))"; return 0
         elif [ -z "$key" ]; then
             echo "$choice"; return 0
         fi
@@ -176,15 +218,22 @@ confirm_dialog() {
         clear >&2
         echo -e "${B}${BLD}  $prompt${N}\n" >&2
         [ "$choice" -eq 0 ] \
-            && echo -e "  ${BLD}${G}→ Sim ←${N}          ${DIM}Não / Voltar${N}" >&2 \
-            || echo -e "  ${DIM}  Sim${N}          ${BLD}${R}→ Não / Voltar ←${N}" >&2
-        echo -e "\n  ${DIM}←→  │  Y/S = Sim  │  N = Não  │  ↵ Enter Confirma${N}" >&2
+            && echo -e "  ${BLD}${G}→ Sim ←${N}          ${DIM}Não / ↩ Voltar${N}" >&2 \
+            || echo -e "  ${DIM}  Sim${N}          ${BLD}${R}→ Não / ↩ Voltar ←${N}" >&2
+        echo -e "\n  ${DIM}←→/hl Alternar  │  Y/S Sim  │  N Não  │  ↵ Confirma  │  ⌫ Voltar${N}" >&2
         IFS= read -rsn1 key </dev/tty 2>/dev/null || key=""
         if [[ "$key" == $'\x7f' || "$key" == $'\b' ]]; then
             echo "BACK"; return 0
         elif [[ "$key" == $'\x1b' ]]; then
             IFS= read -rsn2 -t 0.1 seq </dev/tty 2>/dev/null || seq=""
-            [[ "$seq" == '[D' ]] && choice=0; [[ "$seq" == '[C' ]] && choice=1
+            case "$seq" in
+                '[D') choice=0 ;;
+                '[C') choice=1 ;;
+                '')   echo "BACK"; return 0 ;;
+            esac
+        elif [[ "$key" == "h" ]]; then choice=0
+        elif [[ "$key" == "l" ]]; then choice=1
+        elif [[ "$key" == $'\t' ]]; then choice=$(( 1 - choice ))
         elif [[ "$key" == "y" || "$key" == "Y" || "$key" == "s" || "$key" == "S" ]]; then
             echo "0"; return 0
         elif [[ "$key" == "n" || "$key" == "N" ]]; then
@@ -521,17 +570,19 @@ status_zram() {
 }
 
 _zram_auto_size() {
-    local gb=$(( $(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}') / 1024 / 1024 ))
-    [ "$gb" -le 4 ] && echo "2G" && return
-    [ "$gb" -le 8 ] && echo "4G" && return
-    [ "$gb" -le 16 ] && echo "8G" && return
-    echo "12G"
+    local mem_kb; mem_kb=$(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}')
+    local gb=$(( ${mem_kb:-0} / 1024 / 1024 ))
+    if   [ "$gb" -le 4  ]; then echo "2G"
+    elif [ "$gb" -le 8  ]; then echo "4G"
+    elif [ "$gb" -le 16 ]; then echo "8G"
+    else echo "12G"
+    fi
 }
 
 apply_zram_default() {
     [ "$(status_zram)" = "OK" ] && { skip "ZRAM — já ativo em $(current_zram_size)"; return; }
     local size; size=$(_zram_auto_size)
-    write_if_changed "$ZRAM_SERVICE" "$(zram_content "$size")"
+    write_if_changed "$ZRAM_SERVICE" "$(zram_content "$size")" || true
     systemctl daemon-reload
     systemctl enable --quiet bugtux-zram.service 2>/dev/null || true
     systemctl restart bugtux-zram.service 2>/dev/null || true
@@ -546,7 +597,7 @@ apply_zram_interactive() {
     [[ "$idx" == "BACK" ]] && { skip "ZRAM — cancelado"; return; }
     local sizes=("4G" "6G" "8G" "12G")
     local size="${sizes[$idx]}"
-    write_if_changed "$ZRAM_SERVICE" "$(zram_content "$size")"
+    write_if_changed "$ZRAM_SERVICE" "$(zram_content "$size")" || true
     systemctl daemon-reload
     systemctl enable --quiet bugtux-zram.service 2>/dev/null || true
     systemctl restart bugtux-zram.service 2>/dev/null || true
@@ -583,13 +634,13 @@ status_swap_ssd() {
 
 apply_swap_auto() {
     if [ "$(status_swap_ssd)" = "OK" ]; then
-        skip "Swap SSD 🖴 — já ativo"
+        skip "Swap SSD — já ativo"
         return
     fi
 
     local TARGET_DISK
     if ! TARGET_DISK=$(_detect_secondary_disk); then
-        warn "Swap SSD 🖴 — nenhum disco secundário detectado automaticamente"
+        warn "Swap SSD — nenhum disco secundário detectado automaticamente"
         return
     fi
 
@@ -610,7 +661,7 @@ apply_swap_auto() {
         if [ -n "$uuid" ] && ! grep -q "$uuid" /etc/fstab 2>/dev/null; then
             echo "UUID=$uuid none swap defaults,pri=$SWAP_PRIO 0 0" >> /etc/fstab
         fi
-        ok "Swap SSD 🖴 — partição existente ativada ($existing_swap)"
+        ok "Swap SSD — partição existente ativada ($existing_swap)"
         return
     fi
 
@@ -620,10 +671,21 @@ apply_swap_auto() {
     [ "$ram_gb" -le 8  ] && swap_size=4
     [ "$ram_gb" -gt 16 ] && swap_size=16
 
+    warn "Swap SSD — disco secundário sem swap: $TARGET_DISK ($model $size)"
+    local conf
+    conf=$(confirm_dialog "⚠ Criar Swap+Dados em $TARGET_DISK ($model $size)? ISSO APAGA TODOS OS DADOS do disco.")
+    if [[ "$conf" != "0" ]]; then
+        skip "Swap SSD — automático cancelado (use o modo manual para escolher outro disco)"
+        return
+    fi
+
     step "Swap auto: $TARGET_DISK ($model $size) → ${swap_size}GiB + dados XFS"
 
     local PART_SWAP="${TARGET_DISK}1" PART_DATA="${TARGET_DISK}2"
-    [[ "$TARGET_DISK" == *nvme* ]] && PART_SWAP="${TARGET_DISK}p1" && PART_DATA="${TARGET_DISK}p2"
+    if [[ "$TARGET_DISK" == *nvme* ]]; then
+        PART_SWAP="${TARGET_DISK}p1"
+        PART_DATA="${TARGET_DISK}p2"
+    fi
 
     while IFS= read -r active; do
         [ -n "$active" ] && swapoff "$active" 2>/dev/null || true
@@ -637,7 +699,7 @@ apply_swap_auto() {
     udevadm settle; partprobe "$TARGET_DISK" 2>/dev/null || true; sleep 2; udevadm settle
 
     if ! [ -b "$PART_SWAP" ]; then
-        fail "Swap SSD 🖴 — falha ao criar partição em $TARGET_DISK"; return
+        fail "Swap SSD — falha ao criar partição em $TARGET_DISK"; return
     fi
 
     mkswap -f -L "BugSwap" "$PART_SWAP" >/dev/null 2>&1 || { fail "Falha mkswap"; return; }
@@ -660,7 +722,7 @@ apply_swap_auto() {
         echo "UUID=$UUID_DATA $MNT_DIR xfs defaults,noatime,rw,user,nofail 0 2" >> /etc/fstab
     chmod 775 "$MNT_DIR" 2>/dev/null || true; own_back "$MNT_DIR"
 
-    ok "Swap SSD 🖴 → ${swap_size}GiB ativo em $PART_SWAP (prioridade $SWAP_PRIO)"
+    ok "Swap SSD → ${swap_size}GiB ativo em $PART_SWAP (prioridade $SWAP_PRIO)"
 }
 
 setup_swap_partition() {
@@ -673,10 +735,10 @@ setup_swap_partition() {
         m=$(lsblk -dno MODEL "$disk" 2>/dev/null | xargs); s=$(lsblk -dno SIZE "$disk" 2>/dev/null | xargs)
         DISKS_AVAILABLE+=("$disk"); DISKS_LABELS+=("$disk — ${m:-SSD} ($s)")
     done
-    [ "${#DISKS_AVAILABLE[@]}" -eq 0 ] && { fail "Nenhum SSD 🖴 secundário encontrado."; return; }
+    [ "${#DISKS_AVAILABLE[@]}" -eq 0 ] && { fail "Nenhum SSD secundário encontrado."; return; }
 
     local DISK_IDX
-    DISK_IDX=$(select_menu "Selecione o SSD 🖴 para Swap:" "${DISKS_LABELS[@]}")
+    DISK_IDX=$(select_menu "Selecione o SSD para Swap:" "${DISKS_LABELS[@]}")
     [[ "$DISK_IDX" == "BACK" ]] && return
     local TARGET_DISK="${DISKS_AVAILABLE[$DISK_IDX]}"
 
@@ -693,7 +755,10 @@ setup_swap_partition() {
     header; hdr "PARTICIONANDO $TARGET_DISK — ${TARGET_SIZE}GiB Swap"
 
     local PART_SWAP="${TARGET_DISK}1" PART_DATA="${TARGET_DISK}2"
-    [[ "$TARGET_DISK" == *nvme* ]] && PART_SWAP="${TARGET_DISK}p1" && PART_DATA="${TARGET_DISK}p2"
+    if [[ "$TARGET_DISK" == *nvme* ]]; then
+        PART_SWAP="${TARGET_DISK}p1"
+        PART_DATA="${TARGET_DISK}p2"
+    fi
 
     progress 15 "Preparando disco..."; echo
     while IFS= read -r active; do
@@ -754,7 +819,7 @@ apply_dns_default() {
     printf '%s\n' "$content" > "$DNS_CONF"
     local d4="${DNS4[0]}" d6="${DNS6[0]}"
     while IFS= read -r conn; do
-        [ -z "$conn" ] || [ "$conn" = "lo" ] && continue
+        if [ -z "$conn" ] || [ "$conn" = "lo" ]; then continue; fi
         nmcli connection modify "$conn" ipv4.ignore-auto-dns yes ipv4.dns "$d4" \
             ipv6.ignore-auto-dns yes ipv6.dns "$d6" 2>/dev/null || true
     done < <(nmcli -g NAME connection show 2>/dev/null)
@@ -767,7 +832,7 @@ apply_dns_interactive() {
     idx=$(select_menu "Selecione o DNS:" \
         "${DNS_LABEL[0]}  (1.1.1.2 / 1.0.0.2)" \
         "${DNS_LABEL[1]}  (94.140.14.14 / 94.140.15.15)" \
-        "Pular / Voltar")
+        "Pular / ↩ Voltar")
     [[ "$idx" == "BACK" || "$idx" == "2" ]] && { skip "DNS — pulado"; return; }
     local content; content="$(dns_conf_content "$idx")"
     content_matches "$DNS_CONF" "$content" && { skip "DNS (${DNS_LABEL[$idx]}) — já aplicado"; return; }
@@ -775,7 +840,7 @@ apply_dns_interactive() {
     printf '%s\n' "$content" > "$DNS_CONF"
     local d4="${DNS4[$idx]}" d6="${DNS6[$idx]}"
     while IFS= read -r conn; do
-        [ -z "$conn" ] || [ "$conn" = "lo" ] && continue
+        if [ -z "$conn" ] || [ "$conn" = "lo" ]; then continue; fi
         nmcli connection modify "$conn" ipv4.ignore-auto-dns yes ipv4.dns "$d4" \
             ipv6.ignore-auto-dns yes ipv6.dns "$d6" 2>/dev/null || true
     done < <(nmcli -g NAME connection show 2>/dev/null)
@@ -824,13 +889,13 @@ show_performance_status() {
     printf "  %-22s %s\n" "SCX Scheduler"  "$(tag "$(status_scx)")"
     printf "  %-22s %s\n" "IO Scheduler"   "$(tag "$(status_io)")"
     printf "  %-22s %s\n" "GPU Performance" "$(tag "$(status_gpu)")"
-    printf "  %-22s %s\n" "i915 opções"    "$(tag "$(status_gpu_opts)")"
+    printf "  %-24s %s\n" "i915 opções"    "$(tag "$(status_gpu_opts)")"
     printf "  %-22s %s\n" "THP"            "$(tag "$(status_thp)")"
     printf "  %-22s %s\n" "System Limits"  "$(tag "$(status_limits)")"
     printf "  %-22s %s  (%s)\n" "ZRAM" "$(tag "$(status_zram)")" "$(current_zram_size)"
     printf "  %-22s %s\n" "Swap SSD"       "$(tag "$(status_swap_ssd)")"
     printf "  %-22s %s\n" "DNS"            "$(tag "$(status_dns)")"
-    sep; hdr "TEMPO REAL"
+    sep; hdr "INFOS DO SISTEMA"
     printf "  %-22s %s\n" "CPU"      "$(cpu_current_info)"
     printf "  %-22s %s\n" "GPU"      "$(gpu_current_info)"
     printf "  %-22s %s\n" "ZRAM"     "$(zram_current_stats)"
@@ -847,12 +912,12 @@ performance_menu() {
     while true; do
         local choice
         choice=$(select_menu "Performance — CPU/Kernel/IO/GPU/THP/ZRAM/SWAP/DNS" \
-            "Status de Performance (tempo real)" \
-            "Aplicar TUDO Elite" \
-            "ZRAM (manual)" \
-            "Swap SSD (manual)" \
-            "DNS (manual)" \
-            "Voltar")
+            "⎚ Status de Performance" \
+            "🗹 Aplicar TUDO" \
+            "☷ ZRAM (manual)" \
+            "🖴︎ Swap SSD (manual)" \
+            "🖧︎ DNS (manual)" \
+            "↩ Voltar")
         case "$choice" in
             "BACK"|5) return ;;
             0) show_performance_status ;;
@@ -866,7 +931,6 @@ performance_menu() {
 
 DOTFILES_DIR="$REAL_HOME/BugTheme-dotfiles"
 BACKUP_DIR="$DOTFILES_DIR/files"
-BASELINE_DIR="$DOTFILES_DIR/.baseline"
 META_FILE="$BACKUP_DIR/.meta"
 
 KDE_CONFIG_PATTERNS=(
@@ -878,12 +942,16 @@ KDE_CONFIG_PATTERNS=(
     "fontconfig" "gtk-3.0" "gtk-4.0"
 )
 KDE_LOCAL_PATHS=(
-    "$REAL_HOME/.local/share/plasma"     "$REAL_HOME/.local/share/color-schemes"
-    "$REAL_HOME/.local/share/icons"      "$REAL_HOME/.local/share/konsole"
-    "$REAL_HOME/.local/share/kwin"       "$REAL_HOME/.local/share/aurorae"
-    "$REAL_HOME/.local/share/wallpapers" "$REAL_HOME/.local/share/fonts"
-    "$REAL_HOME/.local/share/kservices5" "$REAL_HOME/.local/share/kservices6"
-    "$REAL_HOME/.local/share/plasmoids"  "$REAL_HOME/.local/share/kpackage"
+    "$REAL_HOME/.local/share/plasma"      "$REAL_HOME/.local/share/color-schemes"
+    "$REAL_HOME/.local/share/icons"       "$REAL_HOME/.local/share/konsole"
+    "$REAL_HOME/.local/share/kwin"        "$REAL_HOME/.local/share/aurorae"
+    "$REAL_HOME/.local/share/wallpapers"  "$REAL_HOME/.local/share/fonts"
+    "$REAL_HOME/.local/share/kservices5"  "$REAL_HOME/.local/share/kservices6"
+    "$REAL_HOME/.local/share/plasmoids"   "$REAL_HOME/.local/share/kpackage"
+)
+AUDIO_CONFIG_PATHS=(
+    "$REAL_HOME/.config/pipewire"
+    "$REAL_HOME/.config/wireplumber"
 )
 EXCLUDE_PATTERNS=(
     "*.lock" "*.socket" "*.pid" "*.log" "*.tmp" "*.bak"
@@ -896,160 +964,280 @@ SHELL_FILES=(".zshrc" ".p10k.zsh" ".bashrc" ".bash_profile" ".profile")
 
 _matches_exclude() {
     local file; file=$(basename "$1")
-    local pat; for pat in "${EXCLUDE_PATTERNS[@]}"; do [[ "$file" == $pat ]] && return 0; done
+    local pat
+    for pat in "${EXCLUDE_PATTERNS[@]}"; do
+        [[ "$file" == $pat ]] && return 0
+    done
     [[ "$1" == *"/cache/"* || "$1" == *"/Cache/"* || "$1" == *"/.cache/"* ]] && return 0
     return 1
 }
 
 _matches_kde_pattern() {
     local file; file=$(basename "$1")
-    local pat; for pat in "${KDE_CONFIG_PATTERNS[@]}"; do [[ "$file" == $pat ]] && return 0; done
+    local pat
+    for pat in "${KDE_CONFIG_PATTERNS[@]}"; do
+        [[ "$file" == $pat ]] && return 0
+    done
+    return 1
+}
+
+_is_audio_path() {
+    local f="$1" ap
+    for ap in "${AUDIO_CONFIG_PATHS[@]}"; do
+        [[ "$f" == "$ap"* ]] && return 0
+    done
     return 1
 }
 
 _collect_config_files() {
-    local results=() f
+    local f
     while IFS= read -r -d '' f; do
         _matches_exclude "$f" && continue
-        _matches_kde_pattern "$f" && results+=("$f")
+        _is_audio_path "$f" && continue
+        _matches_kde_pattern "$f" && printf '%s\n' "$f"
     done < <(find "$REAL_HOME/.config" -maxdepth 3 -type f -print0 2>/dev/null)
-    [ "${#results[@]}" -gt 0 ] && printf '%s\n' "${results[@]}"
 }
 
-_collect_local_dirs() {
-    local results=() path
-    for path in "${KDE_LOCAL_PATHS[@]}"; do
-        [[ -d "$path" ]] && results+=("$path")
-    done
-    [ "${#results[@]}" -gt 0 ] && printf '%s\n' "${results[@]}"
-}
-
-_file_hash()        { sha256sum "$1" 2>/dev/null | cut -d' ' -f1; }
 _relative_to_home() { echo "${1/#$REAL_HOME\//}"; }
-_baseline_path()    { echo "$BASELINE_DIR/$(_relative_to_home "$1").sha256"; }
-
-_is_modified() {
-    local bpath; bpath=$(_baseline_path "$1")
-    [ ! -f "$bpath" ] && return 0
-    [ "$(_file_hash "$1")" != "$(cat "$bpath")" ] && return 0
-    return 1
-}
-
-generate_baseline() {
-    header; hdr "Gerando Baseline..."
-    mkdir -p "$BASELINE_DIR"
-    mapfile -t config_files < <(_collect_config_files)
-    local total=${#config_files[@]} count=0 f bpath
-    for f in "${config_files[@]}"; do
-        count=$(( count + 1 ))
-        progress_item "$count" "$total" "Analisando: $(basename "$f")"
-        bpath=$(_baseline_path "$f")
-        mkdir -p "$(dirname "$bpath")"
-        _file_hash "$f" > "$bpath"
-    done
-    progress_done
-    date '+%Y-%m-%d %H:%M:%S' > "$BASELINE_DIR/.generated"
-    own_back "$DOTFILES_DIR"
-    ok "Baseline gerado — $count arquivos"
-}
 
 backup() {
-    header; hdr "Backup Inteligente KDE"
-    local has_baseline=true
-    [ ! -d "$BASELINE_DIR" ] && has_baseline=false && warn "Sem baseline — salvando tudo..."
+    _require_kde || return
+
+    header; hdr "Backup Completo KDE Plasma + Áudio"
+    echo
+
+    if [ -d "$DOTFILES_DIR" ]; then
+        warn "Backup anterior encontrado em:"
+        log  "$DOTFILES_DIR"
+        log  "Tamanho atual: $(du -sh "$DOTFILES_DIR" 2>/dev/null | cut -f1)"
+        echo
+        local conf; conf=$(confirm_dialog "DELETAR tudo e criar Backup 100% completo?")
+        [[ "$conf" != "0" ]] && { skip "Backup cancelado."; pause; return; }
+    fi
+
+    local timestamp; timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    local saved_files=0 synced_dirs=0
+
+    step "Removendo backup anterior por completo..."
+    rm -rf "$DOTFILES_DIR"
     mkdir -p "$BACKUP_DIR"
-    local saved=0 skipped=0 timestamp; timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    ok "Diretório zerado e recriado em $DOTFILES_DIR"
 
-    mapfile -t config_files < <(_collect_config_files)
-    local total=${#config_files[@]} current=0 f rel dst
-    for f in "${config_files[@]}"; do
-        current=$(( current + 1 ))
-        rel=$(_relative_to_home "$f")
-        progress_item "$current" "$total" "Lendo: $rel"
-        if [[ "$has_baseline" == true ]] && ! _is_modified "$f"; then
-            skipped=$(( skipped + 1 )); continue
-        fi
-        dst="$BACKUP_DIR/$rel"; mkdir -p "$(dirname "$dst")"
-        if [ ! -f "$dst" ] || ! cmp -s "$f" "$dst"; then
-            printf "\r\033[K"; ok "Atualizado: $rel"
-            cp "$f" "$dst"; saved=$(( saved + 1 ))
-        else
-            skipped=$(( skipped + 1 ))
-        fi
+    echo
+    hdr "FASE 1 — Configurações KDE (~/.config)"
+    mapfile -t _cfg_files < <(_collect_config_files)
+    local total_cf=${#_cfg_files[@]} cur_cf=0 f rel dst
+    if [ "$total_cf" -eq 0 ]; then
+        warn "Nenhum arquivo KDE encontrado em ~/.config"
+    else
+        for f in "${_cfg_files[@]}"; do
+            cur_cf=$(( cur_cf + 1 ))
+            rel=$(_relative_to_home "$f")
+            progress_item "$cur_cf" "$total_cf" "$rel"
+            dst="$BACKUP_DIR/$rel"
+            mkdir -p "$(dirname "$dst")"
+            cp "$f" "$dst"
+            saved_files=$(( saved_files + 1 ))
+        done
+        progress_done
+        ok "$total_cf arquivo(s) copiado(s) de ~/.config"
+    fi
+
+    echo
+    hdr "FASE 2 — Temas, Ícones e Plasma (~/.local/share)"
+    local total_kd=${#KDE_LOCAL_PATHS[@]} cur_kd=0 kpath
+    for kpath in "${KDE_LOCAL_PATHS[@]}"; do
+        cur_kd=$(( cur_kd + 1 ))
+        if [ ! -d "$kpath" ]; then continue; fi
+        progress_item "$cur_kd" "$total_kd" "$(basename "$kpath")/"
+        dst="$BACKUP_DIR/$(_relative_to_home "$kpath")"
+        mkdir -p "$dst"
+        rsync -a --delete "$kpath/" "$dst/" 2>/dev/null || true
+        synced_dirs=$(( synced_dirs + 1 ))
     done
     progress_done
+    ok "$synced_dirs diretório(s) sincronizado(s)"
 
-    mapfile -t local_dirs < <(_collect_local_dirs)
-    local total_dirs=${#local_dirs[@]} cur_dir=0 dir
-    for dir in "${local_dirs[@]}"; do
-        cur_dir=$(( cur_dir + 1 ))
-        progress_item "$cur_dir" "$total_dirs" "Sync: $(basename "$dir")/"
-        dst="$BACKUP_DIR/$(_relative_to_home "$dir")"; mkdir -p "$dst"
-        rsync -a --delete "$dir/" "$dst/" 2>/dev/null || true
+    echo
+    hdr "FASE 3 — Áudio (PipeWire / WirePlumber)"
+    local apath found_audio=0
+    for apath in "${AUDIO_CONFIG_PATHS[@]}"; do
+        if [ ! -d "$apath" ]; then continue; fi
+        local aname; aname=$(basename "$apath")
+        step "Sincronizando $aname/..."
+        dst="$BACKUP_DIR/$(_relative_to_home "$apath")"
+        mkdir -p "$dst"
+        rsync -a --delete "$apath/" "$dst/" 2>/dev/null || true
+        ok "$aname — OK"
+        found_audio=$(( found_audio + 1 ))
     done
-    progress_done
+    [ "$found_audio" -eq 0 ] && warn "Nenhuma config de áudio encontrada (PipeWire/WirePlumber)"
 
-    local sf full
+    echo
+    hdr "FASE 4 — Arquivos de Shell"
+    local sf
     for sf in "${SHELL_FILES[@]}"; do
-        full="$REAL_HOME/$sf"; [ ! -f "$full" ] && continue
-        dst="$BACKUP_DIR/$sf"
-        if [ ! -f "$dst" ] || ! cmp -s "$full" "$dst"; then
-            ok "Shell: $sf"; cp "$full" "$dst"; saved=$(( saved + 1 ))
-        fi
+        local full="$REAL_HOME/$sf"
+        if [ ! -f "$full" ]; then continue; fi
+        cp "$full" "$BACKUP_DIR/$sf"
+        ok "$sf"
+        saved_files=$(( saved_files + 1 ))
     done
 
-    printf 'timestamp=%s\nsaved=%d\nskipped=%d\nbaseline=%s\n' \
-        "$timestamp" "$saved" "$skipped" "$has_baseline" > "$META_FILE"
+    printf 'timestamp=%s\nsaved=%d\nsynced=%d\naudio=%d\n' \
+        "$timestamp" "$saved_files" "$synced_dirs" "$found_audio" > "$META_FILE"
     own_back "$DOTFILES_DIR"
-    sep; ok "Backup concluído — Salvos: ${saved}  |  Intactos: ${skipped}"
+
+    echo
+    sep
+    ok "Backup 100% completo!"
+    log "Arquivos copiados   : $saved_files"
+    log "Diretórios sync     : $synced_dirs"
+    log "Áudio (config dirs) : $found_audio"
+    log "Data                : $timestamp"
+    log "Destino             : $DOTFILES_DIR"
     pause
 }
 
 restore_kde() {
-    if [ ! -d "$BACKUP_DIR" ]; then header; warn "Nenhum backup em $BACKUP_DIR"; pause; return; fi
-    local step=1
+    _require_kde || return
+
+    if [ ! -d "$BACKUP_DIR" ]; then
+        header
+        warn "Nenhum backup encontrado em:"
+        log  "$BACKUP_DIR"
+        log  "Execute um Backup primeiro."
+        pause; return
+    fi
+
+    local backup_date="desconhecida"
+    [ -f "$META_FILE" ] && backup_date=$(grep '^timestamp=' "$META_FILE" 2>/dev/null | cut -d= -f2-)
+
+    local step_n=1
     while true; do
-        if [ "$step" -eq 1 ]; then
-            local c1; c1=$(confirm_dialog "Restaurar configurações completas do KDE?")
-            [[ "$c1" == "BACK" || "$c1" == "1" ]] && return; step=2
+        if [ "$step_n" -eq 1 ]; then
+            local c1; c1=$(confirm_dialog "Restaurar KDE Plasma do backup de $backup_date?")
+            [[ "$c1" == "BACK" || "$c1" == "1" ]] && return
+            step_n=2
         else
-            local c2; c2=$(confirm_dialog "Tem certeza? O Plasma será reiniciado.")
-            [[ "$c2" == "BACK" ]] && { step=1; continue; }; [[ "$c2" == "1" ]] && return; break
+            local c2; c2=$(confirm_dialog "Confirmar? O Plasma será reiniciado após a restauração.")
+            [[ "$c2" == "BACK" ]] && { step_n=1; continue; }
+            [[ "$c2" == "1" ]] && return
+            break
         fi
     done
-    header; hdr "Restaurando KDE..."
-    [ -f "$META_FILE" ] && log "Backup: $(grep '^timestamp=' "$META_FILE" 2>/dev/null | cut -d= -f2-)"
-    progress 20 "Restaurando .config..."; echo
-    [ -d "$BACKUP_DIR/.config" ] && rsync -a "$BACKUP_DIR/.config/" "$REAL_HOME/.config/" 2>/dev/null || true
-    progress 55 "Restaurando .local/share..."; echo
-    [ -d "$BACKUP_DIR/.local" ] && rsync -a "$BACKUP_DIR/.local/" "$REAL_HOME/.local/" 2>/dev/null || true
-    progress 80 "Shell files..."; echo
-    for sf in "${SHELL_FILES[@]}"; do
-        [ -f "$BACKUP_DIR/$sf" ] && cp "$BACKUP_DIR/$sf" "$REAL_HOME/$sf" && ok "~/$sf"
+
+    header; hdr "Restaurando KDE Plasma + Áudio"
+    log "Backup de: $backup_date"
+    echo
+
+    hdr "FASE 1 — Configurações KDE (~/.config)"
+    local restored_cf=0 bf rel_to_bkp dst
+    while IFS= read -r -d '' bf; do
+        rel_to_bkp="${bf#"$BACKUP_DIR"/}"
+        _is_audio_path "$REAL_HOME/$rel_to_bkp" && continue
+        dst="$REAL_HOME/$rel_to_bkp"
+        mkdir -p "$(dirname "$dst")"
+        cp "$bf" "$dst"
+        restored_cf=$(( restored_cf + 1 ))
+    done < <(find "$BACKUP_DIR/.config" -type f -print0 2>/dev/null)
+    ok "~/.config: $restored_cf arquivo(s) restaurado(s)"
+
+    echo
+    hdr "FASE 2 — Temas, Ícones e Plasma (~/.local/share)"
+    local kpath
+    for kpath in "${KDE_LOCAL_PATHS[@]}"; do
+        local krel; krel=$(_relative_to_home "$kpath")
+        if [ ! -d "$BACKUP_DIR/$krel" ]; then continue; fi
+        mkdir -p "$kpath"
+        rsync -a --delete "$BACKUP_DIR/$krel/" "$kpath/" 2>/dev/null || true
+        ok "$(basename "$kpath")"
     done
-    progress 95 "Permissões..."; echo
-    own_back "$REAL_HOME/.config" "$REAL_HOME/.local/share" \
-        "$REAL_HOME/.zshrc" "$REAL_HOME/.p10k.zsh" \
-        "$REAL_HOME/.bashrc" "$REAL_HOME/.bash_profile" "$REAL_HOME/.profile" 2>/dev/null || true
-    progress 100 "Aplicando ao Plasma..."; echo
+
+    echo
+    hdr "FASE 3 — Áudio (PipeWire / WirePlumber)"
+    local ap
+    for ap in "${AUDIO_CONFIG_PATHS[@]}"; do
+        local arel; arel=$(_relative_to_home "$ap")
+        if [ ! -d "$BACKUP_DIR/$arel" ]; then continue; fi
+        mkdir -p "$ap"
+        rsync -a --delete "$BACKUP_DIR/$arel/" "$ap/" 2>/dev/null || true
+        ok "$(basename "$ap")"
+    done
+
+    echo
+    hdr "FASE 4 — Arquivos de Shell"
+    local sf
+    for sf in "${SHELL_FILES[@]}"; do
+        if [ ! -f "$BACKUP_DIR/$sf" ]; then continue; fi
+        cp "$BACKUP_DIR/$sf" "$REAL_HOME/$sf"
+        ok "~/$sf"
+    done
+
+    echo
+    hdr "FASE 5 — Permissões e Cache KDE"
+    step "Corrigindo permissões..."
+    own_back "$REAL_HOME/.config" "$REAL_HOME/.local/share"
+    for ap in "${AUDIO_CONFIG_PATHS[@]}"; do
+        [ -d "$ap" ] && own_back "$ap"
+    done
+    for sf in "${SHELL_FILES[@]}"; do
+        [ -f "$REAL_HOME/$sf" ] && own_back "$REAL_HOME/$sf" 2>/dev/null || true
+    done
+    ok "Permissões ajustadas"
+
+    step "Reconstruindo cache KDE..."
     rebuild_kde_cache
-    run_as_user plasmashell --replace &>/dev/null & disown
-    ok "Restauração concluída. Plasma reiniciando..."
+    step "Reiniciando Plasma..."
+    run_as_user plasmashell --replace &>/dev/null &
+    disown
+
+    echo
+    sep
+    ok "KDE Plasma restaurado com sucesso!"
+    log "O Plasma está reiniciando em segundo plano."
     pause
 }
 
 backup_status() {
-    header; hdr "Status do Backup KDE"; sep
-    [ -f "$BASELINE_DIR/.generated" ] && ok "Baseline: $(cat "$BASELINE_DIR/.generated")" || warn "Baseline: não gerado"
+    _require_kde || return
+
+    header; hdr "⎚ Status do Backup KDE + Áudio"; sep
+
+    if [ ! -d "$DOTFILES_DIR" ]; then
+        warn "Nenhum backup encontrado em $DOTFILES_DIR"
+        sep; pause; return
+    fi
+
     if [ -f "$META_FILE" ]; then
         local key val
         while IFS='=' read -r key val; do
-            case "$key" in timestamp) log "Último backup : $val" ;; saved) log "Salvos : $val" ;; esac
+            case "$key" in
+                timestamp) ok  "Data do backup     : $val" ;;
+                saved)     log "Arquivos copiados  : $val" ;;
+                synced)    log "Diretórios sync    : $val" ;;
+                audio)     log "Dirs de áudio      : $val" ;;
+            esac
         done < "$META_FILE"
-        log "Tamanho: $(du -sh "$BACKUP_DIR" 2>/dev/null | cut -f1)"
+        log "Tamanho total      : $(du -sh "$BACKUP_DIR" 2>/dev/null | cut -f1)"
     else
-        warn "Nenhum backup realizado."
+        warn "Meta-arquivo ausente — backup pode estar incompleto."
     fi
+
+    sep
+    hdr "CONTEÚDO DO BACKUP"
+    [ -d "$BACKUP_DIR/.config" ]               && ok  "~/.config KDE     — presente" || warn "~/.config KDE     — ausente"
+    [ -d "$BACKUP_DIR/.local/share/plasma" ]   && ok  "Plasma theme      — presente" || warn "Plasma theme      — ausente"
+    [ -d "$BACKUP_DIR/.local/share/aurorae" ]  && ok  "Aurorae decoração — presente" || warn "Aurorae decoração — ausente"
+    [ -d "$BACKUP_DIR/.local/share/icons" ]    && ok  "Ícones            — presente" || warn "Ícones            — ausente"
+    [ -d "$BACKUP_DIR/.local/share/konsole" ]  && ok  "Konsole profiles  — presente" || warn "Konsole profiles  — ausente"
+    [ -d "$BACKUP_DIR/.config/pipewire" ]      && ok  "PipeWire / Dolby  — presente" || warn "PipeWire / Dolby  — ausente"
+    [ -d "$BACKUP_DIR/.config/wireplumber" ]   && ok  "WirePlumber       — presente" || warn "WirePlumber       — ausente"
+    local sf
+    for sf in .zshrc .p10k.zsh; do
+        [ -f "$BACKUP_DIR/$sf" ] && ok "$sf — presente" || warn "$sf — ausente"
+    done
+
     sep; pause
 }
 
@@ -1058,11 +1246,16 @@ status_backup_tag() { [ -f "$META_FILE" ] && echo OK || echo NO; }
 backup_menu() {
     while true; do
         local choice
-        choice=$(select_menu "Backup & Restore KDE Plasma" \
-            "Realizar Backup" "Restaurar Backup" "Status e Detalhes" "Gerar Baseline" "Voltar")
+        choice=$(select_menu "Backup & Restore KDE Plasma + Áudio" \
+            "Realizar Backup (wipe + full fresh copy)" \
+            "Restaurar Backup" \
+            "⎚ Status e Conteúdo do Backup" \
+            "↩ Voltar")
         case "$choice" in
-            "BACK"|4) return ;;
-            0) backup ;; 1) restore_kde ;; 2) backup_status ;; 3) generate_baseline; pause ;;
+            "BACK"|3) return ;;
+            0) backup ;;
+            1) restore_kde ;;
+            2) backup_status ;;
         esac
     done
 }
@@ -1156,17 +1349,176 @@ status_zsh() {
     [ "$(cat "$ZSHRC_PATH" 2>/dev/null)" = "$(zshrc_content)" ] && echo OK || echo PARTIAL
 }
 
+_detect_terminals() {
+    local found=()
+    command -v konsole   &>/dev/null && found+=("konsole")
+    command -v kitty     &>/dev/null && found+=("kitty")
+    command -v alacritty &>/dev/null && found+=("alacritty")
+    printf '%s\n' "${found[@]}"
+}
+
+_apply_zsh_to_konsole() {
+    local profile_dir="$REAL_HOME/.local/share/konsole"
+    mkdir -p "$profile_dir"
+    local found_profile=false pf
+    while IFS= read -r pf; do
+        if grep -q "Shell=" "$pf" 2>/dev/null; then
+            sed -i 's|^Shell=.*|Shell=/bin/zsh|' "$pf"
+            found_profile=true
+        fi
+    done < <(find "$profile_dir" -name "*.profile" 2>/dev/null)
+    if ! $found_profile; then
+        cat > "$profile_dir/BugTuxP.profile" << 'EOF'
+[Appearance]
+ColorScheme=Breeze
+
+[General]
+Name=BugTuxP
+Parent=FALLBACK/
+Command=/bin/zsh
+
+[Terminal Features]
+BidiRenderingEnabled=false
+EOF
+        local konsole_rc="$REAL_HOME/.config/konsolerc"
+        if [ -f "$konsole_rc" ]; then
+            grep -q "DefaultProfile" "$konsole_rc" \
+                && sed -i 's/^DefaultProfile=.*/DefaultProfile=BugTuxP.profile/' "$konsole_rc" \
+                || printf '\n[Desktop Entry]\nDefaultProfile=BugTuxP.profile\n' >> "$konsole_rc"
+        else
+            printf '[Desktop Entry]\nDefaultProfile=BugTuxP.profile\n' > "$konsole_rc"
+        fi
+        own_back "$profile_dir" "$konsole_rc"
+    fi
+    own_back "$profile_dir"
+    ok "Konsole → zsh configurado"
+}
+
+_apply_zsh_to_kitty() {
+    local kitty_conf_dir="$REAL_HOME/.config/kitty"
+    local kitty_conf="$kitty_conf_dir/kitty.conf"
+    mkdir -p "$kitty_conf_dir"
+    if [ -f "$kitty_conf" ]; then
+        grep -q "^shell " "$kitty_conf" \
+            && sed -i 's|^shell .*|shell /bin/zsh|' "$kitty_conf" \
+            || echo "shell /bin/zsh" >> "$kitty_conf"
+    else
+        echo "shell /bin/zsh" > "$kitty_conf"
+    fi
+    own_back "$kitty_conf_dir"
+    ok "Kitty → zsh configurado"
+}
+
+_apply_zsh_to_alacritty() {
+    local alac_dir="$REAL_HOME/.config/alacritty"
+    local alac_toml="$alac_dir/alacritty.toml"
+    local alac_yml="$alac_dir/alacritty.yml"
+    mkdir -p "$alac_dir"
+    if [ -f "$alac_toml" ]; then
+        if grep -q '^\[shell\]' "$alac_toml" 2>/dev/null; then
+            sed -i '/^\[shell\]/,/^\[/{s|^program = .*|program = "/bin/zsh"|}' "$alac_toml"
+        elif grep -q '^program' "$alac_toml" 2>/dev/null; then
+            sed -i 's|^program = .*|program = "/bin/zsh"|' "$alac_toml"
+        else
+            printf '\n[shell]\nprogram = "/bin/zsh"\n' >> "$alac_toml"
+        fi
+        own_back "$alac_toml"
+    elif [ -f "$alac_yml" ]; then
+        if grep -q "^shell:" "$alac_yml" 2>/dev/null; then
+            sed -i '/^shell:/,/^[^ ]/{s|^  program:.*|  program: /bin/zsh|}' "$alac_yml"
+        else
+            printf '\nshell:\n  program: /bin/zsh\n' >> "$alac_yml"
+        fi
+        own_back "$alac_yml"
+    else
+        printf '[shell]\nprogram = "/bin/zsh"\n' > "$alac_toml"
+        own_back "$alac_toml"
+    fi
+    ok "Alacritty → zsh configurado"
+}
+
+_ensure_zsh_default_shell() {
+    local current_shell; current_shell=$(getent passwd "$REAL_USER" | cut -d: -f7)
+    if [ "$current_shell" != "/bin/zsh" ]; then
+        chsh -s /bin/zsh "$REAL_USER" 2>/dev/null && ok "Shell padrão → /bin/zsh" || warn "Não foi possível mudar shell padrão — execute: chsh -s /bin/zsh"
+    else
+        skip "Shell padrão já é zsh"
+    fi
+}
+
 apply_zsh() {
-    header; hdr "Terminal Zsh Elite"
-    [ ! -d "$REAL_HOME/.oh-my-zsh" ] && warn "oh-my-zsh não encontrado — instale antes."
-    [ "$(status_zsh)" = "OK" ] && { skip ".zshrc já aplicado."; pause; return; }
-    local conf; conf=$(confirm_dialog "Sobrescrever ~/.zshrc? (backup em .zshrc.bugtuxp.bak)")
-    [[ "$conf" != "0" ]] && { skip "Cancelado"; pause; return; }
-    step "Instalando dependências..."; install_pkgs "${ZSH_DEPS[@]}"
-    [ -f "$ZSHRC_PATH" ] && cp "$ZSHRC_PATH" "$ZSHRC_BACKUP_PATH" && ok "Backup → ~/.zshrc.bugtuxp.bak"
-    zshrc_content > "$ZSHRC_PATH"
-    own_back "$ZSHRC_PATH" "$ZSHRC_BACKUP_PATH"
-    ok ".zshrc elite aplicado. Feche e abra o Konsole."; pause
+    header; hdr "Terminal Zsh Customizado"
+
+    if ! command -v zsh &>/dev/null; then
+        step "Instalando zsh..."; install_pkgs zsh
+    fi
+
+    if [ ! -d "$REAL_HOME/.oh-my-zsh" ]; then
+        warn "oh-my-zsh não encontrado."
+        log  "Instale com: sh -c \"\$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\""
+        pause; return
+    fi
+
+    local zsh_ok=false
+    if [ "$(status_zsh)" = "OK" ]; then
+        zsh_ok=true
+        skip ".zshrc já está aplicado."
+    else
+        local conf; conf=$(confirm_dialog "Sobrescrever ~/.zshrc? (backup em .zshrc.bugtuxp.bak)")
+        [[ "$conf" != "0" ]] && { skip "Cancelado"; pause; return; }
+        step "Instalando dependências..."; install_pkgs "${ZSH_DEPS[@]}"
+        [ -f "$ZSHRC_PATH" ] && cp "$ZSHRC_PATH" "$ZSHRC_BACKUP_PATH" && ok "Backup → ~/.zshrc.bugtuxp.bak"
+        zshrc_content > "$ZSHRC_PATH"
+        own_back "$ZSHRC_PATH" "$ZSHRC_BACKUP_PATH" 2>/dev/null || true
+        ok ".zshrc customizado aplicado"
+        zsh_ok=true
+    fi
+
+    $zsh_ok || { pause; return; }
+
+    echo
+    hdr "Configuração nos Terminais"
+
+    mapfile -t detected < <(_detect_terminals)
+    if [ "${#detected[@]}" -eq 0 ]; then
+        warn "Nenhum terminal suportado encontrado (konsole, kitty, alacritty)"
+        _ensure_zsh_default_shell
+        pause; return
+    fi
+
+    local term_labels=()
+    for t in "${detected[@]}"; do term_labels+=("$t"); done
+    term_labels+=("Todos os terminais instalados")
+    term_labels+=("Somente shell padrão (chsh)")
+    term_labels+=("Cancelar")
+
+    local idx last_cancel=$(( ${#term_labels[@]} - 1 )) last_chsh=$(( ${#term_labels[@]} - 2 )) last_all=$(( ${#detected[@]} ))
+    idx=$(select_menu "Onde aplicar o zsh customizado?" "${term_labels[@]}")
+    [[ "$idx" == "BACK" || "$idx" == "$last_cancel" ]] && { skip "Configuração de terminais cancelada"; pause; return; }
+
+    if [ "$idx" -eq "$last_all" ]; then
+        for t in "${detected[@]}"; do
+            case "$t" in
+                konsole)   _apply_zsh_to_konsole ;;
+                kitty)     _apply_zsh_to_kitty ;;
+                alacritty) _apply_zsh_to_alacritty ;;
+            esac
+        done
+        _ensure_zsh_default_shell
+    elif [ "$idx" -eq "$last_chsh" ]; then
+        _ensure_zsh_default_shell
+    else
+        case "${detected[$idx]}" in
+            konsole)   _apply_zsh_to_konsole ;;
+            kitty)     _apply_zsh_to_kitty ;;
+            alacritty) _apply_zsh_to_alacritty ;;
+        esac
+        _ensure_zsh_default_shell
+    fi
+
+    echo
+    ok "Zsh Customizado configurado. Feche e abra o terminal para ativar."
+    pause
 }
 
 restore_zsh_backup() {
@@ -1180,15 +1532,25 @@ restore_zsh_backup() {
 zsh_menu() {
     while true; do
         local choice
-        choice=$(select_menu "Terminal Zsh Elite" \
-            "Ver Status" "Aplicar Configuração Elite" "Restaurar Backup" "Voltar")
+        choice=$(select_menu "Terminal Zsh Customizado" \
+            "⎚ Ver Status" "Aplicar Configuração Customizada" "Restaurar Backup" "↩ Voltar")
         case "$choice" in
             "BACK"|3) return ;;
             0)
                 header; hdr "STATUS DO ZSH"
-                printf "  %-20s %s\n" ".zshrc Elite" "$(tag "$(status_zsh)")"
+                printf "  %-26s %s\n" ".zshrc Customizado" "$(tag "$(status_zsh)")"
                 [ -d "$REAL_HOME/.oh-my-zsh" ] && ok "oh-my-zsh instalado" || warn "oh-my-zsh não encontrado"
                 [ -f "$ZSHRC_BACKUP_PATH" ] && log "Backup: ~/.zshrc.bugtuxp.bak"
+                echo
+                hdr "TERMINAIS DETECTADOS"
+                mapfile -t _terms < <(_detect_terminals)
+                if [ "${#_terms[@]}" -eq 0 ]; then
+                    warn "Nenhum terminal suportado encontrado"
+                else
+                    for t in "${_terms[@]}"; do ok "$t instalado"; done
+                fi
+                local cur_shell; cur_shell=$(getent passwd "$REAL_USER" | cut -d: -f7)
+                printf "  %-26s %s\n" "Shell padrão" "$cur_shell"
                 pause ;;
             1) apply_zsh ;;
             2) header; restore_zsh_backup ;;
@@ -1267,7 +1629,7 @@ webcam_menu() {
         local lbl; lbl=$(webcam_status_label)
         local choice
         choice=$(select_menu "Controle de Webcam  [${lbl}]" \
-            "Ativar Webcam" "Desativar Webcam" "Voltar")
+            "Ativar Webcam" "Desativar Webcam" "↩ Voltar")
         case "$choice" in
             "BACK"|2) return ;;
             0) enable_webcam ;;
@@ -1283,16 +1645,16 @@ show_dashboard() {
     printf "  %-22s %s\n" "SCX Scheduler"   "$(tag "$(status_scx)")"
     printf "  %-22s %s\n" "IO Scheduler"    "$(tag "$(status_io)")"
     printf "  %-22s %s\n" "GPU Performance" "$(tag "$(status_gpu)")"
-    printf "  %-22s %s\n" "i915 opções"     "$(tag "$(status_gpu_opts)")"
+    printf "  %-24s %s\n" "i915 opções"     "$(tag "$(status_gpu_opts)")"
     printf "  %-22s %s\n" "THP"             "$(tag "$(status_thp)")"
     printf "  %-22s %s\n" "System Limits"   "$(tag "$(status_limits)")"
     printf "  %-22s %s  (%s)\n" "ZRAM" "$(tag "$(status_zram)")" "$(current_zram_size)"
     printf "  %-22s %s\n" "Swap SSD"        "$(tag "$(status_swap_ssd)")"
     printf "  %-22s %s\n" "DNS"             "$(tag "$(status_dns)")"
-    printf "  %-22s %s\n" "Backup KDE"      "$(tag "$(status_backup_tag)")"
+    printf "  %-23s %s\n" "Backup KDE+Áudio" "$(tag "$(status_backup_tag)")"
     printf "  %-22s %s\n" "Terminal Zsh"    "$(tag "$(status_zsh)")"
     printf "  %-22s %s\n" "Webcam"          "$(webcam_status_tag)"
-    sep; hdr "SISTEMA VIVO"
+    sep; hdr "INFOS DO SISTEMA"
     printf "  %-22s %s\n" "CPU"      "$(cpu_current_info)"
     printf "  %-22s %s\n" "GPU"      "$(gpu_current_info)"
     printf "  %-22s %s\n" "ZRAM"     "$(zram_current_stats)"
@@ -1305,13 +1667,13 @@ show_dashboard() {
 main_menu() {
     while true; do
         local choice
-        choice=$(select_menu "BugTuxP  [$(LANG=C date '+%d/%m/%Y %H:%M')]  usuário: $REAL_USER" \
-            "Status Geral do Sistema" \
-            "Performance  (CPU/Kernel/IO/GPU/THP/ZRAM/SWAP/DNS)" \
-            "Backup & Restore KDE" \
-            "Terminal Zsh Elite" \
-            "Controle de Webcam" \
-            "Sair")
+        choice=$(select_menu "🖳  BugTuxP  [$(LANG=C date '+%d/%m/%Y %H:%M')]  👤︎ Usuário: $REAL_USER" \
+            "⎚ Status Geral do Sistema" \
+            "⑆ Performance (CPU/Kernel/IO/GPU/THP/ZRAM/SWAP/DNS)" \
+            "⎘ Backup & Restore KDE + Áudio" \
+            "⌗ Terminal Zsh Customizado" \
+            "◉ Controle de Webcam" \
+            "⏻ Sair")
         case "$choice" in
             "BACK"|5) clear; exit 0 ;;
             0) show_dashboard ;;
