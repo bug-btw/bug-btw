@@ -67,9 +67,9 @@
         "FFlagEnablePregameDataModelWaitForShutdown": false
     },
     "graphics_optimization_mode": "performance",
-    "server_location_indicator_enabled": false,
+    "server_location_indicator_enabled": true,
     "touch_mode": "off",
-    "use_console_experience": true,
+    "use_console_experience": false,
     "use_libsecret": false,
     "use_opengl": false
 }
