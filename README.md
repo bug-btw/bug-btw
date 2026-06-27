@@ -9,13 +9,13 @@
 [![License](https://img.shields.io/badge/License-BUG-pink.svg)](LICENSE)
 
 
-Arch Linux / Windows 10|11 (Intel- x64-x86)
+Arch Linux / Windows (Intel/AMD - x64-x86)
 
 ---
 
 ## ⚙️ Requisitos
 
-**Sistema:** LinuxKernel/WindowsOS / KDE Plasma WM
+**Sistema:** Linux/Windows / DE: KDE Plasma 6+ / Win10-11
 
 **Dependências:**
 ```bash
@@ -28,7 +28,7 @@ bash, ./, Konsole (Terminal).
 
 **⭐ Se ajudou, deixe uma estrela! ⭐**
 
-Feito com ❤️ | Testado em IdeaPad 330 15IKB tunado
+Feito com ❤️ | Tudo testado em um Lenovo IdeaPad 330 15IKBR 81FE tunado 🔥
 
 [⬆ Voltar ao topo](#--linux-utilities)
 
