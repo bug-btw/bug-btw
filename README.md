@@ -1,3 +1,4 @@
+
 # 🐧 bug-btw Utilities
 
 [![Linux](https://img.shields.io/badge/Linux-Kernel-orange?logo=linux&logoColor=white)](https://project.org/)
@@ -11,6 +12,7 @@
 
 Arch Linux / Windows (Intel/AMD - x64-x86)
 
+<img width="1920" height="1080" alt="Screenshot_2026-06-29_00-01-55" src="https://github.com/user-attachments/assets/84f85aff-2a87-4746-a7f6-ecd3e1dec0e3" />
 ---
 
 ## ⚙️ Requisitos
