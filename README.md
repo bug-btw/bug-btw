@@ -12,7 +12,10 @@
 
 Arch Linux / Windows (Intel/AMD - x64-x86)
 
-<img width="1920" height="1080" alt="Screenshot_2026-06-29_00-01-55" src="https://github.com/user-attachments/assets/84f85aff-2a87-4746-a7f6-ecd3e1dec0e3" />
+
+<img width="1920" height="1080" alt="Screenshot_2026-06-29_00-05-36" src="https://github.com/user-attachments/assets/5880f840-6d96-44fc-989e-3cbbf189b4f1" />
+
+
 ---
 
 ## ⚙️ Requisitos
@@ -30,7 +33,7 @@ bash, ./, Konsole (Terminal).
 
 **⭐ Se ajudou, deixe uma estrela! ⭐**
 
-Feito com ❤️ | Tudo testado em um Lenovo IdeaPad 330 15IKBR 81FE tunado 🔥
+Feito com ❤️ | Tudo testado antes de ser upado 🔥
 
 [⬆ Voltar ao topo](#--linux-utilities)
 
