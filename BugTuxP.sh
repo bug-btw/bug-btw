@@ -17,7 +17,7 @@ fi
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 if [ ! -t 0 ] && [ ! -r /dev/tty ]; then
-    echo "BugTuxP requer um terminal interativo (TTY). Execute direto num terminal." >&2
+    echo "BugTuxP requires an interactive terminal (TTY). Run it directly in a terminal." >&2
     exit 1
 fi
 
@@ -34,6 +34,8 @@ trap 'tput cnorm 2>/dev/null; clear; exit 0' INT TERM
 trap 'tput cnorm 2>/dev/null' EXIT
 tput civis 2>/dev/null || true
 
+__MENU_CURSOR=0
+
 ok()   { echo -e "  ${G}[✓]${N} $*"; }
 skip() { echo -e "  ${Y}[~]${N} $*"; }
 warn() { echo -e "  ${Y}[!]${N} $*"; }
@@ -44,10 +46,26 @@ hdr()  { echo -e "\n${C}${BLD}  ─── $* ───${N}"; }
 sep()  { echo -e "  ${DIM}$(printf '%.0s─' {1..50})${N}"; }
 
 _sys_cpu()    { grep -m1 "model name" /proc/cpuinfo 2>/dev/null | cut -d: -f2 | xargs | sed 's/(R)//g;s/(TM)//g;s/ CPU//g;s/ @ .*//g;s/  */ /g'; }
-_sys_gpu()    { lspci 2>/dev/null | grep -iE "vga|3d controller" | head -1 | sed 's/.*: //;s/ (rev.*//' | cut -c1-45; }
+_sys_gpu()    {
+    local raw cols avail
+    raw=$(lspci 2>/dev/null | grep -iE "vga|3d controller" | head -1 \
+          | sed 's/.*: //;s/ (rev.*//' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+    cols=$(tput cols 2>/dev/null || echo 80)
+    avail=$(( cols - 4 ))
+    [ ${#raw} -gt "$avail" ] && raw="${raw:0:$avail}…"
+    echo "$raw"
+}
 _sys_distro() { . /etc/os-release 2>/dev/null && echo "${PRETTY_NAME:-${NAME:-Linux}}"; }
 _sys_kernel() { uname -r; }
-_sys_de()     { echo "${XDG_CURRENT_DESKTOP:-${DESKTOP_SESSION:-unknown}}"; }
+_sys_de() {
+    if command -v plasmashell &>/dev/null; then
+        local ver
+        ver=$(plasmashell --version 2>/dev/null | grep -oP '\d+\.\d+\.\d+' | head -1)
+        echo "KDE Plasma ${ver:-?}"
+        return
+    fi
+    echo "${XDG_CURRENT_DESKTOP:-${DESKTOP_SESSION:-unknown}}"
+}
 
 _is_kde() {
     local de; de=$(_sys_de)
@@ -58,9 +76,9 @@ _require_kde() {
     if ! _is_kde; then
         local de; de=$(_sys_de)
         header
-        warn "Esta função requer KDE Plasma."
-        log  "DE detectado: ${de:-desconhecido}"
-        log  "Operação abortada para proteger seu ambiente de desktop."
+        warn "This function requires KDE Plasma."
+        log  "Detected DE: ${de:-unknown}"
+        log  "Operation aborted to protect your desktop environment."
         pause
         return 1
     fi
@@ -112,10 +130,34 @@ progress_done() { echo; }
 
 tag() {
     case "$1" in
-        OK)      echo -e "${G}${BLD}[✓ Aplicado]${N}" ;;
-        PARTIAL) echo -e "${Y}${BLD}[~ Parcial ]${N}" ;;
+        OK)      echo -e "${G}${BLD}[✓ Applied]${N}" ;;
+        PARTIAL) echo -e "${Y}${BLD}[~ Parcial]${N}" ;;
         *)       echo -e "${R}${BLD}[✗ Pendente]${N}" ;;
     esac
+}
+
+# Conta o comprimento VISUAL de uma string, independente do locale ativo.
+# Necessário porque "printf %-Ns" conta BYTES em locales não-UTF-8 (ex.: quando
+# qualquer rótulo com acento (Á, ã, ç, õ...) — cada byte extra de um caractere
+# multibyte "rouba" uma coluna de espaçamento. Aqui contamos bytes totais menos
+# bytes de continuação UTF-8 (0x80-0xBF), sempre forçando LC_ALL=C só nesta
+# operação, então o resultado é 100% determinístico em qualquer máquina.
+_visual_len() {
+    local s="$1" total cont
+    total=$(printf '%s' "$s" | wc -c)
+    cont=$(printf '%s' "$s" | LC_ALL=C tr -d -c '\200-\277' | wc -c)
+    echo $(( total - cont ))
+}
+
+# Imprime "  <rótulo padded até width> <valor>" numa única chamada de printf,
+# usando %*s (largura numérica pura, sem ambiguidade de bytes/caracteres) para
+# gerar o preenchimento — garante alinhamento perfeito sempre, em qualquer locale.
+_row() {
+    local label="$1" width="$2" value="$3" len pad
+    len=$(_visual_len "$label")
+    pad=$(( width - len ))
+    [ "$pad" -lt 0 ] && pad=0
+    printf "  %s%*s %s\n" "$label" "$pad" "" "$value"
 }
 
 content_matches() {
@@ -161,7 +203,7 @@ install_pkgs() {
         apt)     apt-get install -y "$@" 2>/dev/null || true ;;
         dnf)     dnf install -y "$@" 2>/dev/null || true ;;
         zypper)  zypper install -y "$@" 2>/dev/null || true ;;
-        *)       warn "Gerenciador de pacotes não detectado" ;;
+        *)       warn "Package manager not detected" ;;
     esac
 }
 
@@ -173,14 +215,15 @@ rebuild_kde_cache() {
 select_menu() {
     local prompt="$1"; shift
     local options=("$@")
-    local choice=0 total=${#options[@]} key="" seq=""
+    local choice=${__MENU_CURSOR:-0} total=${#options[@]} key="" seq=""
+    [ "$choice" -ge "$total" ] && choice=0
     while true; do
         clear >&2
         echo -e "${B}${BLD}  $prompt${N}\n" >&2
         local i
         for i in "${!options[@]}"; do
             [ "$i" -eq "$choice" ] \
-                && echo -e "  ${BLD}${G}→ ${options[$i]}${N}" >&2 \
+                && echo -e "  ${BLD}${G}╰┈▶ ${options[$i]}${N}" >&2 \
                 || echo -e "  ${DIM}  ${options[$i]}${N}" >&2
         done
         echo -e "\n  ${DIM}↑↓/jk Navegar  │  1-9 Atalho  │  g/G Topo/Fim  │  ↵ Confirma  │  ⌫ Voltar  │  Ctrl+C Sair${N}" >&2
@@ -218,9 +261,9 @@ confirm_dialog() {
         clear >&2
         echo -e "${B}${BLD}  $prompt${N}\n" >&2
         [ "$choice" -eq 0 ] \
-            && echo -e "  ${BLD}${G}→ Sim ←${N}          ${DIM}Não / ↩ Voltar${N}" >&2 \
-            || echo -e "  ${DIM}  Sim${N}          ${BLD}${R}→ Não / ↩ Voltar ←${N}" >&2
-        echo -e "\n  ${DIM}←→/hl Alternar  │  Y/S Sim  │  N Não  │  ↵ Confirma  │  ⌫ Voltar${N}" >&2
+            && echo -e "  ${BLD}${G}→ Yes ←${N}          ${DIM}No / ↩ Back${N}" >&2 \
+            || echo -e "  ${DIM}  Yes${N}          ${BLD}${R}→ No / ↩ Back ←${N}" >&2
+        echo -e "\n  ${DIM}←→/hl Toggle  │  Y/S Yes  │  N No  │  ↵ Confirm  │  ⌫ Back${N}" >&2
         IFS= read -rsn1 key </dev/tty 2>/dev/null || key=""
         if [[ "$key" == $'\x7f' || "$key" == $'\b' ]]; then
             echo "BACK"; return 0
@@ -292,7 +335,7 @@ apply_cpu() {
         ok "CPU → performance + energy_perf_bias=0 + latência C-state=30µs"
     else
         systemctl enable --now --quiet bugtux-cpu.service 2>/dev/null || true
-        skip "CPU Governor — já aplicado"
+        skip "CPU Governor — already applied"
     fi
 }
 
@@ -347,7 +390,6 @@ fs.file-max = 2097152
 EOF
 }
 
-
 status_sysctl() {
     content_matches "$SYSCTL_FILE" "$(sysctl_content)" && echo OK || echo NO
 }
@@ -355,9 +397,9 @@ status_sysctl() {
 apply_sysctl() {
     if write_if_changed "$SYSCTL_FILE" "$(sysctl_content)"; then
         sysctl --system -q 2>/dev/null || true
-        ok "Kernel sysctl → swappiness=180, BBR, NUMA=off, compaction=0"
+        ok "Kernel sysctl → swappiness=200, BBR, zone_reclaim=0, NUMA=off"
     else
-        skip "Kernel sysctl — já aplicado"
+        skip "Kernel sysctl — already applied"
     fi
 }
 
@@ -376,7 +418,7 @@ status_scx() {
 
 apply_scx() {
     if ! command -v scx_lavd &>/dev/null && ! [ -f /usr/lib/scx/scx_lavd ]; then
-        fail "scx_lavd não encontrado — instale: sudo pacman -S scx-scheds"; return
+        fail "scx_lavd not found — install: sudo pacman -S scx-scheds"; return
     fi
     mkdir -p "$(dirname "$SCX_DROP")"
     if write_if_changed "$SCX_DROP" "$(scx_content)"; then
@@ -387,7 +429,7 @@ apply_scx() {
         local cur
         cur=$(busctl get-property org.scx.Loader /org/scx/Loader org.scx.Loader CurrentScheduler 2>/dev/null \
             | awk '{print $2}' | tr -d '"' || echo "?")
-        skip "scx_lavd — já configurado (ativo: $cur)"
+        skip "scx_lavd — already configured (active: $cur)"
     fi
 }
 
@@ -418,7 +460,7 @@ apply_io() {
         ok "IO Scheduler → mq-deadline (SSD SATA) / none (NVMe)"
     else
         systemctl enable --now --quiet bugtux-io.service 2>/dev/null || true
-        skip "IO Scheduler — já aplicado"
+        skip "IO Scheduler — already applied"
     fi
 }
 
@@ -465,14 +507,14 @@ apply_gpu() {
         ok "GPU → freq fixada no máximo (RP0), runtime PM=on"
     else
         systemctl enable --now --quiet bugtux-gpu.service 2>/dev/null || true
-        skip "GPU freq — já aplicado"
+        skip "GPU freq — already applied"
     fi
     local vendor; vendor=$(_detect_gpu_vendor)
     if [ "$vendor" = "intel" ]; then
         if write_if_changed "$I915_CONF" "$(i915_content)"; then
             ok "i915 → GuC=3, DC=0, FBC=0 (efeito no próximo boot)"
         else
-            skip "i915 opções — já aplicado"
+            skip "i915 options — already applied"
         fi
     fi
 }
@@ -520,7 +562,7 @@ apply_thp() {
         ok "THP → madvise + defrag=defer+madvise"
     else
         systemctl enable --now --quiet bugtux-thp.service 2>/dev/null || true
-        skip "THP — já aplicado"
+        skip "THP — already applied"
     fi
 }
 
@@ -548,7 +590,7 @@ apply_limits() {
     if write_if_changed "$LIMITS_FILE" "$(limits_content)"; then
         ok "System limits → nofile=1M, memlock=unlimited, rtprio=98"
     else
-        skip "System limits — já aplicado"
+        skip "System limits — already applied"
     fi
 }
 
@@ -595,28 +637,30 @@ _zram_auto_size() {
 }
 
 apply_zram_default() {
-    [ "$(status_zram)" = "OK" ] && { skip "ZRAM — já ativo em $(current_zram_size)"; return; }
+    [ "$(status_zram)" = "OK" ] && { skip "ZRAM — already active at $(current_zram_size)"; return; }
     local size; size=$(_zram_auto_size)
     write_if_changed "$ZRAM_SERVICE" "$(zram_content "$size")" || true
     systemctl daemon-reload
     systemctl enable --quiet bugtux-zram.service 2>/dev/null || true
     systemctl restart bugtux-zram.service 2>/dev/null || true
-    ok "ZRAM → ${size} (auto, zstd, prioridade ${ZRAM_PRIO})"
+    ok "ZRAM → ${size} (auto, zstd, priority ${ZRAM_PRIO})"
 }
 
 apply_zram_interactive() {
     local cur idx
     cur=$(current_zram_size)
-    idx=$(select_menu "ZRAM atual: ${cur} — Selecione o tamanho:" \
+    idx=$(select_menu "ZRAM current: ${cur} — Select size:" \
         "4G" "6G" "8G (recomendado 12GB RAM)" "12G")
-    [[ "$idx" == "BACK" ]] && { skip "ZRAM — cancelado"; return; }
+    __MENU_CURSOR=0
+    [[ "$idx" == "BACK" ]] && return
     local sizes=("4G" "6G" "8G" "12G")
     local size="${sizes[$idx]}"
     write_if_changed "$ZRAM_SERVICE" "$(zram_content "$size")" || true
     systemctl daemon-reload
     systemctl enable --quiet bugtux-zram.service 2>/dev/null || true
     systemctl restart bugtux-zram.service 2>/dev/null || true
-    ok "ZRAM → ${size} (zstd, prioridade ${ZRAM_PRIO})"
+    ok "ZRAM → ${size} (zstd, priority ${ZRAM_PRIO})"
+    sleep 1
 }
 
 _detect_root_disk() {
@@ -647,15 +691,32 @@ status_swap_ssd() {
     grep -qE '^UUID.*none.*swap' /etc/fstab 2>/dev/null && echo PARTIAL || echo NO
 }
 
+current_swap_info() {
+    local size
+    size=$(swapon --show --noheadings --raw 2>/dev/null \
+        | awk '{print $1}' | grep -v zram | head -1 \
+        | xargs -I{} lsblk -dno SIZE {} 2>/dev/null | xargs)
+    [ -n "$size" ] && echo "$size" || echo ""
+}
+
+current_dns_label() {
+    [ -f "$DNS_CONF" ] || { echo ""; return; }
+    local i
+    for i in 0 1; do
+        content_matches "$DNS_CONF" "$(dns_conf_content "$i")" && echo "${DNS_LABEL[$i]}" && return
+    done
+    echo ""
+}
+
 apply_swap_auto() {
     if [ "$(status_swap_ssd)" = "OK" ]; then
-        skip "Swap SSD — já ativo"
+        skip "Swap SSD — already active"
         return
     fi
 
     local TARGET_DISK
     if ! TARGET_DISK=$(_detect_secondary_disk); then
-        warn "Swap SSD — nenhum disco secundário detectado automaticamente"
+        warn "Swap SSD — no secondary disk detected automatically"
         return
     fi
 
@@ -676,7 +737,7 @@ apply_swap_auto() {
         if [ -n "$uuid" ] && ! grep -q "$uuid" /etc/fstab 2>/dev/null; then
             echo "UUID=$uuid none swap defaults,pri=$SWAP_PRIO 0 0" >> /etc/fstab
         fi
-        ok "Swap SSD — partição existente ativada ($existing_swap)"
+        ok "Swap SSD — existing partition activated ($existing_swap)"
         return
     fi
 
@@ -690,7 +751,7 @@ apply_swap_auto() {
     local conf
     conf=$(confirm_dialog "⚠ Criar Swap+Dados em $TARGET_DISK ($model $size)? ISSO APAGA TODOS OS DADOS do disco.")
     if [[ "$conf" != "0" ]]; then
-        skip "Swap SSD — automático cancelado (use o modo manual para escolher outro disco)"
+        skip "Swap SSD — auto cancelled (use manual mode to select another disk)"
         return
     fi
 
@@ -714,7 +775,7 @@ apply_swap_auto() {
     udevadm settle; partprobe "$TARGET_DISK" 2>/dev/null || true; sleep 2; udevadm settle
 
     if ! [ -b "$PART_SWAP" ]; then
-        fail "Swap SSD — falha ao criar partição em $TARGET_DISK"; return
+        fail "Swap SSD — failed to create partition on $TARGET_DISK"; return
     fi
 
     mkswap -f -L "BugSwap" "$PART_SWAP" >/dev/null 2>&1 || { fail "Falha mkswap"; return; }
@@ -737,7 +798,7 @@ apply_swap_auto() {
         echo "UUID=$UUID_DATA $MNT_DIR xfs defaults,noatime,rw,user,nofail 0 2" >> /etc/fstab
     chmod 775 "$MNT_DIR" 2>/dev/null || true; own_back "$MNT_DIR"
 
-    ok "Swap SSD → ${swap_size}GiB ativo em $PART_SWAP (prioridade $SWAP_PRIO)"
+    ok "Swap SSD → ${swap_size}GiB active on $PART_SWAP (priority $SWAP_PRIO)"
 }
 
 setup_swap_partition() {
@@ -750,7 +811,7 @@ setup_swap_partition() {
         m=$(lsblk -dno MODEL "$disk" 2>/dev/null | xargs); s=$(lsblk -dno SIZE "$disk" 2>/dev/null | xargs)
         DISKS_AVAILABLE+=("$disk"); DISKS_LABELS+=("$disk — ${m:-SSD} ($s)")
     done
-    [ "${#DISKS_AVAILABLE[@]}" -eq 0 ] && { fail "Nenhum SSD secundário encontrado."; return; }
+    [ "${#DISKS_AVAILABLE[@]}" -eq 0 ] && { fail "No secondary SSD found."; return; }
 
     local DISK_IDX
     DISK_IDX=$(select_menu "Selecione o SSD para Swap:" "${DISKS_LABELS[@]}")
@@ -759,13 +820,13 @@ setup_swap_partition() {
 
     local SIZES=("4GiB" "8GiB" "12GiB" "16GiB" "24GiB" "32GiB" "48GiB" "64GiB")
     local SIZE_IDX
-    SIZE_IDX=$(select_menu "Tamanho da partição Swap em $TARGET_DISK:" "${SIZES[@]}")
+    SIZE_IDX=$(select_menu "Swap partition size on $TARGET_DISK:" "${SIZES[@]}")
     [[ "$SIZE_IDX" == "BACK" ]] && return
     local TARGET_SIZE="${SIZES[$SIZE_IDX]//GiB/}"
 
     local CONFIRM
     CONFIRM=$(confirm_dialog "⚠ APAGA TODOS OS DADOS em $TARGET_DISK. Confirmar?")
-    [[ "$CONFIRM" != "0" ]] && { skip "Cancelado"; return; }
+    [[ "$CONFIRM" != "0" ]] && { skip "Cancelled"; return; }
 
     header; hdr "PARTICIONANDO $TARGET_DISK — ${TARGET_SIZE}GiB Swap"
 
@@ -810,8 +871,8 @@ setup_swap_partition() {
     [ -n "$UUID_DATA" ] && echo "UUID=$UUID_DATA $MNT_DIR xfs defaults,noatime,rw,user,nofail 0 2" >> /etc/fstab
     chmod 775 "$MNT_DIR"; own_back "$MNT_DIR"
 
-    progress 100 "Concluído!"; echo
-    ok "Swap ${TARGET_SIZE}GiB → $PART_SWAP (prioridade $SWAP_PRIO)"
+    progress 100 "Done!"; echo
+    ok "Swap ${TARGET_SIZE}GiB → $PART_SWAP (priority $SWAP_PRIO)"
     ok "Dados → $MNT_DIR (XFS)"
     echo; swapon --show
     pause
@@ -828,7 +889,7 @@ status_dns() {
 }
 
 apply_dns_default() {
-    [ "$(status_dns)" = "OK" ] && { skip "DNS — já configurado"; return; }
+    [ "$(status_dns)" = "OK" ] && { skip "DNS — already configured"; return; }
     local content; content="$(dns_conf_content "0")"
     mkdir -p "$(dirname "$DNS_CONF")"
     printf '%s\n' "$content" > "$DNS_CONF"
@@ -839,7 +900,7 @@ apply_dns_default() {
             ipv6.ignore-auto-dns yes ipv6.dns "$d6" 2>/dev/null || true
     done < <(nmcli -g NAME connection show 2>/dev/null)
     systemctl restart NetworkManager 2>/dev/null || true
-    ok "DNS → ${DNS_LABEL[0]} (automático)"
+    ok "DNS → ${DNS_LABEL[0]} (automatic)"
 }
 
 apply_dns_interactive() {
@@ -848,9 +909,12 @@ apply_dns_interactive() {
         "${DNS_LABEL[0]}  (1.1.1.2 / 1.0.0.2)" \
         "${DNS_LABEL[1]}  (94.140.14.14 / 94.140.15.15)" \
         "Pular / ↩ Voltar")
-    [[ "$idx" == "BACK" || "$idx" == "2" ]] && { skip "DNS — pulado"; return; }
+    __MENU_CURSOR=0
+    [[ "$idx" == "BACK" || "$idx" == "2" ]] && return
     local content; content="$(dns_conf_content "$idx")"
-    content_matches "$DNS_CONF" "$content" && { skip "DNS (${DNS_LABEL[$idx]}) — já aplicado"; return; }
+    if content_matches "$DNS_CONF" "$content"; then
+        skip "DNS (${DNS_LABEL[$idx]}) — already applied"; sleep 1; return
+    fi
     mkdir -p "$(dirname "$DNS_CONF")"
     printf '%s\n' "$content" > "$DNS_CONF"
     local d4="${DNS4[$idx]}" d6="${DNS6[$idx]}"
@@ -861,6 +925,7 @@ apply_dns_interactive() {
     done < <(nmcli -g NAME connection show 2>/dev/null)
     systemctl restart NetworkManager 2>/dev/null || true
     ok "DNS → ${DNS_LABEL[$idx]} (${d4// /,})"
+    sleep 1
 }
 
 apply_all_core() {
@@ -883,63 +948,66 @@ apply_all_core() {
     echo
     sep
     hdr "RESUMO"
-    printf "  %-22s %s\n" "CPU Governor"   "$(tag "$(status_cpu)")"
-    printf "  %-22s %s\n" "Kernel sysctl"  "$(tag "$(status_sysctl)")"
-    printf "  %-22s %s\n" "SCX Scheduler"  "$(tag "$(status_scx)")"
-    printf "  %-22s %s\n" "IO Scheduler"   "$(tag "$(status_io)")"
-    printf "  %-22s %s\n" "GPU Performance" "$(tag "$(status_gpu)")"
-    printf "  %-22s %s\n" "THP"            "$(tag "$(status_thp)")"
-    printf "  %-22s %s\n" "System Limits"  "$(tag "$(status_limits)")"
-    printf "  %-22s %s  (%s)\n" "ZRAM" "$(tag "$(status_zram)")" "$(current_zram_size)"
-    printf "  %-22s %s\n" "DNS"            "$(tag "$(status_dns)")"
-    printf "  %-22s %s\n" "Swap SSD"       "$(tag "$(status_swap_ssd)")"
+    _row "CPU Governor"    22 "$(tag "$(status_cpu)")"
+    _row "Kernel sysctl"   22 "$(tag "$(status_sysctl)")"
+    _row "SCX Scheduler"   22 "$(tag "$(status_scx)")"
+    _row "IO Scheduler"    22 "$(tag "$(status_io)")"
+    _row "GPU Performance" 22 "$(tag "$(status_gpu)")"
+    _row "THP"             22 "$(tag "$(status_thp)")"
+    _row "System Limits"   22 "$(tag "$(status_limits)")"
+    _row "ZRAM"            22 "$(tag "$(status_zram)")  ($(current_zram_size))"
+    _row "DNS"             22 "$(tag "$(status_dns)")"
+    _row "Swap SSD"        22 "$(tag "$(status_swap_ssd)")"
     sep
     pause
 }
 
 show_performance_status() {
     header; hdr "STATUS DE PERFORMANCE"; sep
-    printf "  %-22s %s\n" "CPU Governor"   "$(tag "$(status_cpu)")"
-    printf "  %-22s %s\n" "Kernel sysctl"  "$(tag "$(status_sysctl)")"
-    printf "  %-22s %s\n" "SCX Scheduler"  "$(tag "$(status_scx)")"
-    printf "  %-22s %s\n" "IO Scheduler"   "$(tag "$(status_io)")"
-    printf "  %-22s %s\n" "GPU Performance" "$(tag "$(status_gpu)")"
-    printf "  %-24s %s\n" "i915 opções"    "$(tag "$(status_gpu_opts)")"
-    printf "  %-22s %s\n" "THP"            "$(tag "$(status_thp)")"
-    printf "  %-22s %s\n" "System Limits"  "$(tag "$(status_limits)")"
-    printf "  %-22s %s  (%s)\n" "ZRAM" "$(tag "$(status_zram)")" "$(current_zram_size)"
-    printf "  %-22s %s\n" "Swap SSD"       "$(tag "$(status_swap_ssd)")"
-    printf "  %-22s %s\n" "DNS"            "$(tag "$(status_dns)")"
-    sep; hdr "INFOS DO SISTEMA"
-    printf "  %-22s %s\n" "CPU"      "$(cpu_current_info)"
-    printf "  %-22s %s\n" "GPU"      "$(gpu_current_info)"
-    printf "  %-22s %s\n" "ZRAM"     "$(zram_current_stats)"
-    printf "  %-22s %s\n" "THP modo" "$(thp_current)"
-    printf "  %-22s %s\n" "Kernel"   "$(uname -r)"
+    _row "CPU Governor"    22 "$(tag "$(status_cpu)")"
+    _row "Kernel sysctl"   22 "$(tag "$(status_sysctl)")"
+    _row "SCX Scheduler"   22 "$(tag "$(status_scx)")"
+    _row "IO Scheduler"    22 "$(tag "$(status_io)")"
+    _row "GPU Performance" 22 "$(tag "$(status_gpu)")"
+    _row "i915 Options"    22 "$(tag "$(status_gpu_opts)")"
+    _row "THP"             22 "$(tag "$(status_thp)")"
+    _row "System Limits"   22 "$(tag "$(status_limits)")"
+    _row "ZRAM"            22 "$(tag "$(status_zram)") ($(current_zram_size))"
+    _row "Swap SSD"        22 "$(tag "$(status_swap_ssd)")"
+    _row "DNS"             22 "$(tag "$(status_dns)")"
+    sep; hdr "SYSTEM INFO"
+    _row "CPU"             22 "$(cpu_current_info)"
+    _row "GPU"             22 "$(gpu_current_info)"
+    _row "ZRAM"            22 "$(zram_current_stats)"
+    _row "THP"             22 "$(thp_current)"
+    _row "Kernel"          22 "$(uname -r)"
     local iosched
     iosched=$(cat /sys/block/sda/queue/scheduler 2>/dev/null | grep -oP '\[\K[^\]]+' \
            || cat /sys/block/nvme0n1/queue/scheduler 2>/dev/null | grep -oP '\[\K[^\]]+' || echo "?")
-    printf "  %-22s %s\n" "IO sched" "$iosched"
+    _row "IO sched" 22 "$iosched"
     sep; pause
 }
 
 performance_menu() {
+    local _last=0
     while true; do
+        __MENU_CURSOR=$_last
         local choice
-        choice=$(select_menu "Performance — CPU/Kernel/IO/GPU/THP/ZRAM/SWAP/DNS" \
-            "⎚ Status de Performance" \
+        choice=$(select_menu "🗲 Performance — CPU · Kernel · IO · GPU · THP · ZRAM · SWAP · DNS" \
+            "🛈 Status de Performance" \
             "🗹 Aplicar TUDO" \
-            "☷ ZRAM (manual)" \
-            "🖴︎ Swap SSD (manual)" \
-            "🖧︎ DNS (manual)" \
+            "☷ ZRAM" \
+            "🖴︎ Swap SSD" \
+            "🖧︎ DNS" \
             "↩ Voltar")
+        __MENU_CURSOR=0
         case "$choice" in
             "BACK"|5) return ;;
-            0) show_performance_status ;;
-            1) apply_all_core ;;
-            2) apply_zram_interactive; pause ;;
-            3) setup_swap_partition ;;
-            4) apply_dns_interactive; pause ;;
+            0) show_performance_status;      _last=0 ;;
+            1) apply_all_core;               _last=1 ;;
+            2) apply_zram_interactive;       _last=2 ;;
+            3) setup_swap_partition;         _last=3 ;;
+            4) apply_dns_interactive;        _last=4 ;;
         esac
     done
 }
@@ -1018,32 +1086,32 @@ _relative_to_home() { echo "${1/#$REAL_HOME\//}"; }
 backup() {
     _require_kde || return
 
-    header; hdr "Backup Completo KDE Plasma + Áudio"
+    header; hdr "Full KDE Plasma + Audio Backup"
     echo
 
     if [ -d "$DOTFILES_DIR" ]; then
-        warn "Backup anterior encontrado em:"
+        warn "Previous backup found at:"
         log  "$DOTFILES_DIR"
-        log  "Tamanho atual: $(du -sh "$DOTFILES_DIR" 2>/dev/null | cut -f1)"
+        log  "Current size: $(du -sh "$DOTFILES_DIR" 2>/dev/null | cut -f1)"
         echo
         local conf; conf=$(confirm_dialog "DELETAR tudo e criar Backup 100% completo?")
-        [[ "$conf" != "0" ]] && { skip "Backup cancelado."; pause; return; }
+        [[ "$conf" != "0" ]] && { skip "Backup cancelled."; pause; return; }
     fi
 
     local timestamp; timestamp=$(date '+%Y-%m-%d %H:%M:%S')
     local saved_files=0 synced_dirs=0
 
-    step "Removendo backup anterior por completo..."
+    step "Wiping previous backup entirely..."
     rm -rf "$DOTFILES_DIR"
     mkdir -p "$BACKUP_DIR"
-    ok "Diretório zerado e recriado em $DOTFILES_DIR"
+    ok "Directory wiped and recreated at $DOTFILES_DIR"
 
     echo
     hdr "FASE 1 — Configurações KDE (~/.config)"
     mapfile -t _cfg_files < <(_collect_config_files)
     local total_cf=${#_cfg_files[@]} cur_cf=0 f rel dst
     if [ "$total_cf" -eq 0 ]; then
-        warn "Nenhum arquivo KDE encontrado em ~/.config"
+        warn "No KDE files found in ~/.config"
     else
         for f in "${_cfg_files[@]}"; do
             cur_cf=$(( cur_cf + 1 ))
@@ -1059,7 +1127,7 @@ backup() {
     fi
 
     echo
-    hdr "FASE 2 — Temas, Ícones e Plasma (~/.local/share)"
+    hdr "PHASE 2 — Themes, Icons and Plasma (~/.local/share)"
     local total_kd=${#KDE_LOCAL_PATHS[@]} cur_kd=0 kpath
     for kpath in "${KDE_LOCAL_PATHS[@]}"; do
         cur_kd=$(( cur_kd + 1 ))
@@ -1071,10 +1139,10 @@ backup() {
         synced_dirs=$(( synced_dirs + 1 ))
     done
     progress_done
-    ok "$synced_dirs diretório(s) sincronizado(s)"
+    ok "$synced_dirs directory(s) synced"
 
     echo
-    hdr "FASE 3 — Áudio (PipeWire / WirePlumber)"
+    hdr "PHASE 3 — Audio (PipeWire / WirePlumber)"
     local apath found_audio=0
     for apath in "${AUDIO_CONFIG_PATHS[@]}"; do
         if [ ! -d "$apath" ]; then continue; fi
@@ -1086,7 +1154,7 @@ backup() {
         ok "$aname — OK"
         found_audio=$(( found_audio + 1 ))
     done
-    [ "$found_audio" -eq 0 ] && warn "Nenhuma config de áudio encontrada (PipeWire/WirePlumber)"
+    [ "$found_audio" -eq 0 ] && warn "No audio config found (PipeWire/WirePlumber)"
 
     echo
     hdr "FASE 4 — Arquivos de Shell"
@@ -1107,8 +1175,8 @@ backup() {
     sep
     ok "Backup 100% completo!"
     log "Arquivos copiados   : $saved_files"
-    log "Diretórios sync     : $synced_dirs"
-    log "Áudio (config dirs) : $found_audio"
+    log "Dirs synced       : $synced_dirs"
+    log "Audio (config dirs): $found_audio"
     log "Data                : $timestamp"
     log "Destino             : $DOTFILES_DIR"
     pause
@@ -1119,7 +1187,7 @@ restore_kde() {
 
     if [ ! -d "$BACKUP_DIR" ]; then
         header
-        warn "Nenhum backup encontrado em:"
+        warn "No backup found at:"
         log  "$BACKUP_DIR"
         log  "Execute um Backup primeiro."
         pause; return
@@ -1142,7 +1210,7 @@ restore_kde() {
         fi
     done
 
-    header; hdr "Restaurando KDE Plasma + Áudio"
+    header; hdr "Restoring KDE Plasma + Audio"
     log "Backup de: $backup_date"
     echo
 
@@ -1159,7 +1227,7 @@ restore_kde() {
     ok "~/.config: $restored_cf arquivo(s) restaurado(s)"
 
     echo
-    hdr "FASE 2 — Temas, Ícones e Plasma (~/.local/share)"
+    hdr "PHASE 2 — Themes, Icons and Plasma (~/.local/share)"
     local kpath
     for kpath in "${KDE_LOCAL_PATHS[@]}"; do
         local krel; krel=$(_relative_to_home "$kpath")
@@ -1170,7 +1238,7 @@ restore_kde() {
     done
 
     echo
-    hdr "FASE 3 — Áudio (PipeWire / WirePlumber)"
+    hdr "PHASE 3 — Audio (PipeWire / WirePlumber)"
     local ap
     for ap in "${AUDIO_CONFIG_PATHS[@]}"; do
         local arel; arel=$(_relative_to_home "$ap")
@@ -1217,10 +1285,10 @@ restore_kde() {
 backup_status() {
     _require_kde || return
 
-    header; hdr "⎚ Status do Backup KDE + Áudio"; sep
+    header; hdr "🛈 KDE + Audio Backup Status"; sep
 
     if [ ! -d "$DOTFILES_DIR" ]; then
-        warn "Nenhum backup encontrado em $DOTFILES_DIR"
+        warn "No backup found at $DOTFILES_DIR"
         sep; pause; return
     fi
 
@@ -1230,27 +1298,27 @@ backup_status() {
             case "$key" in
                 timestamp) ok  "Data do backup     : $val" ;;
                 saved)     log "Arquivos copiados  : $val" ;;
-                synced)    log "Diretórios sync    : $val" ;;
-                audio)     log "Dirs de áudio      : $val" ;;
+                synced)    log "Dirs synced       : $val" ;;
+                audio)     log "Audio dirs        : $val" ;;
             esac
         done < "$META_FILE"
-        log "Tamanho total      : $(du -sh "$BACKUP_DIR" 2>/dev/null | cut -f1)"
+        log "Total size        : $(du -sh "$BACKUP_DIR" 2>/dev/null | cut -f1)"
     else
-        warn "Meta-arquivo ausente — backup pode estar incompleto."
+        warn "Meta file missing — backup may be incomplete."
     fi
 
     sep
     hdr "CONTEÚDO DO BACKUP"
-    [ -d "$BACKUP_DIR/.config" ]               && ok  "~/.config KDE     — presente" || warn "~/.config KDE     — ausente"
-    [ -d "$BACKUP_DIR/.local/share/plasma" ]   && ok  "Plasma theme      — presente" || warn "Plasma theme      — ausente"
-    [ -d "$BACKUP_DIR/.local/share/aurorae" ]  && ok  "Aurorae decoração — presente" || warn "Aurorae decoração — ausente"
-    [ -d "$BACKUP_DIR/.local/share/icons" ]    && ok  "Ícones            — presente" || warn "Ícones            — ausente"
-    [ -d "$BACKUP_DIR/.local/share/konsole" ]  && ok  "Konsole profiles  — presente" || warn "Konsole profiles  — ausente"
-    [ -d "$BACKUP_DIR/.config/pipewire" ]      && ok  "PipeWire / Dolby  — presente" || warn "PipeWire / Dolby  — ausente"
-    [ -d "$BACKUP_DIR/.config/wireplumber" ]   && ok  "WirePlumber       — presente" || warn "WirePlumber       — ausente"
+    [ -d "$BACKUP_DIR/.config" ]               && ok  "~/.config KDE     — present" || warn "~/.config KDE     — missing"
+    [ -d "$BACKUP_DIR/.local/share/plasma" ]   && ok  "Plasma theme      — present" || warn "Plasma theme      — missing"
+    [ -d "$BACKUP_DIR/.local/share/aurorae" ]  && ok  "Aurorae deco      — present" || warn "Aurorae deco      — missing"
+    [ -d "$BACKUP_DIR/.local/share/icons" ]    && ok  "Icons             — present" || warn "Icons             — missing"
+    [ -d "$BACKUP_DIR/.local/share/konsole" ]  && ok  "Konsole profiles  — present" || warn "Konsole profiles  — missing"
+    [ -d "$BACKUP_DIR/.config/pipewire" ]      && ok  "PipeWire / Dolby  — present" || warn "PipeWire / Dolby  — missing"
+    [ -d "$BACKUP_DIR/.config/wireplumber" ]   && ok  "WirePlumber       — present" || warn "WirePlumber       — missing"
     local sf
     for sf in .zshrc .p10k.zsh; do
-        [ -f "$BACKUP_DIR/$sf" ] && ok "$sf — presente" || warn "$sf — ausente"
+        [ -f "$BACKUP_DIR/$sf" ] && ok "$sf — present" || warn "$sf — missing"
     done
 
     sep; pause
@@ -1259,18 +1327,21 @@ backup_status() {
 status_backup_tag() { [ -f "$META_FILE" ] && echo OK || echo NO; }
 
 backup_menu() {
+    local _last=0
     while true; do
+        __MENU_CURSOR=$_last
         local choice
-        choice=$(select_menu "Backup & Restore KDE Plasma + Áudio" \
-            "Realizar Backup (wipe + full fresh copy)" \
-            "Restaurar Backup" \
-            "⎚ Status e Conteúdo do Backup" \
+        choice=$(select_menu "🗐 Backup & Restore — KDE Plasma + Audio PipeWire" \
+            "⎙ Realizar Backup  (wipe + cópia 100% fresca)" \
+            "↺ Restaurar Backup" \
+            "🛈 Status e Conteúdo do Backup" \
             "↩ Voltar")
+        __MENU_CURSOR=0
         case "$choice" in
             "BACK"|3) return ;;
-            0) backup ;;
-            1) restore_kde ;;
-            2) backup_status ;;
+            0) backup;          _last=0 ;;
+            1) restore_kde;     _last=1 ;;
+            2) backup_status;   _last=2 ;;
         esac
     done
 }
@@ -1334,13 +1405,13 @@ alias gs='git status'; alias ga='git add'; alias gc='git commit -m'
 alias gp='git push'; alias gl='git log --oneline -10'
 
 extract() {
-    [ -f "$1" ] || { echo "'$1' não é um arquivo"; return 1; }
+    [ -f "$1" ] || { echo "'$1' is not a file"; return 1; }
     case "$1" in
         *.tar.bz2) tar xjf "$1" ;; *.tar.gz) tar xzf "$1" ;; *.bz2) bunzip2 "$1" ;;
         *.rar) unrar x "$1" ;; *.gz) gunzip "$1" ;; *.tar) tar xf "$1" ;;
         *.tbz2) tar xjf "$1" ;; *.tgz) tar xzf "$1" ;; *.zip) unzip "$1" ;;
         *.Z) uncompress "$1" ;; *.7z) 7z x "$1" ;; *.xz) xz -d "$1" ;;
-        *) echo "Não sei extrair '$1'" ;;
+        *) echo "Cannot extract '$1'" ;;
     esac
 }
 mkcd()   { mkdir -p "$1" && cd "$1"; }
@@ -1372,41 +1443,192 @@ _detect_terminals() {
     printf '%s\n' "${found[@]}"
 }
 
-_apply_zsh_to_konsole() {
-    local profile_dir="$REAL_HOME/.local/share/konsole"
-    mkdir -p "$profile_dir"
-    local found_profile=false pf
-    while IFS= read -r pf; do
-        if grep -q "Shell=" "$pf" 2>/dev/null; then
-            sed -i 's|^Shell=.*|Shell=/bin/zsh|' "$pf"
-            found_profile=true
-        fi
-    done < <(find "$profile_dir" -name "*.profile" 2>/dev/null)
-    if ! $found_profile; then
-        cat > "$profile_dir/BugTuxP.profile" << 'EOF'
-[Appearance]
-ColorScheme=Breeze
+_bugtheme_colorscheme_content() {
+    cat << 'EOF'
+[Background]
+Color=30,30,46
+
+[BackgroundFaint]
+Color=17,17,27
+
+[BackgroundIntense]
+Color=24,24,37
+
+[Color0]
+Color=88,91,112
+
+[Color0Faint]
+Color=69,71,90
+
+[Color0Intense]
+Color=108,112,134
+
+[Color1]
+Color=243,139,168
+
+[Color1Faint]
+Color=210,100,130
+
+[Color1Intense]
+Color=255,100,150
+
+[Color2]
+Color=166,227,161
+
+[Color2Faint]
+Color=110,185,110
+
+[Color2Intense]
+Color=180,245,175
+
+[Color3]
+Color=249,226,175
+
+[Color3Faint]
+Color=210,185,130
+
+[Color3Intense]
+Color=250,179,135
+
+[Color4]
+Color=137,180,250
+
+[Color4Faint]
+Color=90,130,210
+
+[Color4Intense]
+Color=180,190,254
+
+[Color5]
+Color=203,166,247
+
+[Color5Faint]
+Color=150,110,210
+
+[Color5Intense]
+Color=215,120,255
+
+[Color6]
+Color=148,226,213
+
+[Color6Faint]
+Color=94,180,170
+
+[Color6Intense]
+Color=165,240,228
+
+[Color7]
+Color=205,214,244
+
+[Color7Faint]
+Color=166,173,200
+
+[Color7Intense]
+Color=255,255,255
+
+[Foreground]
+Color=205,214,244
+
+[ForegroundFaint]
+Color=166,173,200
+
+[ForegroundIntense]
+Color=255,255,255
 
 [General]
-Name=BugTuxP
-Parent=FALLBACK/
+Anchor=0.5,0.5
+Blur=true
+ColorRandomization=false
+Description=BugTerminalTheme
+FillStyle=Tile
+Opacity=0.85
+Wallpaper=
+WallpaperFlipType=NoFlip
+WallpaperOpacity=1
+EOF
+}
+
+_bugprofile_content() {
+    cat << 'EOF'
+[Appearance]
+ColorScheme=BugTheme
+Font=JetBrains Mono,11,-1,5,700,0,0,0,0,0,0,0,0,0,0,1,Bold,0,0
+LineSpacing=2
+
+[Cursor Options]
+CursorShape=1
+CustomCursorColor=203,166,247
+CustomCursorTextColor=17,17,27
+UseCustomCursorColor=true
+
+[General]
 Command=/bin/zsh
+DimWhenInactive=false
+Icon=tux
+Name=bug
+Parent=FALLBACK/
+TerminalCenter=true
+TerminalColumns=120
+TerminalRows=30
+
+[Interaction Options]
+AutoCopySelectedText=true
+MouseWheelZoomEnabled=true
+TrimLeadingWhitespaceInSelectedText=true
+TrimTrailingWhitespaceInSelectedText=true
+
+[Keyboard]
+KeyBindings=linux
+
+[Scrolling]
+HistoryMode=2
+ScrollBarPosition=2
 
 [Terminal Features]
+AnimatingCursorEnabled=true
 BidiRenderingEnabled=false
+BlinkingCursorEnabled=true
+BlinkingTextEnabled=true
+FlowControlEnabled=false
+UrlHintsModifiers=67108864
 EOF
-        local konsole_rc="$REAL_HOME/.config/konsolerc"
-        if [ -f "$konsole_rc" ]; then
-            grep -q "DefaultProfile" "$konsole_rc" \
-                && sed -i 's/^DefaultProfile=.*/DefaultProfile=BugTuxP.profile/' "$konsole_rc" \
-                || printf '\n[Desktop Entry]\nDefaultProfile=BugTuxP.profile\n' >> "$konsole_rc"
-        else
-            printf '[Desktop Entry]\nDefaultProfile=BugTuxP.profile\n' > "$konsole_rc"
-        fi
-        own_back "$profile_dir" "$konsole_rc"
+}
+
+_apply_zsh_to_konsole() {
+    local profile_dir="$REAL_HOME/.local/share/konsole"
+    local color_dir="$REAL_HOME/.local/share/konsole"
+    mkdir -p "$profile_dir"
+
+    # Instala o colorscheme BugTheme (Catppuccin Mocha vivido)
+    local colorscheme_file="$color_dir/BugTheme.colorscheme"
+    if ! content_matches "$colorscheme_file" "$(_bugtheme_colorscheme_content)"; then
+        _bugtheme_colorscheme_content > "$colorscheme_file"
+        ok "Konsole → BugTheme.colorscheme instalado (Catppuccin Mocha)"
+    else
+        skip "Konsole → BugTheme.colorscheme já instalado"
     fi
-    own_back "$profile_dir"
-    ok "Konsole → zsh configurado"
+
+    # Instala o profile bug.profile aprimorado
+    local profile_file="$profile_dir/bug.profile"
+    if ! content_matches "$profile_file" "$(_bugprofile_content)"; then
+        _bugprofile_content > "$profile_file"
+        ok "Konsole → bug.profile instalado (JetBrains Mono 11, cursor Ibeam Mauve)"
+    else
+        skip "Konsole → bug.profile já instalado"
+    fi
+
+    # Define bug.profile como default no konsolerc
+    local konsole_rc="$REAL_HOME/.config/konsolerc"
+    if [ -f "$konsole_rc" ]; then
+        grep -q "DefaultProfile" "$konsole_rc" \
+            && sed -i 's/^DefaultProfile=.*/DefaultProfile=bug.profile/' "$konsole_rc" \
+            || printf '\n[Desktop Entry]\nDefaultProfile=bug.profile\n' >> "$konsole_rc"
+    else
+        printf '[Desktop Entry]\nDefaultProfile=bug.profile\n' > "$konsole_rc"
+    fi
+
+    own_back "$profile_dir" "$konsole_rc"
+    ok "Konsole → bug.profile definido como padrão"
 }
 
 _apply_zsh_to_kitty() {
@@ -1421,7 +1643,7 @@ _apply_zsh_to_kitty() {
         echo "shell /bin/zsh" > "$kitty_conf"
     fi
     own_back "$kitty_conf_dir"
-    ok "Kitty → zsh configurado"
+    ok "Kitty → zsh configured"
 }
 
 _apply_zsh_to_alacritty() {
@@ -1449,15 +1671,15 @@ _apply_zsh_to_alacritty() {
         printf '[shell]\nprogram = "/bin/zsh"\n' > "$alac_toml"
         own_back "$alac_toml"
     fi
-    ok "Alacritty → zsh configurado"
+    ok "Alacritty → zsh configured"
 }
 
 _ensure_zsh_default_shell() {
     local current_shell; current_shell=$(getent passwd "$REAL_USER" | cut -d: -f7)
     if [ "$current_shell" != "/bin/zsh" ]; then
-        chsh -s /bin/zsh "$REAL_USER" 2>/dev/null && ok "Shell padrão → /bin/zsh" || warn "Não foi possível mudar shell padrão — execute: chsh -s /bin/zsh"
+        chsh -s /bin/zsh "$REAL_USER" 2>/dev/null && ok "Default shell → /bin/zsh" || warn "Could not change default shell — run: chsh -s /bin/zsh"
     else
-        skip "Shell padrão já é zsh"
+        skip "Default shell is already zsh"
     fi
 }
 
@@ -1465,11 +1687,11 @@ apply_zsh() {
     header; hdr "Terminal Zsh Customizado"
 
     if ! command -v zsh &>/dev/null; then
-        step "Instalando zsh..."; install_pkgs zsh
+        step "Installing zsh..."; install_pkgs zsh
     fi
 
     if [ ! -d "$REAL_HOME/.oh-my-zsh" ]; then
-        warn "oh-my-zsh não encontrado."
+        warn "oh-my-zsh not found."
         log  "Instale com: sh -c \"\$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\""
         pause; return
     fi
@@ -1477,15 +1699,15 @@ apply_zsh() {
     local zsh_ok=false
     if [ "$(status_zsh)" = "OK" ]; then
         zsh_ok=true
-        skip ".zshrc já está aplicado."
+        skip ".zshrc already applied."
     else
         local conf; conf=$(confirm_dialog "Sobrescrever ~/.zshrc? (backup em .zshrc.bugtuxp.bak)")
-        [[ "$conf" != "0" ]] && { skip "Cancelado"; pause; return; }
-        step "Instalando dependências..."; install_pkgs "${ZSH_DEPS[@]}"
+        [[ "$conf" != "0" ]] && { skip "Cancelled"; pause; return; }
+        step "Installing dependencies..."; install_pkgs "${ZSH_DEPS[@]}"
         [ -f "$ZSHRC_PATH" ] && cp "$ZSHRC_PATH" "$ZSHRC_BACKUP_PATH" && ok "Backup → ~/.zshrc.bugtuxp.bak"
         zshrc_content > "$ZSHRC_PATH"
         own_back "$ZSHRC_PATH" "$ZSHRC_BACKUP_PATH" 2>/dev/null || true
-        ok ".zshrc customizado aplicado"
+        ok ".zshrc custom applied"
         zsh_ok=true
     fi
 
@@ -1496,14 +1718,14 @@ apply_zsh() {
 
     mapfile -t detected < <(_detect_terminals)
     if [ "${#detected[@]}" -eq 0 ]; then
-        warn "Nenhum terminal suportado encontrado (konsole, kitty, alacritty)"
+        warn "No supported terminal found (konsole, kitty, alacritty)"
         _ensure_zsh_default_shell
         pause; return
     fi
 
     local term_labels=()
     for t in "${detected[@]}"; do term_labels+=("$t"); done
-    term_labels+=("Todos os terminais instalados")
+    term_labels+=("All installed terminals")
     term_labels+=("Somente shell padrão (chsh)")
     term_labels+=("Cancelar")
 
@@ -1532,43 +1754,46 @@ apply_zsh() {
     fi
 
     echo
-    ok "Zsh Customizado configurado. Feche e abra o terminal para ativar."
+    ok "Zsh configured. Close and reopen your terminal to activate."
     pause
 }
 
 restore_zsh_backup() {
     [ ! -f "$ZSHRC_BACKUP_PATH" ] && { warn "Sem backup (~/.zshrc.bugtuxp.bak)."; pause; return; }
     local conf; conf=$(confirm_dialog "Restaurar .zshrc do backup?")
-    [[ "$conf" != "0" ]] && { skip "Cancelado"; pause; return; }
+    [[ "$conf" != "0" ]] && { skip "Cancelled"; pause; return; }
     cp "$ZSHRC_BACKUP_PATH" "$ZSHRC_PATH"; own_back "$ZSHRC_PATH"
     ok "~/.zshrc restaurado."; pause
 }
 
 zsh_menu() {
+    local _last=0
     while true; do
+        __MENU_CURSOR=$_last
         local choice
-        choice=$(select_menu "Terminal Zsh Customizado" \
-            "⎚ Ver Status" "Aplicar Configuração Customizada" "Restaurar Backup" "↩ Voltar")
+        choice=$(select_menu ">_ Terminal Zsh Customizado" \
+            "🛈 Ver Status" "🗹 Aplicar Configuração Customizada" "↺ Restaurar Backup" "↩ Voltar")
+        __MENU_CURSOR=0
         case "$choice" in
             "BACK"|3) return ;;
             0)
                 header; hdr "STATUS DO ZSH"
                 printf "  %-26s %s\n" ".zshrc Customizado" "$(tag "$(status_zsh)")"
-                [ -d "$REAL_HOME/.oh-my-zsh" ] && ok "oh-my-zsh instalado" || warn "oh-my-zsh não encontrado"
+                [ -d "$REAL_HOME/.oh-my-zsh" ] && ok "oh-my-zsh installed" || warn "oh-my-zsh not found"
                 [ -f "$ZSHRC_BACKUP_PATH" ] && log "Backup: ~/.zshrc.bugtuxp.bak"
                 echo
                 hdr "TERMINAIS DETECTADOS"
                 mapfile -t _terms < <(_detect_terminals)
                 if [ "${#_terms[@]}" -eq 0 ]; then
-                    warn "Nenhum terminal suportado encontrado"
+                    warn "No supported terminal found"
                 else
-                    for t in "${_terms[@]}"; do ok "$t instalado"; done
+                    for t in "${_terms[@]}"; do ok "$t installed"; done
                 fi
                 local cur_shell; cur_shell=$(getent passwd "$REAL_USER" | cut -d: -f7)
                 printf "  %-26s %s\n" "Shell padrão" "$cur_shell"
-                pause ;;
-            1) apply_zsh ;;
-            2) header; restore_zsh_backup ;;
+                pause; _last=0 ;;
+            1) apply_zsh;             _last=1 ;;
+            2) header; restore_zsh_backup; _last=2 ;;
         esac
     done
 }
@@ -1583,13 +1808,13 @@ webcam_is_disabled() {
     return 1
 }
 
-webcam_status_label() { webcam_is_disabled && echo "DESATIVADA" || echo "ATIVADA"; }
-webcam_status_tag()   { webcam_is_disabled && echo -e "${R}${BLD}[● DESATIVADA]${N}" || echo -e "${G}${BLD}[● ATIVADA   ]${N}"; }
+webcam_status_label() { webcam_is_disabled && echo "● DISABLED" || echo "● ENABLED"; }
+webcam_status_tag()   { webcam_is_disabled && echo -e "${R}${BLD}[● DISABLED]${N}" || echo -e "${G}${BLD}[● ENABLED]${N}"; }
 
 disable_webcam() {
-    webcam_is_disabled && { skip "Webcam já desativada."; pause; return; }
+    webcam_is_disabled && { skip "Webcam already disabled."; pause; return; }
     local conf; conf=$(confirm_dialog "Desativar webcam permanentemente?")
-    [[ "$conf" != "0" ]] && { skip "Cancelado."; pause; return; }
+    [[ "$conf" != "0" ]] && { skip "Cancelled."; pause; return; }
     header; hdr "Desativando Webcam..."
     step "Encerrando processos..."
     local dev pids
@@ -1604,100 +1829,335 @@ disable_webcam() {
         pids=$(fuser "$dev" 2>/dev/null) || true
         [ -n "$pids" ] && kill -KILL $pids 2>/dev/null || true
     done
-    step "Descarregando módulos..."
+    step "Unloading modules..."
     local dep; for dep in "${WC_DEPS[@]}"; do rmmod "$dep" 2>/dev/null || true; done
     step "Aplicando blacklist..."
     { echo "blacklist $WC_MODULE"; echo "install $WC_MODULE /bin/false"; } > "$WC_BLACKLIST_FILE"
     udevadm control --reload-rules 2>/dev/null || true
     udevadm trigger 2>/dev/null || true
-    lsmod | grep -q "^${WC_MODULE} " && warn "Módulo ainda carregado — reinicie." || ok "Webcam desativada."
+    lsmod | grep -q "^${WC_MODULE} " && warn "Module still loaded — reboot required." || ok "Webcam disabled."
     pause
 }
 
 enable_webcam() {
-    ! webcam_is_disabled && { skip "Webcam já ativada."; pause; return; }
+    ! webcam_is_disabled && { skip "Webcam already enabled."; pause; return; }
     local conf; conf=$(confirm_dialog "Ativar webcam?")
-    [[ "$conf" != "0" ]] && { skip "Cancelado."; pause; return; }
+    [[ "$conf" != "0" ]] && { skip "Cancelled."; pause; return; }
     header; hdr "Ativando Webcam..."
     step "Removendo blacklist..."
     rm -f "$WC_BLACKLIST_FILE"
     step "Recarregando udev..."
     udevadm control --reload-rules 2>/dev/null || true
     udevadm trigger 2>/dev/null || true
-    step "Carregando módulo..."
+    step "Loading module..."
     if modprobe "$WC_MODULE" 2>/dev/null; then
-        ok "Webcam ativada."; pause; return
+        ok "Webcam enabled."; pause; return
     fi
     local ko_path
     ko_path=$(find "/lib/modules/$(uname -r)" -name "${WC_MODULE}.ko*" 2>/dev/null | head -n1)
     if [ -n "$ko_path" ] && insmod "$ko_path" 2>/dev/null; then
-        ok "Webcam ativada via insmod."
+        ok "Webcam enabled via insmod."
     else
-        fail "Falha ao carregar módulo. Kernel: $(uname -r)"
-        [ -z "$ko_path" ] && warn "Módulo não encontrado — verifique linux-headers."
+        fail "Failed to load module. Kernel: $(uname -r)"
+        [ -z "$ko_path" ] && warn "Module not found — check linux-headers."
     fi
     pause
 }
 
 webcam_menu() {
+    local _last=0
     while true; do
         local lbl; lbl=$(webcam_status_label)
+        __MENU_CURSOR=$_last
         local choice
-        choice=$(select_menu "Controle de Webcam  [${lbl}]" \
-            "Ativar Webcam" "Desativar Webcam" "↩ Voltar")
+        choice=$(select_menu "🅾 Controle de Webcam  [${lbl}]" \
+            "🗹 Ativar Webcam" "✖ Desativar Webcam" "↩ Voltar")
+        __MENU_CURSOR=0
         case "$choice" in
             "BACK"|2) return ;;
-            0) enable_webcam ;;
-            1) disable_webcam ;;
+            0) enable_webcam;   _last=0 ;;
+            1) disable_webcam;  _last=1 ;;
+        esac
+    done
+}
+
+# ╔══════════════════════════════════════════════════════════════════╗
+# ╚══════════════════════════════════════════════════════════════════╝
+
+_sb_board_vendor() {
+    cat /sys/class/dmi/id/board_vendor 2>/dev/null | tr '[:upper:]' '[:lower:]' | xargs
+}
+
+_sb_board_name() {
+    local v n
+    v=$(cat /sys/class/dmi/id/board_vendor 2>/dev/null | xargs)
+    n=$(cat /sys/class/dmi/id/board_name   2>/dev/null | xargs)
+    echo "${v} ${n}"
+}
+
+_sb_in_setup_mode() {
+    local mode
+    mode=$(cat /sys/firmware/efi/efivars/SetupMode-* 2>/dev/null | xxd 2>/dev/null | tail -1 | awk '{print $NF}')
+    [[ "$mode" == *"01"* ]] && return 0
+    sbctl status 2>/dev/null | grep -qi "setup mode.*enabled\|setup mode.*true\|setup mode:.*yes" && return 0
+    return 1
+}
+
+_sb_keys_created() {
+    sbctl status 2>/dev/null | grep -qi "installed.*true\|signing keys.*created\|keys.*created" && return 0
+    [ -f "/usr/share/secureboot/keys/db/db.key" ] && return 0
+    return 1
+}
+
+_sb_active() {
+    sbctl status 2>/dev/null | grep -qi "secure boot.*enabled\|secure boot:.*yes"
+}
+
+status_secureboot() {
+    command -v sbctl &>/dev/null || { echo NO; return; }
+    if _sb_active; then echo OK; return; fi
+    _sb_keys_created && echo PARTIAL || echo NO
+}
+
+_sb_show_status() {
+    header; hdr "🛈 Secure Boot — Status Detalhado"; sep
+    if ! command -v sbctl &>/dev/null; then
+        warn "sbctl not installed."
+        log  "Use a opção 'Configurar Secure Boot' para instalar."
+        sep; pause; return
+    fi
+    echo
+    sbctl status 2>/dev/null || true
+    echo
+    sep
+    local sv; sv=$(status_secureboot)
+    printf "  %-24s %s\n" "Estado geral" "$(tag "$sv")"
+    printf "  %-24s %s\n" "Placa-mãe" "$(_sb_board_name)"
+    if _sb_keys_created; then
+        ok "Chaves criadas"
+    else
+        warn "Keys NOT created"
+    fi
+    if _sb_in_setup_mode; then
+        warn "Setup Mode ATIVO — BIOS aguarda enrollment"
+    else
+        log "Setup Mode inativo"
+    fi
+    if command -v limine-update &>/dev/null; then
+        ok "Limine detectado"
+    else
+        log "Limine not detected"
+    fi
+    sep; pause
+}
+
+apply_secureboot() {
+    header; hdr "Configurar Secure Boot (sbctl)"
+    echo
+
+    if ! command -v sbctl &>/dev/null; then
+        step "sbctl not found — installing..."
+        install_pkgs sbctl
+        if ! command -v sbctl &>/dev/null; then
+            fail "Falha ao instalar sbctl. Verifique sua conexão e tente:"; log "sudo pacman -S sbctl"
+            pause; return
+        fi
+        ok "sbctl installed successfully"
+    else
+        ok "sbctl already installed  ($(sbctl version 2>/dev/null | head -1 || echo "unknown version"))"
+    fi
+
+    echo
+    hdr "STATUS ATUAL"
+    sbctl status 2>/dev/null || true
+    echo
+
+    if _sb_active; then
+        ok "Secure Boot is already ACTIVE and configured."
+        sep; pause; return
+    fi
+
+    if ! _sb_in_setup_mode; then
+        sep
+        warn "Not in Setup Mode!"
+        log  "Para ativar o Setup Mode, acesse a BIOS/UEFI:"
+        log  "  → Security › Secure Boot › Clear Keys  (ou Reset to Setup Mode)"
+        log  "  → Salve, reinicie e execute este script novamente."
+        sep; pause; return
+    fi
+
+    ok "Setup Mode ativo — pronto para enrollment"
+    echo
+
+    if ! _sb_keys_created; then
+        step "Criando chaves Secure Boot..."
+        if ! sbctl create-keys; then
+            fail "Falha ao criar chaves."; pause; return
+        fi
+        ok "Chaves criadas com sucesso"
+    else
+        skip "Keys already exist — skipping creation"
+    fi
+    echo
+
+    local vendor; vendor=$(_sb_board_vendor)
+    local enroll_args="--microsoft --firmware-builtin"
+    local vendor_note="padrão (Microsoft + firmware builtin)"
+
+    if [[ "$vendor" == *"gigabyte"* ]]; then
+        enroll_args="--microsoft"
+        vendor_note="Gigabyte detectado → apenas --microsoft (sem --firmware-builtin)"
+    elif [[ "$vendor" == *"asus"* || "$vendor" == *"asustek"* ]]; then
+        enroll_args="--microsoft"
+        vendor_note="ASUS detectado → apenas --microsoft (sem --firmware-builtin)"
+    fi
+
+    step "Placa-mãe : $(_sb_board_name)"
+    log  "Modo      : $vendor_note"
+    echo
+
+    local conf; conf=$(confirm_dialog "Gravar chaves na NVRAM UEFI? (sbctl enroll-keys $enroll_args)")
+    [[ "$conf" != "0" ]] && { skip "Enrollment cancelled."; pause; return; }
+
+    step "Gravando chaves na NVRAM..."
+    # shellcheck disable=SC2086
+    if ! sbctl enroll-keys $enroll_args; then
+        fail "Falha ao gravar chaves."
+        log  "Verifique se o Setup Mode está ativo na BIOS."
+        pause; return
+    fi
+    ok "Chaves gravadas na NVRAM com sucesso"
+    echo
+
+    local limine_done=false
+    if command -v limine-enroll-config &>/dev/null || command -v limine-update &>/dev/null; then
+        hdr "Limine Bootloader"
+        if command -v limine-enroll-config &>/dev/null; then
+            step "Registrando configuração do Limine..."
+            limine-enroll-config 2>/dev/null \
+                && ok "limine-enroll-config — OK" \
+                || warn "limine-enroll-config failed — check manually"
+        fi
+        if command -v limine-update &>/dev/null; then
+            step "Atualizando Limine..."
+            limine-update 2>/dev/null \
+                && ok "limine-update — OK" \
+                || warn "limine-update failed — check manually"
+        fi
+        limine_done=true
+        echo
+    else
+        log "Limine not detected — bootloader step skipped"
+        echo
+    fi
+
+    hdr "STATUS FINAL"
+    sbctl status 2>/dev/null || true
+    echo
+    sep
+
+    warn "⚠  REBOOT NECESSÁRIO"
+    log  "Após reiniciar, acesse a BIOS/UEFI e ATIVE o Secure Boot."
+    log  "O sistema irá iniciar com Secure Boot habilitado."
+    $limine_done && log "Limine already updated and signed." || true
+    sep
+    ok "Configuração concluída."
+    pause
+}
+
+secureboot_menu() {
+    local _last=0
+    while true; do
+        local st; st=$(status_secureboot)
+        __MENU_CURSOR=$_last
+        local choice
+        choice=$(select_menu "🛡 Secure Boot — sbctl · Limine  $(tag "$st")" \
+            "🛈 Status Detalhado" \
+            "⚙ Configurar Secure Boot" \
+            "↩ Voltar")
+        __MENU_CURSOR=0
+        case "$choice" in
+            "BACK"|2) return ;;
+            0) _sb_show_status;    _last=0 ;;
+            1) apply_secureboot;   _last=1 ;;
         esac
     done
 }
 
 show_dashboard() {
-    header; hdr "STATUS GERAL DO SISTEMA"; sep
-    printf "  %-22s %s\n" "CPU Governor"    "$(tag "$(status_cpu)")"
-    printf "  %-22s %s\n" "Kernel sysctl"   "$(tag "$(status_sysctl)")"
-    printf "  %-22s %s\n" "SCX Scheduler"   "$(tag "$(status_scx)")"
-    printf "  %-22s %s\n" "IO Scheduler"    "$(tag "$(status_io)")"
-    printf "  %-22s %s\n" "GPU Performance" "$(tag "$(status_gpu)")"
-    printf "  %-24s %s\n" "i915 opções"     "$(tag "$(status_gpu_opts)")"
-    printf "  %-22s %s\n" "THP"             "$(tag "$(status_thp)")"
-    printf "  %-22s %s\n" "System Limits"   "$(tag "$(status_limits)")"
-    printf "  %-22s %s  (%s)\n" "ZRAM" "$(tag "$(status_zram)")" "$(current_zram_size)"
-    printf "  %-22s %s\n" "Swap SSD"        "$(tag "$(status_swap_ssd)")"
-    printf "  %-22s %s\n" "DNS"             "$(tag "$(status_dns)")"
-    printf "  %-23s %s\n" "Backup KDE+Áudio" "$(tag "$(status_backup_tag)")"
-    printf "  %-22s %s\n" "Terminal Zsh"    "$(tag "$(status_zsh)")"
-    printf "  %-22s %s\n" "Webcam"          "$(webcam_status_tag)"
-    sep; hdr "INFOS DO SISTEMA"
-    printf "  %-22s %s\n" "CPU"      "$(cpu_current_info)"
-    printf "  %-22s %s\n" "GPU"      "$(gpu_current_info)"
-    printf "  %-22s %s\n" "ZRAM"     "$(zram_current_stats)"
-    printf "  %-22s %s\n" "THP modo" "$(thp_current)"
-    printf "  %-22s %s\n" "Distro"   "$(_sys_distro)"
-    printf "  %-22s %s\n" "Kernel"   "$(uname -r)"
+    header; hdr "SYSTEM STATUS"; sep
+    local _swap_info _dns_label _zram_sz _swap_tag _dns_tag _zram_tag
+    _zram_sz=$(current_zram_size)
+    _swap_info=$(current_swap_info)
+    _dns_label=$(current_dns_label)
+    _zram_tag=$(tag "$(status_zram)")
+    _swap_tag=$(tag "$(status_swap_ssd)")
+    _dns_tag=$(tag "$(status_dns)")
+    printf "  %-24s %s\n" "CPU Governor"    "$(tag "$(status_cpu)")"
+    printf "  %-24s %s\n" "Kernel sysctl"   "$(tag "$(status_sysctl)")"
+    printf "  %-24s %s\n" "SCX Scheduler"   "$(tag "$(status_scx)")"
+    printf "  %-24s %s\n" "IO Scheduler"    "$(tag "$(status_io)")"
+    printf "  %-24s %s\n" "GPU Performance" "$(tag "$(status_gpu)")"
+    printf "  %-24s %s\n" "i915 Options"    "$(tag "$(status_gpu_opts)")"
+    printf "  %-24s %s\n" "THP"             "$(tag "$(status_thp)")"
+    printf "  %-24s %s\n" "System Limits"   "$(tag "$(status_limits)")"
+    if [ -n "$_zram_sz" ] && [ "$_zram_sz" != "—" ]; then
+        printf "  %-24s %s  (%s)\n" "ZRAM" "$_zram_tag" "$_zram_sz"
+    else
+        printf "  %-24s %s\n" "ZRAM" "$_zram_tag"
+    fi
+    if [ -n "$_swap_info" ]; then
+        printf "  %-24s %s  (%s)\n" "Swap SSD" "$_swap_tag" "$_swap_info"
+    else
+        printf "  %-24s %s\n" "Swap SSD" "$_swap_tag"
+    fi
+    if [ -n "$_dns_label" ]; then
+        printf "  %-24s %s  (%s)\n" "DNS" "$_dns_tag" "$_dns_label"
+    else
+        printf "  %-24s %s\n" "DNS" "$_dns_tag"
+    fi
+    printf "  %-24s %s\n" "KDE+Audio Backup" "$(tag "$(status_backup_tag)")"
+    printf "  %-24s %s\n" "Zsh Terminal"     "$(tag "$(status_zsh)")"
+    printf "  %-24s %s\n" "Secure Boot"      "$(tag "$(status_secureboot)")"
+    printf "  %-24s %s\n" "Webcam"           "$(webcam_status_tag)"
+    sep; hdr "SYSTEM INFO"
+    printf "  %-24s %s\n" "CPU"              "$(cpu_current_info)"
+    printf "  %-24s %s\n" "GPU"              "$(gpu_current_info)"
+    printf "  %-24s %s\n" "ZRAM"             "$(zram_current_stats)"
+    printf "  %-24s %s\n" "THP"              "$(thp_current)"
+    printf "  %-24s %s\n" "Distro"           "$(_sys_distro)"
+    printf "  %-24s %s\n" "Kernel"           "$(uname -r)"
     sep; pause
 }
 
 main_menu() {
+    local _last=0
     while true; do
+        __MENU_CURSOR=$_last
         local choice
-        choice=$(select_menu "🖳  BugTuxP  [$(LANG=C date '+%d/%m/%Y %H:%M')]  👤︎ Usuário: $REAL_USER" \
-            "⎚ Status Geral do Sistema" \
-            "⑆ Performance (CPU/Kernel/IO/GPU/THP/ZRAM/SWAP/DNS)" \
-            "⎘ Backup & Restore KDE + Áudio" \
-            "⌗ Terminal Zsh Customizado" \
-            "◉ Controle de Webcam" \
+        choice=$(select_menu "🛠 BugTuxP • [ ⴵ $(LANG=C date '+%d/%m/%Y %H:%M')] • 🖳  $REAL_USER" \
+            "🛈 System Status" \
+            "🗲 Performance  (CPU · Kernel · IO · GPU · THP · ZRAM · SWAP · DNS)" \
+            "🗐 Backup & Restore  (KDE Plasma + Audio PipeWire)" \
+            ">_ Terminal  (Zsh · Oh-My-Zsh · P10k · Konsole · Kitty · Alacritty)" \
+            "🛡 Secure Boot  (sbctl · Limine)" \
+            "🅾 Webcam  (Ativar / Desativar)" \
             "⏻ Sair")
+        __MENU_CURSOR=0
         case "$choice" in
-            "BACK"|5) clear; exit 0 ;;
-            0) show_dashboard ;;
-            1) performance_menu ;;
-            2) backup_menu ;;
-            3) zsh_menu ;;
-            4) webcam_menu ;;
+            "BACK"|6) clear; exit 0 ;;
+            0) show_dashboard;      _last=0 ;;
+            1) performance_menu;    _last=1 ;;
+            2) backup_menu;         _last=2 ;;
+            3) zsh_menu;            _last=3 ;;
+            4) secureboot_menu;     _last=4 ;;
+            5) webcam_menu;         _last=5 ;;
         esac
     done
 }
+
+printf "  ${DIM}Verificando atualizações do KDE Plasma...${N}"
+_plasma_refresh_check
+printf "\r\033[K"
 
 main_menu
