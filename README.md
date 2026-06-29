@@ -28,7 +28,7 @@ Arch Linux / Windows (Intel/AMD - x64-x86)
 **Dependências:**
 ```bash
 flatpak install flathub com.github.wwmm.easyeffects
-bash, ./, Konsole (Terminal).
+Zsh, Bash, Konsole, kitty, alacritty (Terminal Emulator).
 ```
 ---
 
