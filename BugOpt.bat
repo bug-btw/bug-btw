@@ -50,8 +50,6 @@ if !DNS_ENTRIES! gtr 0 (
     echo [REDE] Cache DNS com !DNS_ENTRIES! entradas. Limpando...
     ipconfig /flushdns >nul 2>&1
     ipconfig /registerdns >nul 2>&1
-    netsh winsock reset >nul 2>&1
-    netsh int ip reset >nul 2>&1
     echo [REDE] Concluido.
 ) else (
     echo [REDE] Cache DNS ja limpo. Ignorando.
@@ -87,12 +85,13 @@ for /f "tokens=4" %%G in ('powercfg /list 2^>nul ^| findstr /i "Brutus OPT"') do
 
 if not defined BRUTUS_GUID (
     echo [POWER] Criando plano Brutus OPT...
+    set "NEW_GUID="
     for /f "tokens=4" %%G in ('powercfg /duplicatescheme !ULT_GUID! 2^>nul') do set "NEW_GUID=%%G"
     if not defined NEW_GUID (
         for /f "tokens=4" %%G in ('powercfg /list 2^>nul ^| findstr /i "Ultimate Performance"') do set "NEW_GUID=%%G"
-        if not defined NEW_GUID (
-            for /f "tokens=4" %%G in ('powercfg /list 2^>nul ^| findstr /i "8c5e7fda"') do set "NEW_GUID=%%G"
-        )
+    )
+    if not defined NEW_GUID (
+        for /f "tokens=4" %%G in ('powercfg /list 2^>nul ^| findstr /i "High performance"') do set "NEW_GUID=%%G"
     )
     if not defined NEW_GUID (
         echo [POWER] Falha: nenhum plano base disponivel.
@@ -118,7 +117,6 @@ for %%A in (ac dc) do (
     powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PROCTHROTTLEMAX 100 >nul 2>&1
     powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PERFBOOSTMODE 2 >nul 2>&1
     powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PERFBOOSTPOL 100 >nul 2>&1
-    powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PROCESSOR CPMINCORES 100 >nul 2>&1
     powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_SLEEP STANDBYIDLE 0 >nul 2>&1
     powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_SLEEP HIBERNATEIDLE 0 >nul 2>&1
     powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_VIDEO VIDEOIDLE 0 >nul 2>&1
@@ -192,8 +190,6 @@ if exist "%temp%\" (
 )
 if !TMP_COUNT! gtr 0 (
     echo [TMP] !TMP_COUNT! itens em Temp usuario. Limpando...
-    takeown /f "%temp%" /r /d y >nul 2>&1
-    icacls "%temp%" /grant "%username%":F /t /q >nul 2>&1
     for /d %%D in ("%temp%\*") do rd /s /q "%%D" >nul 2>&1
     for %%F in ("%temp%\*") do del /f /q "%%F" >nul 2>&1
     echo [TMP] Concluido.
@@ -208,8 +204,6 @@ if exist "C:\Windows\Temp\" (
 )
 if !TMPW_COUNT! gtr 0 (
     echo [TMPW] !TMPW_COUNT! itens em Windows Temp. Limpando...
-    takeown /f "C:\Windows\Temp" /r /d y >nul 2>&1
-    icacls "C:\Windows\Temp" /grant "%username%":F /t /q >nul 2>&1
     for /d %%D in ("C:\Windows\Temp\*") do rd /s /q "%%D" >nul 2>&1
     for %%F in ("C:\Windows\Temp\*") do del /f /q "%%F" >nul 2>&1
     if not exist "C:\Windows\Temp\" mkdir "C:\Windows\Temp" >nul 2>&1
@@ -235,28 +229,23 @@ if !PRE_COUNT! gtr 0 (
 set "CACHE_LIMPO=1"
 for %%D in (
     "%LOCALAPPDATA%\Microsoft\Windows\INetCache"
-    "%LOCALAPPDATA%\Microsoft\Windows\Temporary Internet Files"
     "%LOCALAPPDATA%\Temp"
     "%APPDATA%\Microsoft\Windows\Recent"
-    "%LOCALAPPDATA%\Microsoft\Windows\WebCache"
 ) do (
-    if exist %%D\ (
-        for /f %%F in ('dir /b /a %%D 2^>nul ^| find /c /v ""') do if %%F gtr 0 set "CACHE_LIMPO=0"
+    if exist "%%~D\" (
+        for /f %%F in ('dir /b /a "%%~D" 2^>nul ^| find /c /v ""') do if %%F gtr 0 set "CACHE_LIMPO=0"
     )
 )
 if "!CACHE_LIMPO!"=="0" (
     echo [CACHE] Limpando caches do sistema...
     for %%D in (
         "%LOCALAPPDATA%\Microsoft\Windows\INetCache"
-        "%LOCALAPPDATA%\Microsoft\Windows\Temporary Internet Files"
         "%LOCALAPPDATA%\Temp"
         "%APPDATA%\Microsoft\Windows\Recent"
-        "%LOCALAPPDATA%\Microsoft\Windows\WebCache"
     ) do (
-        if exist %%D\ (
-            takeown /f %%D /r /d y >nul 2>&1
-            icacls %%D /grant "%username%":F /t /q >nul 2>&1
-            rd /s /q %%D >nul 2>&1
+        if exist "%%~D\" (
+            for /d %%X in ("%%~D\*") do rd /s /q "%%X" >nul 2>&1
+            for %%X in ("%%~D\*") do del /f /q "%%X" >nul 2>&1
         )
     )
     echo [CACHE] Concluido.
@@ -282,13 +271,11 @@ if exist "C:\Windows\SoftwareDistribution\Download\" (
 )
 if !WU_COUNT! gtr 0 (
     echo [WU] !WU_COUNT! itens em cache Windows Update. Limpando...
-    net stop wuauserv >nul 2>&1
-    net stop cryptSvc >nul 2>&1
-    net stop bits >nul 2>&1
+    net stop wuauserv /y >nul 2>&1
+    net stop bits /y >nul 2>&1
     rd /s /q "C:\Windows\SoftwareDistribution\Download" >nul 2>&1
     mkdir "C:\Windows\SoftwareDistribution\Download" >nul 2>&1
     net start bits >nul 2>&1
-    net start cryptSvc >nul 2>&1
     net start wuauserv >nul 2>&1
     echo [WU] Concluido.
 ) else (
@@ -300,7 +287,7 @@ set "SSD_COUNT=0"
 for /f %%T in ('PowerShell -NoProfile -Command "try{@(Get-PhysicalDisk|Where-Object{$_.MediaType -eq 'SSD'}).Count}catch{0}"') do set "SSD_COUNT=%%T"
 if !SSD_COUNT! gtr 0 (
     echo [TRIM] !SSD_COUNT! SSD(s) detectado(s). Executando TRIM...
-    PowerShell -NoProfile -Command "Get-PhysicalDisk|Where-Object{$_.MediaType -eq 'SSD'}|ForEach-Object{$n=[int]($_.DeviceId -replace '\D','');Get-Partition -DiskNumber $n -ErrorAction SilentlyContinue|Where-Object{$_.DriveLetter}|ForEach-Object{Optimize-Volume -DriveLetter $_.DriveLetter -ReTrim -ErrorAction SilentlyContinue}}" >nul 2>&1
+    PowerShell -NoProfile -Command "try{Get-PhysicalDisk|Where-Object{$_.MediaType -eq 'SSD'}|ForEach-Object{$n=$_.DeviceId;Get-Partition -DiskNumber $n -ErrorAction SilentlyContinue|Where-Object{$_.DriveLetter}|ForEach-Object{Optimize-Volume -DriveLetter $_.DriveLetter -ReTrim -ErrorAction SilentlyContinue}}}catch{}" >nul 2>&1
     echo [TRIM] Concluido.
 ) else (
     echo [TRIM] Nenhum SSD detectado. Ignorando.
@@ -308,9 +295,9 @@ if !SSD_COUNT! gtr 0 (
 
 :: ─── SERVICOS DESNECESSARIOS ──────────────────────────────────────────────────
 set "SVC_CHANGED=0"
-for %%S in (DiagTrack WMPNetworkSvc XblAuthManager XblGameSave XboxNetApiSvc lfsvc MapsBroker RetailDemo TabletInputService WerSvc) do (
+for %%S in (DiagTrack WMPNetworkSvc XblAuthManager XblGameSave XboxNetApiSvc lfsvc MapsBroker RetailDemo WerSvc) do (
     set "SVC_TYPE=NotFound"
-    for /f %%T in ('PowerShell -NoProfile -Command "try{(Get-Service -Name ''%%S'' -ErrorAction Stop).StartType}catch{'NotFound'}"') do set "SVC_TYPE=%%T"
+    for /f %%T in ('PowerShell -NoProfile -Command "try{(Get-Service -Name '%%S' -ErrorAction Stop).StartType}catch{'NotFound'}"') do set "SVC_TYPE=%%T"
     if /i "!SVC_TYPE!" neq "Disabled" if /i "!SVC_TYPE!" neq "NotFound" (
         PowerShell -NoProfile -Command "try{Stop-Service -Name '%%S' -Force -ErrorAction SilentlyContinue;Set-Service -Name '%%S' -StartupType Disabled -ErrorAction SilentlyContinue}catch{}" >nul 2>&1
         set "SVC_CHANGED=1"
@@ -367,7 +354,7 @@ if !RAM_GB! geq 16 (
     for /f %%P in ('PowerShell -NoProfile -Command "try{$p=Get-WmiObject Win32_PageFileSetting;if($p){$p.InitialSize}else{-1}}catch{-1}"') do set "PF_INIT=%%P"
     if /i "!AUTO_PF!"=="True" (
         echo [PAGE] RAM !RAM_GB!GB - Desativando paginacao automatica e fixando tamanho...
-        PowerShell -NoProfile -Command "$cs=Get-WmiObject Win32_ComputerSystem -EnableAllPrivileges;$cs.AutomaticManagedPagefile=$false;$cs.Put()|Out-Null;$pf=Get-WmiObject Win32_PageFileSetting;if($pf){$pf.InitialSize=2048;$pf.MaximumSize=4096;$pf.Put()|Out-Null}" >nul 2>&1
+        PowerShell -NoProfile -Command "$cs=Get-WmiObject Win32_ComputerSystem -EnableAllPrivileges;$cs.AutomaticManagedPagefile=$false;$cs.Put()|Out-Null;$pf=Get-WmiObject Win32_PageFileSetting;if($pf){$pf.InitialSize=2048;$pf.MaximumSize=4096;$pf.Put()|Out-Null}else{Set-WmiInstance -Class Win32_PageFileSetting -Arguments @{Name='C:\pagefile.sys';InitialSize=2048;MaximumSize=4096}|Out-Null}" >nul 2>&1
         echo [PAGE] Concluido.
     ) else if "!PF_INIT!" neq "2048" (
         echo [PAGE] RAM !RAM_GB!GB - Ajustando tamanho de paginacao...
