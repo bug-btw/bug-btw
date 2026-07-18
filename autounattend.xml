@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
-	<!--https://schneegans.de/windows/unattend-generator/?LanguageMode=Unattended&UILanguage=en-US&Locale=pt-BR&Keyboard=00000416&GeoLocation=32&PEMode=Generated&Disable8Dot3Names=true&DisableDefender=true&SkipIntegrityCheck=true&InstallFromMode=Automatic&PartitionMode=Unattended&TargetDisk=0&SystemSize=300&PartitionLayout=GPT&RecoveryMode=None&DiskAssertionMode=Skip&WindowsEditionMode=Generic&WindowsEdition=home&ProcessorArchitecture=amd64&BypassRequirementsCheck=true&BypassNetworkCheck=true&HidePowerShellWindows=true&ComputerNameMode=Custom&ComputerName=bugbtw&TimeZoneMode=Explicit&TimeZone=E.+South+America+Standard+Time&UserAccountMode=Unattended&AccountName0=bug&AccountDisplayName0=&AccountPassword0=2211&AccountGroup0=Administrators&AutoLogonMode=Own&PasswordExpirationMode=Unlimited&LockoutMode=Default&HideFiles=None&ShowFileExtensions=true&ClassicContextMenu=true&LaunchToThisPC=true&TaskbarSearch=Hide&TaskbarIconsMode=Custom&TaskbarIconsXml=%3CLayoutModificationTemplate+xmlns%3D%22http%3A%2F%2Fschemas.microsoft.com%2FStart%2F2014%2FLayoutModification%22+xmlns%3Adefaultlayout%3D%22http%3A%2F%2Fschemas.microsoft.com%2FStart%2F2014%2FFullDefaultLayout%22+xmlns%3Astart%3D%22http%3A%2F%2Fschemas.microsoft.com%2FStart%2F2014%2FStartLayout%22+xmlns%3Ataskbar%3D%22http%3A%2F%2Fschemas.microsoft.com%2FStart%2F2014%2FTaskbarLayout%22+Version%3D%221%22%3E%0D%0A++%3CCustomTaskbarLayoutCollection+PinListPlacement%3D%22Replace%22%3E%0D%0A++++%3Cdefaultlayout%3ATaskbarLayout%3E%0D%0A++++++%3Ctaskbar%3ATaskbarPinList%3E%0D%0A++++++++%3Ctaskbar%3ADesktopApp+DesktopApplicationID%3D%22Microsoft.Windows.Explorer%22+%2F%3E%0D%0A++++++++%3Ctaskbar%3AUWA+AppUserModelID%3D%22windows.immersivecontrolpanel_cw5n1h2txyewy%21microsoft.windows.immersivecontrolpanel%22+%2F%3E%0D%0A++++++%3C%2Ftaskbar%3ATaskbarPinList%3E%0D%0A++++%3C%2Fdefaultlayout%3ATaskbarLayout%3E%0D%0A++%3C%2FCustomTaskbarLayoutCollection%3E%0D%0A%3C%2FLayoutModificationTemplate%3E&DisableWidgets=true&HideTaskViewButton=true&DisableBingResults=true&StartTilesMode=Empty&StartPinsMode=Empty&DisableSmartScreen=true&DisableFastStartup=true&DisableSystemRestore=true&EnableLongPaths=true&HardenSystemDriveAcl=true&DeleteJunctions=true&DisableLastAccess=true&PreventAutomaticReboot=true&DisableAppSuggestions=true&PreventDeviceEncryption=true&HideEdgeFre=true&DisableEdgeStartupBoost=true&MakeEdgeUninstallable=true&DisablePointerPrecision=true&CoreIsolationMode=Disabled&DeleteWindowsOld=true&DisableAutomaticRestartSignOn=true&EffectsMode=Custom&ThumbnailsOrIcon=true&FontSmoothing=true&DeleteEdgeDesktopIcon=true&DesktopIconsMode=Custom&IconRecycleBin=true&StartFoldersMode=Custom&StartFolderSettings=true&WifiMode=Skip&ExpressSettings=DisableAll&LockKeysMode=Skip&StickyKeysMode=Disabled&ColorMode=Custom&SystemColorTheme=Dark&AppsColorTheme=Dark&AccentColor=%230078d4&WallpaperMode=Solid&WallpaperColor=%23000000&LockScreenMode=Default&Remove3DViewer=true&RemoveBingSearch=true&RemoveCamera=true&RemoveClipchamp=true&RemoveClock=true&RemoveCopilot=true&RemoveCortana=true&RemoveDevHome=true&RemoveWindowsHello=true&RemoveFamily=true&RemoveFeedbackHub=true&RemoveGameAssist=true&RemoveGetHelp=true&RemoveHandwriting=true&RemoveInternetExplorer=true&RemoveMailCalendar=true&RemoveMaps=true&RemoveMathInputPanel=true&RemoveMediaFeatures=true&RemoveMixedReality=true&RemoveZuneVideo=true&RemoveNews=true&RemoveNotepad=true&RemoveOffice365=true&RemoveOneDrive=true&RemoveOneNote=true&RemoveOneSync=true&RemoveOpenSSHClient=true&RemoveOutlook=true&RemovePaint=true&RemovePaint3D=true&RemovePeople=true&RemovePowerAutomate=true&RemovePowerShell2=true&RemovePowerShellISE=true&RemoveQuickAssist=true&RemoveRecall=true&RemoveRdpClient=true&RemoveSkype=true&RemoveSnippingTool=true&RemoveSolitaire=true&RemoveSpeech=true&RemoveStepsRecorder=true&RemoveStickyNotes=true&RemoveTeams=true&RemoveGetStarted=true&RemoveToDo=true&RemoveVoiceRecorder=true&RemoveWallet=true&RemoveWeather=true&RemoveFaxAndScan=true&RemoveWindowsMediaPlayer=true&RemoveZuneMusic=true&RemoveWordPad=true&RemoveXboxApps=true&RemoveYourPhone=true&FirstLogonScript0=%40echo+off%0D%0Afor+%25%25S+in+%28DiagTrack+dmwappushservice+diagnosticshub.standardcollector.service+WerSvc+wercplsupport+PcaSvc+DPS+WdiServiceHost+WdiSystemHost+TrkWks+SysMain+lfsvc+MapsBroker+NetTcpPortSharing+RemoteRegistry+XblAuthManager+XblGameSave+XboxNetApiSvc+XboxGipSvc+wisvc+WMPNetworkSvc+icssvc+RetailDemo+OneSyncSvc+MessagingService+CDPUserSvc+cbdhsvc+PushToInstall+WpnService+WpnUserService%29+do+%28%0D%0Anet+stop+%25%25S+%3Enul+2%3E%261%0D%0Asc+config+%25%25S+start%3D+disabled+%3Enul+2%3E%261%0D%0A%29%0D%0Afor+%25%25T+in+%28%22%5CMicrosoft%5CWindows%5CApplication+Experience%5CMicrosoft+Compatibility+Appraiser%22+%22%5CMicrosoft%5CWindows%5CApplication+Experience%5CProgramDataUpdater%22+%22%5CMicrosoft%5CWindows%5CApplication+Experience%5CStartupAppTask%22+%22%5CMicrosoft%5CWindows%5CApplication+Experience%5CPcaPatchDbTask%22+%22%5CMicrosoft%5CWindows%5CAutochk%5CProxy%22+%22%5CMicrosoft%5CWindows%5CCustomer+Experience+Improvement+Program%5CConsolidator%22+%22%5CMicrosoft%5CWindows%5CCustomer+Experience+Improvement+Program%5CKernelCeipTask%22+%22%5CMicrosoft%5CWindows%5CCustomer+Experience+Improvement+Program%5CUsbCeip%22+%22%5CMicrosoft%5CWindows%5CDiskDiagnostic%5CMicrosoft-Windows-DiskDiagnosticDataCollector%22+%22%5CMicrosoft%5CWindows%5CFeedback%5CSiuf%5CDmClient%22+%22%5CMicrosoft%5CWindows%5CFeedback%5CSiuf%5CDmClientOnScenarioDownload%22+%22%5CMicrosoft%5CWindows%5CPI%5CSqm-Tasks%22+%22%5CMicrosoft%5CWindows%5CNetTrace%5CGatherNetworkInfo%22+%22%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%5CQueueReporting%22+%22%5CMicrosoft%5CWindows%5CWindowsUpdate%5CAutomatic+App+Update%22+%22%5CMicrosoft%5CWindows%5CDevice+Information%5CDevice%22+%22%5CMicrosoft%5CWindows%5CDevice+Information%5CDevice+User%22+%22%5CMicrosoft%5CWindows%5CMaps%5CMapsToastTask%22+%22%5CMicrosoft%5CWindows%5CMaps%5CMapsUpdateTask%22+%22%5CMicrosoft%5CWindows%5CSpeech%5CSpeechModelDownloadTask%22+%22%5CMicrosoft%5CWindows%5CCloudExperienceHost%5CCreateObjectTask%22+%22%5CMicrosoft%5CWindows%5CLicense+Manager%5CTempSignedLicenseExchange%22+%22%5CMicrosoft%5CWindows%5CClip%5CLicense+Validation%22+%22%5CMicrosoft%5CWindows%5CPower+Efficiency+Diagnostics%5CAnalyzeSystem%22+%22%5CMicrosoft%5CWindows%5CMaintenance%5CWinSAT%22+%22%5CMicrosoft%5CWindows%5CSetup%5CSetupCleanupTask%22+%22%5CMicrosoft%5CWindows%5CRetailDemo%5CCleanupOfflineContent%22+%22%5CMicrosoft%5CWindows%5CDefrag%5CScheduledDefrag%22+%22%5CMicrosoft%5CWindows%5CWdi%5CResolutionHost%22%29+do+schtasks+%2Fchange+%2Ftn+%25%25T+%2Fdisable+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CDataCollection%22+%2Fv+AllowTelemetry+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CDataCollection%22+%2Fv+MaxTelemetryAllowed+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+AllowTelemetry+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+LimitDiagnosticLogCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+DisableOneSettingsDownloads+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+DoNotShowFeedbackNotifications+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppCompat%22+%2Fv+DisableInventory+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppCompat%22+%2Fv+DisablePCA+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppCompat%22+%2Fv+DisableUAR+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppCompat%22+%2Fv+AITEnable+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CSQMClient%5CWindows%22+%2Fv+CEIPEnable+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CTabletPC%22+%2Fv+PreventHandwritingDataSharing+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CHandwritingErrorReports%22+%2Fv+PreventHandwritingErrorReports+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CLocationAndSensors%22+%2Fv+DisableLocation+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CLocationAndSensors%22+%2Fv+DisableLocationScripting+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CLocationAndSensors%22+%2Fv+DisableSensors+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CLocationAndSensors%22+%2Fv+DisableWindowsLocationProvider+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAdvertisingInfo%22+%2Fv+DisabledByGroupPolicy+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CAdvertisingInfo%22+%2Fv+Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent%22+%2Fv+DisableWindowsConsumerFeatures+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent%22+%2Fv+DisableSoftLanding+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent%22+%2Fv+DisableCloudOptimizedContent+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent%22+%2Fv+DisableConsumerAccountStateContent+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+AllowCortana+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+AllowCortanaAboveLock+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+AllowSearchToUseLocation+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+DisableWebSearch+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+ConnectedSearchUseWeb+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CInputPersonalization%22+%2Fv+AllowInputPersonalization+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CInputPersonalization%22+%2Fv+RestrictImplicitInkCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CInputPersonalization%22+%2Fv+RestrictImplicitTextCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CSystem%22+%2Fv+PublishUserActivities+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CSystem%22+%2Fv+UploadUserActivities+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CSystem%22+%2Fv+EnableActivityFeed+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDeliveryOptimization%22+%2Fv+DODownloadMode+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWMDRM%22+%2Fv+DisableOnline+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CSoftware+Protection+Platform%22+%2Fv+NoGenTicket+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CMRT%22+%2Fv+DontReportInfectionInformation+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSYSTEM%5CCurrentControlSet%5CControl%5CWMI%5CAutologger%5CAutoLogger-Diagtrack-Listener%22+%2Fv+Start+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSYSTEM%5CCurrentControlSet%5CControl%5CWMI%5CAutologger%5CSQMLogger%22+%2Fv+Start+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CGameDVR%22+%2Fv+AllowGameDVR+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CAdvertisingInfo%22+%2Fv+Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CInputPersonalization%22+%2Fv+RestrictImplicitInkCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CInputPersonalization%22+%2Fv+RestrictImplicitTextCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CPersonalization%5CSettings%22+%2Fv+AcceptedPrivacyPolicy+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPrivacy%22+%2Fv+TailoredExperiencesWithDiagnosticDataEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CSpeech_OneCore%5CSettings%5COnlineSpeechPrivacy%22+%2Fv+HasAccepted+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CDiagnostics%5CDiagTrack%22+%2Fv+ShowedToastAtLevel+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CSiuf%5CRules%22+%2Fv+NumberOfSIUFInPeriod+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CSiuf%5CRules%22+%2Fv+PeriodInNanoSeconds+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced%22+%2Fv+Start_TrackProgs+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced%22+%2Fv+Start_TrackEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+ContentDeliveryAllowed+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+OemPreInstalledAppsEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+PreInstalledAppsEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+PreInstalledAppsEverEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SilentInstalledAppsEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SoftLandingEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContentEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-310093Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-314559Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-338387Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-338388Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-338389Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-338393Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-353694Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-353696Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SystemPaneSuggestionsEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CGameBar%22+%2Fv+AllowAutoGameMode+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CGameBar%22+%2Fv+AutoGameModeEnabled+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSystem%5CGameConfigStore%22+%2Fv+GameDVR_Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Aicacls+%22%25ProgramData%25%5CMicrosoft%5CDiagnosis%5CETLLogs%5CAutoLogger%22+%2Fdeny+%22SYSTEM%3A%28OI%29%28CI%29F%22+%3Enul+2%3E%261%0D%0Afor+%25%25H+in+%28vortex.data.microsoft.com+vortex-win.data.microsoft.com+telecommand.telemetry.microsoft.com+telecommand.telemetry.microsoft.com.nsatc.net+oca.telemetry.microsoft.com+oca.telemetry.microsoft.com.nsatc.net+sqm.telemetry.microsoft.com+sqm.telemetry.microsoft.com.nsatc.net+watson.telemetry.microsoft.com+watson.telemetry.microsoft.com.nsatc.net+watson.microsoft.com+settings-sandbox.data.microsoft.com+sls.update.microsoft.com.akadns.net+fe2.update.microsoft.com.akadns.net+diagnostics.support.microsoft.com+corp.sts.microsoft.com+statsfe1.ws.microsoft.com+pre.footprintpredict.com+i1.services.social.microsoft.com+i1.services.social.microsoft.com.nsatc.net+feedback.windows.com+feedback.microsoft-hohm.com+feedback.search.microsoft.com%29+do+%28%0D%0Afindstr+%2Fc%3A%22%25%25H%22+%22%25SystemRoot%25%5CSystem32%5Cdrivers%5Cetc%5Chosts%22+%3Enul+2%3E%261+%7C%7C+echo+0.0.0.0+%25%25H%3E%3E+%22%25SystemRoot%25%5CSystem32%5Cdrivers%5Cetc%5Chosts%22%0D%0A%29%0D%0Aexit+%2Fb+0&FirstLogonScriptType0=Cmd&FirstLogonScript1=Windows+Registry+Editor+Version+5.00%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CControl%5D%0D%0A%22SvcHostSplitThresholdInKB%22%3Ddword%3A04000000%0D%0A%22WaitToKillServiceTimeout%22%3D%221000%22%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5D%0D%0A%22StartupDelayInMSec%22%3Ddword%3A00000000%0D%0A%0D%0A%5BHKEY_CURRENT_USER%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CSerialize%5D%0D%0A%22StartupDelayInMSec%22%3Ddword%3A00000000%0D%0A%0D%0A%5BHKEY_CURRENT_USER%5CControl+Panel%5CDesktop%5D%0D%0A%22AutoEndTasks%22%3D%221%22%0D%0A%22HungAppTimeout%22%3D%221000%22%0D%0A%22WaitToKillAppTimeout%22%3D%222000%22%0D%0A%22LowLevelHooksTimeout%22%3D%221000%22%0D%0A%22MenuShowDelay%22%3D%220%22%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CMultimedia%5CSystemProfile%5D%0D%0A%22SystemResponsiveness%22%3Ddword%3A00000000%0D%0A%22NetworkThrottlingIndex%22%3Ddword%3Affffffff%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CMultimedia%5CSystemProfile%5CTasks%5CGames%5D%0D%0A%22GPU+Priority%22%3Ddword%3A00000008%0D%0A%22Priority%22%3Ddword%3A00000006%0D%0A%22Scheduling+Category%22%3D%22High%22%0D%0A%22SFIO+Priority%22%3D%22High%22%0D%0A%22Affinity%22%3Ddword%3A00000000%0D%0A%22Background+Only%22%3D%22False%22%0D%0A%22Clock+Rate%22%3Ddword%3A00002710%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CSystem%5D%0D%0A%22EnableLUA%22%3Ddword%3A00000001%0D%0A%22DisableAutomaticRestartSignOn%22%3Ddword%3A00000001%0D%0A%0D%0A%5BHKEY_CURRENT_USER%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CBackgroundAccessApplications%5D%0D%0A%22GlobalUserDisabled%22%3Ddword%3A00000001%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppPrivacy%5D%0D%0A%22LetAppsRunInBackground%22%3Ddword%3A00000002%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CControl%5CSession+Manager%5CMemory+Management%5D%0D%0A%22ClearPageFileAtShutdown%22%3Ddword%3A00000000%0D%0A%22DisablePagingExecutive%22%3Ddword%3A00000001%0D%0A%22LargeSystemCache%22%3Ddword%3A00000000%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CControl%5CPriorityControl%5D%0D%0A%22Win32PrioritySeparation%22%3Ddword%3A00000026%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CSchedule%5CMaintenance%5D%0D%0A%22MaintenanceDisabled%22%3Ddword%3A00000001%0D%0A%0D%0A%5BHKEY_CURRENT_USER%5CControl+Panel%5CMouse%5D%0D%0A%22MouseSpeed%22%3D%220%22%0D%0A%22MouseThreshold1%22%3D%220%22%0D%0A%22MouseThreshold2%22%3D%220%22%0D%0A%22MouseHoverTime%22%3D%220%22%0D%0A%22DoubleClickSpeed%22%3D%22200%22%0D%0A%22MouseSensitivity%22%3D%2210%22%0D%0A%0D%0A%5BHKEY_CURRENT_USER%5CControl+Panel%5CKeyboard%5D%0D%0A%22KeyboardDelay%22%3D%220%22%0D%0A%22KeyboardSpeed%22%3D%2231%22%0D%0A%22InitialKeyboardIndicators%22%3D%220%22%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CServices%5Cmouclass%5CParameters%5D%0D%0A%22MouseDataQueueSize%22%3Ddword%3A00000064%0D%0A%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CServices%5Ckbdclass%5CParameters%5D%0D%0A%22KeyboardDataQueueSize%22%3Ddword%3A00000064%0D%0A&FirstLogonScriptType1=Reg&FirstLogonScript2=%40echo+off%0D%0Aset+param%3D-new_theme+-block_update_on+-confirm_spoti_recomended_over%0D%0Aset+url%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FSpotX-Official%2FSpotX%2Frefs%2Fheads%2Fmain%2Frun.ps1%0D%0Aset+url2%3Dhttps%3A%2F%2Fspotx-official.github.io%2FSpotX%2Frun.ps1%0D%0Aset+tls%3D%5BNet.ServicePointManager%5D%3A%3ASecurityProtocol+%3D+%5BNet.ServicePointManager%5D%3A%3ASecurityProtocol+-bor+%5BNet.SecurityProtocolType%5D%3A%3ATls12%3B%0D%0Aset+waitcount%3D0%0D%0A%3Awaitnet%0D%0Aping+-n+1+-w+1000+8.8.8.8+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++set+%2Fa+waitcount%2B%3D1%0D%0A++++if+%21waitcount%21+geq+20+exit+%2Fb+1%0D%0A++++timeout+%2Ft+5+%2Fnobreak+%3Enul%0D%0A++++goto+waitnet%0D%0A%29%0D%0A%25SYSTEMROOT%25%5CSystem32%5CWindowsPowerShell%5Cv1.0%5Cpowershell.exe+-NoProfile+-ExecutionPolicy+Bypass+-Command+%5E%0D%0A++++%22%25tls%25+%24t+%3D+%5BIO.Path%5D%3A%3AGetTempFileName%28%29+%2B+%27.ps1%27%3B+try+%7B+%28iwr+-useb+%27%25url%25%27%29.Content+%7C+Set-Content+%24t+%7D+catch+%7B+%28iwr+-useb+%27%25url2%25%27%29.Content+%7C+Set-Content+%24t+%7D%3B+%26+%24t+%25param%25%3B+Remove-Item+%24t+-Force%22%0D%0Aexit+%2Fb+0&FirstLogonScriptType2=Cmd&FirstLogonScript3=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0Aset+waitcount%3D0%0D%0A%3Awaitnet%0D%0Aping+-n+1+-w+1000+8.8.8.8+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++set+%2Fa+waitcount%2B%3D1%0D%0A++++if+%21waitcount%21+geq+20+goto+applyoffline%0D%0A++++timeout+%2Ft+5+%2Fnobreak+%3Enul%0D%0A++++goto+waitnet%0D%0A%29%0D%0A%3Aapplyoffline%0D%0Afor+%2Ff+%22skip%3D3+tokens%3D1%2C2%2C3*%22+%25%25A+in+%28%27netsh+interface+show+interface%27%29+do+%28%0D%0A++++if+%2Fi+%22%25%25A%22%3D%3D%22Enabled%22+if+%2Fi+%22%25%25B%22%3D%3D%22Connected%22+call+%3AS+%22%25%25D%22%0D%0A%29%0D%0Aipconfig+%2Fflushdns+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0%0D%0A%0D%0A%3AS%0D%0Anetsh+interface+ipv4+set+dnsservers+name%3D%251+source%3Dstatic+address%3D94.140.14.14+validate%3Dno+%3Enul+2%3E%261%0D%0Anetsh+interface+ipv4+add+dnsservers+name%3D%251+address%3D94.140.15.15+index%3D2+validate%3Dno+%3Enul+2%3E%261%0D%0Anetsh+interface+ipv6+set+dnsservers+name%3D%251+source%3Dstatic+address%3D2a10%3A50c0%3A%3Aad1%3Aff+validate%3Dno+%3Enul+2%3E%261%0D%0Anetsh+interface+ipv6+add+dnsservers+name%3D%251+address%3D2a10%3A50c0%3A%3Aad2%3Aff+index%3D2+validate%3Dno+%3Enul+2%3E%261%0D%0Agoto+%3Aeof&FirstLogonScriptType3=Cmd&FirstLogonScript4=%40echo+off%0D%0Ataskkill+%2Ff+%2Fim+msedge.exe+%3Enul+2%3E%261%0D%0Ataskkill+%2Ff+%2Fim+MicrosoftEdgeUpdate.exe+%3Enul+2%3E%261%0D%0Aset+%22edgedir%3D%22%0D%0Aif+exist+%22%25ProgramFiles%28x86%29%25%5CMicrosoft%5CEdge%5CApplication%22+set+%22edgedir%3D%25ProgramFiles%28x86%29%25%5CMicrosoft%5CEdge%5CApplication%22%0D%0Aif+exist+%22%25ProgramFiles%25%5CMicrosoft%5CEdge%5CApplication%22+set+%22edgedir%3D%25ProgramFiles%25%5CMicrosoft%5CEdge%5CApplication%22%0D%0Aif+defined+edgedir+%28%0D%0A++++for+%2Ff+%22delims%3D%22+%25%25v+in+%28%27dir+%22%25edgedir%25%22+%2Fb+%2Fad+2%5E%3Enul+%5E%7C+findstr+%2Fr+%22%5E%5B0-9%5D%22%27%29+do+%28%0D%0A++++++++if+exist+%22%25edgedir%25%5C%25%25v%5CInstaller%5Csetup.exe%22+%22%25edgedir%25%5C%25%25v%5CInstaller%5Csetup.exe%22+%2D%2Duninstall+%2D%2Dsystem-level+%2D%2Dverbose-logging+%2D%2Dforce-uninstall+%3Enul+2%3E%261%0D%0A++++%29%0D%0A%29%0D%0Areg+delete+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CApp+Paths%5Cmsedge.exe%22+%2Ff+%3Enul+2%3E%261%0D%0Areg+delete+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CApp+Paths%5Cmsedge.exe%22+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CEdgeUpdate%22+%2Fv+%22InstallDefault%22+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CEdge%22+%2Fv+%22HideFirstRunExperience%22+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Apowershell+-NoProfile+-Command+%22Get-AppxPackage+-AllUsers+*MicrosoftEdge*+%7C+Where-Object+%7B%24_.Name+-notmatch+%27WebView%27%7D+%7C+Remove-AppxPackage+-AllUsers+-ErrorAction+SilentlyContinue%22+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0&FirstLogonScriptType4=Cmd&FirstLogonScript5=%40echo+off%0D%0Apowershell+-NoProfile+-Command+%22%24ErrorActionPreference%3D%27SilentlyContinue%27%3B+foreach+%28%24regpath+in+%40%28%27HKCU%3A%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CRun%27%2C%27HKLM%3A%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CRun%27%2C%27HKLM%3A%5CSOFTWARE%5CWOW6432Node%5CMicrosoft%5CWindows%5CCurrentVersion%5CRun%27%29%29+%7B+if+%28Test-Path+%24regpath%29+%7B+%24props+%3D+%28Get-Item+%24regpath%29.Property%3B+foreach+%28%24name+in+%24props%29+%7B+if+%28%24name+-ne+%27SecurityHealth%27%29+%7B+Remove-ItemProperty+-Path+%24regpath+-Name+%24name+-Force+%7D+%7D+%7D+%7D%22+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0&FirstLogonScriptType5=Cmd&FirstLogonScript6=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0Areg+query+%22HKLM%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUninstall%5CBraveSoftware+Brave-Browser%22+%3Enul+2%3E%261+%26%26+exit+%2Fb+0%0D%0Areg+query+%22HKCU%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUninstall%5CBraveSoftware+Brave-Browser%22+%3Enul+2%3E%261+%26%26+exit+%2Fb+0%0D%0Aset+waitcount%3D0%0D%0A%3Awaitnet%0D%0Acurl+-s+-I+https%3A%2F%2F1.1.1.1+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++set+%2Fa+waitcount%2B%3D1%0D%0A++++if+%21waitcount%21+geq+20+exit+%2Fb+1%0D%0A++++timeout+%2Ft+3+%2Fnobreak+%3Enul%0D%0A++++goto+waitnet%0D%0A%29%0D%0Acurl+-L+-o+%22%25TEMP%25%5CBraveSetup.exe%22+%22https%3A%2F%2Freferrals.brave.com%2Flatest%2FBraveBrowserSetup-BRV010.exe%22+%2D%2Dsilent%0D%0Aif+exist+%22%25TEMP%25%5CBraveSetup.exe%22+%28%0D%0A++++start+%2Fwait+%22%22+%22%25TEMP%25%5CBraveSetup.exe%22+%2D%2Dsilent+%2D%2Dinstall%0D%0A++++del+%2Ff+%2Fq+%22%25TEMP%25%5CBraveSetup.exe%22%0D%0A%29%0D%0Aexit+%2Fb+0&FirstLogonScriptType6=Cmd&FirstLogonScript7=%40echo+off%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CPsched%22+%2Fv+NonBestEffortLimit+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0&FirstLogonScriptType7=Cmd&FirstLogonScript8=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0Areg+add+%22HKLM%5CSYSTEM%5CCurrentControlSet%5CControl%5CPower%5CPowerThrottling%22+%2Fv+%22PowerThrottlingOff%22+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSYSTEM%5CCurrentControlSet%5CServices%5Cintelppm%22+%2Fv+%22Start%22+%2Ft+REG_DWORD+%2Fd+3+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSYSTEM%5CCurrentControlSet%5CControl%5CSession+Manager%5Ckernel%22+%2Fv+%22GlobalTimerResolutionRequests%22+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0A%0D%0Aset+%22ULT_GUID%3De9a42b02-d5df-448d-aa00-03f14749eb61%22%0D%0Aset+%22BRUTUS_GUID%3D%22%0D%0Afor+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Flist+2%5E%3Enul+%5E%7C+findstr+%2Fi+%22Brutus+OPT%22%27%29+do+set+%22BRUTUS_GUID%3D%25%25G%22%0D%0A%0D%0Aif+not+defined+BRUTUS_GUID+%28%0D%0A++++for+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Fduplicatescheme+%21ULT_GUID%21+2%5E%3Enul%27%29+do+set+%22BRUTUS_GUID%3D%25%25G%22%0D%0A++++if+not+defined+BRUTUS_GUID+%28%0D%0A++++++++for+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Flist+2%5E%3Enul+%5E%7C+findstr+%2Fi+%22High+performance%22%27%29+do+set+%22BRUTUS_GUID%3D%25%25G%22%0D%0A++++%29%0D%0A++++if+defined+BRUTUS_GUID+%28%0D%0A++++++++powercfg+%2Fchangename+%22%21BRUTUS_GUID%21%22+%22Brutus+OPT%22+%22Performance+absoluta+-+BrutusOpt%22+%3Enul+2%3E%261%0D%0A++++%29%0D%0A%29%0D%0A%0D%0Aif+defined+BRUTUS_GUID+%28%0D%0A++++powercfg+%2Fsetactive+%22%21BRUTUS_GUID%21%22+%3Enul+2%3E%261%0D%0A++++for+%25%25A+in+%28ac+dc%29+do+%28%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+PROCTHROTTLEMIN+100+%3Enul+2%3E%261%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+PROCTHROTTLEMAX+100+%3Enul+2%3E%261%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+PERFBOOSTMODE+2+%3Enul+2%3E%261%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+PERFBOOSTPOL+100+%3Enul+2%3E%261%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_SLEEP+STANDBYIDLE+0+%3Enul+2%3E%261%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_SLEEP+HIBERNATEIDLE+0+%3Enul+2%3E%261%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_VIDEO+VIDEOIDLE+0+%3Enul+2%3E%261%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_DISK+DISKIDLE+0+%3Enul+2%3E%261%0D%0A++++++++powercfg+%2Fset%25%25Avalueindex+%22%21BRUTUS_GUID%21%22+SUB_PCIEXPRESS+ASPM+0+%3Enul+2%3E%261%0D%0A++++%29%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+PERFINCPOL+2+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+PERFDECPOL+1+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+PERFINCTHRESHOLD+10+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+PERFDECTHRESHOLD+8+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+CPHEADROOM+0+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_PROCESSOR+LATENCYHINTPERF+100+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_SLEEP+HYBRIDSLEEP+0+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_SLEEP+RTCWAKE+0+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_VIDEO+ADAPTBRIGHT+0+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_DISK+DISKBURST+1+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fsetacvalueindex+%22%21BRUTUS_GUID%21%22+SUB_NONE+CONNECTIVITYINSTANDBY+0+%3Enul+2%3E%261%0D%0A%0D%0A++++for+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Flist+2%5E%3Enul+%5E%7C+findstr+%2Fi+%22Power+Scheme+GUID%22%27%29+do+%28%0D%0A++++++++if+%2Fi+%22%25%25G%22+neq+%22%21BRUTUS_GUID%21%22+powercfg+%2Fdelete+%22%25%25G%22+%3Enul+2%3E%261%0D%0A++++%29%0D%0A%29%0D%0Aexit+%2Fb+0&FirstLogonScriptType8=Cmd&FirstLogonScript9=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0Aset+waitcount%3D0%0D%0A%3AL%0D%0Aping+-n+1+-w+1000+8.8.8.8+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++set+%2Fa+waitcount%2B%3D1%0D%0A++++if+%21waitcount%21+geq+20+goto+offline%0D%0A++++timeout+%2Ft+3+%2Fnobreak+%3Enul%0D%0A++++goto+L%0D%0A%29%0D%0A%3Aoffline%0D%0Adism+%2Fonline+%2Fadd-capability+%2Fcapabilityname%3AMicrosoft.GroupPolicy.Management~~~~0.0.1.0+%2Fnorestart+%3Enul+2%3E%261%0D%0Adism+%2Fonline+%2Fadd-capability+%2Fcapabilityname%3AMicrosoft.Windows.GroupPolicy~~~~0.0.1.0+%2Fnorestart+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CSystem%22+%2Fv+EnableLUA+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0&FirstLogonScriptType9=Cmd&FirstLogonScript10=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0A%0D%0Aecho+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aecho++BrutusOpt+-+Limpeza+e+Ajustes+Finais%0D%0Aecho+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aecho.%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+MEMORY+COMPRESSION+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0Aset+%22MEMCOMP%3DFalse%22%0D%0Afor+%2Ff+%25%25M+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-MMAgent%29.MemoryCompression%7Dcatch%7B%27False%27%7D%22%27%29+do+set+%22MEMCOMP%3D%25%25M%22%0D%0Aif+%2Fi+%22%21MEMCOMP%21%22%3D%3D%22True%22+%28%0D%0A++++echo+%5BMEM%5D+Desabilitando+Memory+Compression...%0D%0A++++PowerShell+-NoProfile+-Command+%22Disable-MMAgent+-MemoryCompression%22+%3Enul+2%3E%261%0D%0A++++echo+%5BMEM%5D+Concluido.%0D%0A%29+else+%28%0D%0A++++echo+%5BMEM%5D+Memory+Compression+ja+desabilitada.+Ignorando.%0D%0A%29%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+VISUAL+EFFECTS+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0Aset+%22VFX%3D-1%22%0D%0Afor+%2Ff+%25%25V+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-ItemProperty+%27HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CVisualEffects%27%29.VisualFXSetting%7Dcatch%7B-1%7D%22%27%29+do+set+%22VFX%3D%25%25V%22%0D%0Aif+%22%21VFX%21%22%3D%3D%223%22+%28%0D%0A++++echo+%5BVISUAL%5D+Efeitos+visuais+ja+configurados.+Ignorando.%0D%0A%29+else+%28%0D%0A++++echo+%5BVISUAL%5D+Aplicando+configuracao+custom+de+efeitos+visuais...%0D%0A++++PowerShell+-NoProfile+-Command+%5E%0D%0A++++++++%22%24vfx%3D%27HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CVisualEffects%27%3B%22+%5E%0D%0A++++++++%22%24adv%3D%27HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced%27%3B%22+%5E%0D%0A++++++++%22%24desk%3D%27HKCU%3A%5CControl+Panel%5CDesktop%27%3B%22+%5E%0D%0A++++++++%22%24wm%3D%27HKCU%3A%5CControl+Panel%5CDesktop%5CWindowMetrics%27%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24vfx+-Name+VisualFXSetting+-Value+3+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24desk+-Name+UserPreferencesMask+-Value+%28%5Bbyte%5B%5D%5D%280x90%2C0x12%2C0x03%2C0x80%2C0x10%2C0x00%2C0x00%2C0x00%29%29+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24desk+-Name+FontSmoothing+-Value+%272%27+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24desk+-Name+FontSmoothingType+-Value+2+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24desk+-Name+FontSmoothingGamma+-Value+1450+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24desk+-Name+DragFullWindows+-Value+%270%27+-Force%3B%22+%5E%0D%0A++++++++%22if%28-not%28Test-Path+%24wm%29%29%7BNew-Item+-Path+%24wm+-Force%7COut-Null%7D%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24wm+-Name+MinAnimate+-Value+%270%27+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24adv+-Name+IconsOnly+-Value+0+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24adv+-Name+TaskbarAnimations+-Value+0+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24adv+-Name+EnableAeroPeek+-Value+0+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24adv+-Name+ListviewShadow+-Value+0+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24adv+-Name+ListviewAlphaSelect+-Value+0+-Force%3B%22+%5E%0D%0A++++++++%22Set-ItemProperty+-Path+%24adv+-Name+ExtendedUIHoverTime+-Value+0+-Force%22+%3Enul+2%3E%261%0D%0A++++echo+%5BVISUAL%5D+Concluido.%0D%0A%29%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+TEMP+DO+USUARIO+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0Aif+exist+%22%25temp%25%5C%22+%28%0D%0A++++for+%2Fd+%25%25D+in+%28%22%25temp%25%5C*%22%29+do+rd+%2Fs+%2Fq+%22%25%25D%22+%3Enul+2%3E%261%0D%0A++++for+%25%25F+in+%28%22%25temp%25%5C*%22%29+do+del+%2Ff+%2Fq+%22%25%25F%22+%3Enul+2%3E%261%0D%0A%29%0D%0Aecho+%5BTMP%5D+Concluido.%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+TEMP+DO+WINDOWS+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0Aif+exist+%22C%3A%5CWindows%5CTemp%5C%22+%28%0D%0A++++for+%2Fd+%25%25D+in+%28%22C%3A%5CWindows%5CTemp%5C*%22%29+do+rd+%2Fs+%2Fq+%22%25%25D%22+%3Enul+2%3E%261%0D%0A++++for+%25%25F+in+%28%22C%3A%5CWindows%5CTemp%5C*%22%29+do+del+%2Ff+%2Fq+%22%25%25F%22+%3Enul+2%3E%261%0D%0A%29%0D%0Aecho+%5BTMPW%5D+Concluido.%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+PREFETCH+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0Aif+exist+%22C%3A%5CWindows%5CPrefetch%5C%22+%28%0D%0A++++del+%2Ff+%2Fs+%2Fq+%22C%3A%5CWindows%5CPrefetch%5C*.pf%22+%3Enul+2%3E%261%0D%0A%29%0D%0Aecho+%5BPRE%5D+Concluido.%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+CACHE+DO+SISTEMA+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0Afor+%25%25D+in+%28%0D%0A++++%22%25LOCALAPPDATA%25%5CMicrosoft%5CWindows%5CINetCache%22%0D%0A++++%22%25LOCALAPPDATA%25%5CTemp%22%0D%0A++++%22%25APPDATA%25%5CMicrosoft%5CWindows%5CRecent%22%0D%0A%29+do+%28%0D%0A++++if+exist+%22%25%25~D%5C%22+%28%0D%0A++++++++for+%2Fd+%25%25X+in+%28%22%25%25~D%5C*%22%29+do+rd+%2Fs+%2Fq+%22%25%25X%22+%3Enul+2%3E%261%0D%0A++++++++for+%25%25X+in+%28%22%25%25~D%5C*%22%29+do+del+%2Ff+%2Fq+%22%25%25X%22+%3Enul+2%3E%261%0D%0A++++%29%0D%0A%29%0D%0Aecho+%5BCACHE%5D+Concluido.%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+LIXEIRA+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0APowerShell+-NoProfile+-Command+%22Clear-RecycleBin+-Force+-ErrorAction+SilentlyContinue%22+%3Enul+2%3E%261%0D%0Aecho+%5BLIXEIRA%5D+Concluido.%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+WINDOWS+UPDATE+CACHE+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0Aset+%22WU_COUNT%3D0%22%0D%0Aif+exist+%22C%3A%5CWindows%5CSoftwareDistribution%5CDownload%5C%22+%28%0D%0A++++for+%2Ff+%25%25F+in+%28%27dir+%2Fb+%2Fa+%22C%3A%5CWindows%5CSoftwareDistribution%5CDownload%22+2%5E%3Enul+%5E%7C+find+%2Fc+%2Fv+%22%22%27%29+do+set+%22WU_COUNT%3D%25%25F%22%0D%0A%29%0D%0Aif+%21WU_COUNT%21+gtr+0+%28%0D%0A++++net+stop+wuauserv+%3Enul+2%3E%261%0D%0A++++net+stop+cryptSvc+%3Enul+2%3E%261%0D%0A++++net+stop+bits+%3Enul+2%3E%261%0D%0A++++rd+%2Fs+%2Fq+%22C%3A%5CWindows%5CSoftwareDistribution%5CDownload%22+%3Enul+2%3E%261%0D%0A++++mkdir+%22C%3A%5CWindows%5CSoftwareDistribution%5CDownload%22+%3Enul+2%3E%261%0D%0A++++net+start+bits+%3Enul+2%3E%261%0D%0A++++net+start+cryptSvc+%3Enul+2%3E%261%0D%0A++++net+start+wuauserv+%3Enul+2%3E%261%0D%0A%29%0D%0Aecho+%5BWU%5D+Concluido.%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+TRIM+SSD+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0APowerShell+-NoProfile+-Command+%22try%7BGet-PhysicalDisk%7CWhere-Object%7B%24_.MediaType+-eq+%27SSD%27%7D%7CForEach-Object%7B%24n%3D%24_.DeviceId%3BGet-Partition+-DiskNumber+%24n+-ErrorAction+SilentlyContinue%7CWhere-Object%7B%24_.DriveLetter%7D%7CForEach-Object%7BOptimize-Volume+-DriveLetter+%24_.DriveLetter+-ReTrim+-ErrorAction+SilentlyContinue%7D%7D%7Dcatch%7B%7D%22+%3Enul+2%3E%261%0D%0Aecho+%5BTRIM%5D+Concluido.%0D%0A%0D%0A%3A%3A+%E2%94%80%E2%94%80%E2%94%80+PAGINACAO+%2F+VIRTUAL+MEMORY+%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%E2%94%80%0D%0Aset+%22RAM_GB%3D0%22%0D%0Afor+%2Ff+%25%25R+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%5Bmath%5D%3A%3ARound%28%28Get-CimInstance+Win32_ComputerSystem%29.TotalPhysicalMemory%2F1GB%29%7Dcatch%7B0%7D%22%27%29+do+set+%22RAM_GB%3D%25%25R%22%0D%0Aif+%21RAM_GB%21+geq+16+%28%0D%0A++++echo+%5BPAGE%5D+RAM+%21RAM_GB%21GB+-+Fixando+tamanho+de+paginacao...%0D%0A++++PowerShell+-NoProfile+-Command+%22%24cs%3DGet-WmiObject+Win32_ComputerSystem+-EnableAllPrivileges%3B%24cs.AutomaticManagedPagefile%3D%24false%3B%24cs.Put%28%29%7COut-Null%3B%24pf%3DGet-WmiObject+Win32_PageFileSetting%3Bif%28%24pf%29%7B%24pf.InitialSize%3D2048%3B%24pf.MaximumSize%3D4096%3B%24pf.Put%28%29%7COut-Null%7Delse%7BSet-WmiInstance+-Class+Win32_PageFileSetting+-Arguments+%40%7BName%3D%27C%3A%5Cpagefile.sys%27%3BInitialSize%3D2048%3BMaximumSize%3D4096%7D%7COut-Null%7D%22+%3Enul+2%3E%261%0D%0A++++echo+%5BPAGE%5D+Concluido.%0D%0A%29+else+%28%0D%0A++++echo+%5BPAGE%5D+RAM+%21RAM_GB%21GB.+Mantendo+paginacao+automatica.%0D%0A%29%0D%0A%0D%0Aecho.%0D%0Aecho+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aecho++Limpeza+finalizada+com+sucesso.%0D%0Aecho+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aexit+%2Fb+0&FirstLogonScriptType10=Cmd&AppLockerMode=Skip-->
+	<!--https://schneegans.de/windows/unattend-generator/?LanguageMode=Unattended&UILanguage=en-US&Locale=pt-BR&Keyboard=00000416&GeoLocation=32&PEMode=Generated&Disable8Dot3Names=true&DisableDefender=true&SkipIntegrityCheck=true&InstallFromMode=Automatic&PartitionMode=Unattended&TargetDisk=0&SystemSize=300&PartitionLayout=Automatic&RecoveryMode=None&DiskAssertionMode=Skip&WindowsEditionMode=Generic&WindowsEdition=home&ProcessorArchitecture=amd64&BypassRequirementsCheck=true&BypassNetworkCheck=true&HidePowerShellWindows=true&ComputerNameMode=Custom&ComputerName=bugbtw&TimeZoneMode=Explicit&TimeZone=E.+South+America+Standard+Time&UserAccountMode=Unattended&AccountName0=bug&AccountDisplayName0=&AccountPassword0=2211&AccountGroup0=Administrators&AutoLogonMode=Own&PasswordExpirationMode=Unlimited&LockoutMode=Default&HideFiles=None&ShowFileExtensions=true&ClassicContextMenu=true&LaunchToThisPC=true&TaskbarSearch=Hide&TaskbarIconsMode=Custom&TaskbarIconsXml=%3CLayoutModificationTemplate+xmlns%3D%22http%3A%2F%2Fschemas.microsoft.com%2FStart%2F2014%2FLayoutModification%22+xmlns%3Adefaultlayout%3D%22http%3A%2F%2Fschemas.microsoft.com%2FStart%2F2014%2FFullDefaultLayout%22+xmlns%3Astart%3D%22http%3A%2F%2Fschemas.microsoft.com%2FStart%2F2014%2FStartLayout%22+xmlns%3Ataskbar%3D%22http%3A%2F%2Fschemas.microsoft.com%2FStart%2F2014%2FTaskbarLayout%22+Version%3D%221%22%3E%0D%0A++%3CCustomTaskbarLayoutCollection+PinListPlacement%3D%22Replace%22%3E%0D%0A++++%3Cdefaultlayout%3ATaskbarLayout%3E%0D%0A++++++%3Ctaskbar%3ATaskbarPinList%3E%0D%0A++++++++%3Ctaskbar%3ADesktopApp+DesktopApplicationID%3D%22Microsoft.Windows.Explorer%22+%2F%3E%0D%0A++++++++%3Ctaskbar%3AUWA+AppUserModelID%3D%22windows.immersivecontrolpanel_cw5n1h2txyewy%21microsoft.windows.immersivecontrolpanel%22+%2F%3E%0D%0A++++++%3C%2Ftaskbar%3ATaskbarPinList%3E%0D%0A++++%3C%2Fdefaultlayout%3ATaskbarLayout%3E%0D%0A++%3C%2FCustomTaskbarLayoutCollection%3E%0D%0A%3C%2FLayoutModificationTemplate%3E&DisableWidgets=true&HideTaskViewButton=true&DisableBingResults=true&StartTilesMode=Empty&StartPinsMode=Empty&DisableSmartScreen=true&DisableFastStartup=true&DisableSystemRestore=true&EnableLongPaths=true&HardenSystemDriveAcl=true&DeleteJunctions=true&DisableLastAccess=true&PreventAutomaticReboot=true&DisableAppSuggestions=true&PreventDeviceEncryption=true&HideEdgeFre=true&DisableEdgeStartupBoost=true&MakeEdgeUninstallable=true&DisablePointerPrecision=true&DeleteWindowsOld=true&DisableAutomaticRestartSignOn=true&EffectsMode=Custom&ThumbnailsOrIcon=true&FontSmoothing=true&DeleteEdgeDesktopIcon=true&DesktopIconsMode=Custom&IconRecycleBin=true&StartFoldersMode=Custom&StartFolderSettings=true&CoreIsolationMode=Disabled&WifiMode=Skip&ExpressSettings=DisableAll&LockKeysMode=Skip&StickyKeysMode=Disabled&ColorMode=Custom&SystemColorTheme=Dark&AppsColorTheme=Dark&AccentColor=%230096ff&WallpaperMode=Solid&WallpaperColor=%23000000&LockScreenMode=Default&Remove3DViewer=true&RemoveBingSearch=true&RemoveCamera=true&RemoveClipchamp=true&RemoveClock=true&RemoveCopilot=true&RemoveCortana=true&RemoveDevHome=true&RemoveWindowsHello=true&RemoveFamily=true&RemoveFeedbackHub=true&RemoveGameAssist=true&RemoveGetHelp=true&RemoveHandwriting=true&RemoveInternetExplorer=true&RemoveMailCalendar=true&RemoveMaps=true&RemoveMathInputPanel=true&RemoveMediaFeatures=true&RemoveMixedReality=true&RemoveZuneVideo=true&RemoveNews=true&RemoveOffice365=true&RemoveOneDrive=true&RemoveOneNote=true&RemoveOneSync=true&RemoveOpenSSHClient=true&RemoveOutlook=true&RemovePaint=true&RemovePaint3D=true&RemovePeople=true&RemovePowerAutomate=true&RemovePowerShell2=true&RemovePowerShellISE=true&RemoveQuickAssist=true&RemoveRecall=true&RemoveRdpClient=true&RemoveSkype=true&RemoveSolitaire=true&RemoveSpeech=true&RemoveStepsRecorder=true&RemoveStickyNotes=true&RemoveTeams=true&RemoveGetStarted=true&RemoveToDo=true&RemoveVoiceRecorder=true&RemoveWallet=true&RemoveWeather=true&RemoveFaxAndScan=true&RemoveWindowsMediaPlayer=true&RemoveZuneMusic=true&RemoveWindowsTerminal=true&RemoveWordPad=true&RemoveXboxApps=true&RemoveYourPhone=true&FirstLogonScript0=%40echo+off%0D%0Afor+%25%25S+in+%28DiagTrack+dmwappushservice+diagnosticshub.standardcollector.service+WerSvc+wercplsupport+PcaSvc+DPS+WdiServiceHost+WdiSystemHost+TrkWks+SysMain+lfsvc+MapsBroker+NetTcpPortSharing+RemoteRegistry+XblAuthManager+XblGameSave+XboxNetApiSvc+XboxGipSvc+wisvc+WMPNetworkSvc+icssvc+RetailDemo+OneSyncSvc+MessagingService+CDPUserSvc+cbdhsvc+PushToInstall+WpnService+WpnUserService%29+do+%28%0D%0Anet+stop+%25%25S+%3Enul+2%3E%261%0D%0Asc+config+%25%25S+start%3D+disabled+%3Enul+2%3E%261%0D%0A%29%0D%0Afor+%25%25T+in+%28%22%5CMicrosoft%5CWindows%5CApplication+Experience%5CMicrosoft+Compatibility+Appraiser%22+%22%5CMicrosoft%5CWindows%5CApplication+Experience%5CProgramDataUpdater%22+%22%5CMicrosoft%5CWindows%5CApplication+Experience%5CStartupAppTask%22+%22%5CMicrosoft%5CWindows%5CApplication+Experience%5CPcaPatchDbTask%22+%22%5CMicrosoft%5CWindows%5CAutochk%5CProxy%22+%22%5CMicrosoft%5CWindows%5CCustomer+Experience+Improvement+Program%5CConsolidator%22+%22%5CMicrosoft%5CWindows%5CCustomer+Experience+Improvement+Program%5CKernelCeipTask%22+%22%5CMicrosoft%5CWindows%5CCustomer+Experience+Improvement+Program%5CUsbCeip%22+%22%5CMicrosoft%5CWindows%5CDiskDiagnostic%5CMicrosoft-Windows-DiskDiagnosticDataCollector%22+%22%5CMicrosoft%5CWindows%5CFeedback%5CSiuf%5CDmClient%22+%22%5CMicrosoft%5CWindows%5CFeedback%5CSiuf%5CDmClientOnScenarioDownload%22+%22%5CMicrosoft%5CWindows%5CPI%5CSqm-Tasks%22+%22%5CMicrosoft%5CWindows%5CNetTrace%5CGatherNetworkInfo%22+%22%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%5CQueueReporting%22+%22%5CMicrosoft%5CWindows%5CWindowsUpdate%5CAutomatic+App+Update%22+%22%5CMicrosoft%5CWindows%5CDevice+Information%5CDevice%22+%22%5CMicrosoft%5CWindows%5CDevice+Information%5CDevice+User%22+%22%5CMicrosoft%5CWindows%5CMaps%5CMapsToastTask%22+%22%5CMicrosoft%5CWindows%5CMaps%5CMapsUpdateTask%22+%22%5CMicrosoft%5CWindows%5CSpeech%5CSpeechModelDownloadTask%22+%22%5CMicrosoft%5CWindows%5CCloudExperienceHost%5CCreateObjectTask%22+%22%5CMicrosoft%5CWindows%5CLicense+Manager%5CTempSignedLicenseExchange%22+%22%5CMicrosoft%5CWindows%5CClip%5CLicense+Validation%22+%22%5CMicrosoft%5CWindows%5CPower+Efficiency+Diagnostics%5CAnalyzeSystem%22+%22%5CMicrosoft%5CWindows%5CMaintenance%5CWinSAT%22+%22%5CMicrosoft%5CWindows%5CSetup%5CSetupCleanupTask%22+%22%5CMicrosoft%5CWindows%5CRetailDemo%5CCleanupOfflineContent%22+%22%5CMicrosoft%5CWindows%5CDefrag%5CScheduledDefrag%22+%22%5CMicrosoft%5CWindows%5CWdi%5CResolutionHost%22%29+do+schtasks+%2Fchange+%2Ftn+%25%25T+%2Fdisable+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CDataCollection%22+%2Fv+AllowTelemetry+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CDataCollection%22+%2Fv+MaxTelemetryAllowed+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+AllowTelemetry+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+LimitDiagnosticLogCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+DisableOneSettingsDownloads+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+DoNotShowFeedbackNotifications+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppCompat%22+%2Fv+DisableInventory+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppCompat%22+%2Fv+DisablePCA+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppCompat%22+%2Fv+DisableUAR+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppCompat%22+%2Fv+AITEnable+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CSQMClient%5CWindows%22+%2Fv+CEIPEnable+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CTabletPC%22+%2Fv+PreventHandwritingDataSharing+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CHandwritingErrorReports%22+%2Fv+PreventHandwritingErrorReports+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CLocationAndSensors%22+%2Fv+DisableLocation+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CLocationAndSensors%22+%2Fv+DisableLocationScripting+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CLocationAndSensors%22+%2Fv+DisableSensors+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CLocationAndSensors%22+%2Fv+DisableWindowsLocationProvider+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAdvertisingInfo%22+%2Fv+DisabledByGroupPolicy+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CAdvertisingInfo%22+%2Fv+Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent%22+%2Fv+DisableWindowsConsumerFeatures+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent%22+%2Fv+DisableSoftLanding+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent%22+%2Fv+DisableCloudOptimizedContent+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent%22+%2Fv+DisableConsumerAccountStateContent+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+AllowCortana+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+AllowCortanaAboveLock+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+AllowSearchToUseLocation+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+DisableWebSearch+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Search%22+%2Fv+ConnectedSearchUseWeb+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CInputPersonalization%22+%2Fv+AllowInputPersonalization+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CInputPersonalization%22+%2Fv+RestrictImplicitInkCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CInputPersonalization%22+%2Fv+RestrictImplicitTextCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CSystem%22+%2Fv+PublishUserActivities+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CSystem%22+%2Fv+UploadUserActivities+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CSystem%22+%2Fv+EnableActivityFeed+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDeliveryOptimization%22+%2Fv+DODownloadMode+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWMDRM%22+%2Fv+DisableOnline+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CSoftware+Protection+Platform%22+%2Fv+NoGenTicket+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CMRT%22+%2Fv+DontReportInfectionInformation+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSYSTEM%5CCurrentControlSet%5CControl%5CWMI%5CAutologger%5CAutoLogger-Diagtrack-Listener%22+%2Fv+Start+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSYSTEM%5CCurrentControlSet%5CControl%5CWMI%5CAutologger%5CSQMLogger%22+%2Fv+Start+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CGameDVR%22+%2Fv+AllowGameDVR+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CAdvertisingInfo%22+%2Fv+Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CInputPersonalization%22+%2Fv+RestrictImplicitInkCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CInputPersonalization%22+%2Fv+RestrictImplicitTextCollection+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CPersonalization%5CSettings%22+%2Fv+AcceptedPrivacyPolicy+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPrivacy%22+%2Fv+TailoredExperiencesWithDiagnosticDataEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CSpeech_OneCore%5CSettings%5COnlineSpeechPrivacy%22+%2Fv+HasAccepted+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CDiagnostics%5CDiagTrack%22+%2Fv+ShowedToastAtLevel+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CSiuf%5CRules%22+%2Fv+NumberOfSIUFInPeriod+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CSiuf%5CRules%22+%2Fv+PeriodInNanoSeconds+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced%22+%2Fv+Start_TrackProgs+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced%22+%2Fv+Start_TrackEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+ContentDeliveryAllowed+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+OemPreInstalledAppsEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+PreInstalledAppsEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+PreInstalledAppsEverEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SilentInstalledAppsEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SoftLandingEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContentEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-310093Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-314559Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-338387Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-338388Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-338389Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-338393Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-353694Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SubscribedContent-353696Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager%22+%2Fv+SystemPaneSuggestionsEnabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CGameBar%22+%2Fv+AllowAutoGameMode+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CGameBar%22+%2Fv+AutoGameModeEnabled+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKCU%5CSystem%5CGameConfigStore%22+%2Fv+GameDVR_Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Aicacls+%22%25ProgramData%25%5CMicrosoft%5CDiagnosis%5CETLLogs%5CAutoLogger%22+%2Fdeny+%22SYSTEM%3A%28OI%29%28CI%29F%22+%3Enul+2%3E%261%0D%0Afor+%25%25H+in+%28vortex.data.microsoft.com+vortex-win.data.microsoft.com+telecommand.telemetry.microsoft.com+telecommand.telemetry.microsoft.com.nsatc.net+oca.telemetry.microsoft.com+oca.telemetry.microsoft.com.nsatc.net+sqm.telemetry.microsoft.com+sqm.telemetry.microsoft.com.nsatc.net+watson.telemetry.microsoft.com+watson.telemetry.microsoft.com.nsatc.net+watson.microsoft.com+settings-sandbox.data.microsoft.com+sls.update.microsoft.com.akadns.net+fe2.update.microsoft.com.akadns.net+diagnostics.support.microsoft.com+corp.sts.microsoft.com+statsfe1.ws.microsoft.com+pre.footprintpredict.com+i1.services.social.microsoft.com+i1.services.social.microsoft.com.nsatc.net+feedback.windows.com+feedback.microsoft-hohm.com+feedback.search.microsoft.com%29+do+%28%0D%0Afindstr+%2Fc%3A%22%25%25H%22+%22%25SystemRoot%25%5CSystem32%5Cdrivers%5Cetc%5Chosts%22+%3Enul+2%3E%261+%7C%7C+echo+0.0.0.0+%25%25H%3E%3E+%22%25SystemRoot%25%5CSystem32%5Cdrivers%5Cetc%5Chosts%22%0D%0A%29%0D%0Aexit+%2Fb+0&FirstLogonScriptType0=Cmd&FirstLogonScript1=Windows+Registry+Editor+Version+5.00%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CControl%5D%0D%0A%22SvcHostSplitThresholdInKB%22%3Ddword%3A04000000%0D%0A%22WaitToKillServiceTimeout%22%3D%221000%22%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5D%0D%0A%22StartupDelayInMSec%22%3Ddword%3A00000000%0D%0A%5BHKEY_CURRENT_USER%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CSerialize%5D%0D%0A%22StartupDelayInMSec%22%3Ddword%3A00000000%0D%0A%5BHKEY_CURRENT_USER%5CControl+Panel%5CDesktop%5D%0D%0A%22AutoEndTasks%22%3D%221%22%0D%0A%22HungAppTimeout%22%3D%221000%22%0D%0A%22WaitToKillAppTimeout%22%3D%222000%22%0D%0A%22LowLevelHooksTimeout%22%3D%221000%22%0D%0A%22MenuShowDelay%22%3D%220%22%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CMultimedia%5CSystemProfile%5D%0D%0A%22SystemResponsiveness%22%3Ddword%3A00000000%0D%0A%22NetworkThrottlingIndex%22%3Ddword%3Affffffff%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CMultimedia%5CSystemProfile%5CTasks%5CGames%5D%0D%0A%22GPU+Priority%22%3Ddword%3A00000008%0D%0A%22Priority%22%3Ddword%3A00000006%0D%0A%22Scheduling+Category%22%3D%22High%22%0D%0A%22SFIO+Priority%22%3D%22High%22%0D%0A%22Affinity%22%3Ddword%3A00000000%0D%0A%22Background+Only%22%3D%22False%22%0D%0A%22Clock+Rate%22%3Ddword%3A00002710%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CSystem%5D%0D%0A%22EnableLUA%22%3Ddword%3A00000001%0D%0A%22DisableAutomaticRestartSignOn%22%3Ddword%3A00000001%0D%0A%5BHKEY_CURRENT_USER%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CBackgroundAccessApplications%5D%0D%0A%22GlobalUserDisabled%22%3Ddword%3A00000001%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CAppPrivacy%5D%0D%0A%22LetAppsRunInBackground%22%3Ddword%3A00000002%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CControl%5CSession+Manager%5CMemory+Management%5D%0D%0A%22ClearPageFileAtShutdown%22%3Ddword%3A00000000%0D%0A%22DisablePagingExecutive%22%3Ddword%3A00000001%0D%0A%22LargeSystemCache%22%3Ddword%3A00000000%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CControl%5CPriorityControl%5D%0D%0A%22Win32PrioritySeparation%22%3Ddword%3A00000026%0D%0A%5BHKEY_LOCAL_MACHINE%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CSchedule%5CMaintenance%5D%0D%0A%22MaintenanceDisabled%22%3Ddword%3A00000001%0D%0A%5BHKEY_CURRENT_USER%5CControl+Panel%5CMouse%5D%0D%0A%22MouseSpeed%22%3D%220%22%0D%0A%22MouseThreshold1%22%3D%220%22%0D%0A%22MouseThreshold2%22%3D%220%22%0D%0A%22MouseHoverTime%22%3D%220%22%0D%0A%22DoubleClickSpeed%22%3D%22200%22%0D%0A%22MouseSensitivity%22%3D%2210%22%0D%0A%5BHKEY_CURRENT_USER%5CControl+Panel%5CKeyboard%5D%0D%0A%22KeyboardDelay%22%3D%220%22%0D%0A%22KeyboardSpeed%22%3D%2231%22%0D%0A%22InitialKeyboardIndicators%22%3D%220%22%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CServices%5Cmouclass%5CParameters%5D%0D%0A%22MouseDataQueueSize%22%3Ddword%3A00000064%0D%0A%5BHKEY_LOCAL_MACHINE%5CSYSTEM%5CCurrentControlSet%5CServices%5Ckbdclass%5CParameters%5D%0D%0A%22KeyboardDataQueueSize%22%3Ddword%3A00000064&FirstLogonScriptType1=Reg&FirstLogonScript2=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0Aset+param%3D-new_theme+-block_update_on+-confirm_spoti_recomended_over%0D%0Aset+url%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2FSpotX-Official%2FSpotX%2Frefs%2Fheads%2Fmain%2Frun.ps1%0D%0Aset+url2%3Dhttps%3A%2F%2Fspotx-official.github.io%2FSpotX%2Frun.ps1%0D%0Aset+tls%3D%5BNet.ServicePointManager%5D%3A%3ASecurityProtocol+%3D+%5BNet.ServicePointManager%5D%3A%3ASecurityProtocol+-bor+%5BNet.SecurityProtocolType%5D%3A%3ATls12%3B%0D%0Aset+waitcount%3D0%0D%0A%3Awaitnet%0D%0Aping+-n+1+-w+1000+8.8.8.8+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++set+%2Fa+waitcount%2B%3D1%0D%0A++++if+%21waitcount%21+geq+20+exit+%2Fb+1%0D%0A++++timeout+%2Ft+5+%2Fnobreak+%3Enul%0D%0A++++goto+waitnet%0D%0A%29%0D%0A%25SYSTEMROOT%25%5CSystem32%5CWindowsPowerShell%5Cv1.0%5Cpowershell.exe+-NoProfile+-ExecutionPolicy+Bypass+-Command+%5E%0D%0A++++%22%25tls%25+%24t+%3D+%5BIO.Path%5D%3A%3AGetTempFileName%28%29+%2B+%27.ps1%27%3B+try+%7B+%28iwr+-useb+%27%25url%25%27%29.Content+%7C+Set-Content+%24t+%7D+catch+%7B+%28iwr+-useb+%27%25url2%25%27%29.Content+%7C+Set-Content+%24t+%7D%3B+%26+%24t+%25param%25%3B+Remove-Item+%24t+-Force%22%0D%0Aexit+%2Fb+0&FirstLogonScriptType2=Cmd&FirstLogonScript3=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0Aset+waitcount%3D0%0D%0A%3Awaitnet%0D%0Aping+-n+1+-w+1000+8.8.8.8+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++set+%2Fa+waitcount%2B%3D1%0D%0A++++if+%21waitcount%21+geq+20+goto+applyoffline%0D%0A++++timeout+%2Ft+5+%2Fnobreak+%3Enul%0D%0A++++goto+waitnet%0D%0A%29%0D%0A%3Aapplyoffline%0D%0Afor+%2Ff+%22skip%3D3+tokens%3D1%2C2%2C3*%22+%25%25A+in+%28%27netsh+interface+show+interface%27%29+do+%28%0D%0A++++if+%2Fi+%22%25%25A%22%3D%3D%22Enabled%22+if+%2Fi+%22%25%25B%22%3D%3D%22Connected%22+call+%3AS+%22%25%25D%22%0D%0A%29%0D%0Aipconfig+%2Fflushdns+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0%0D%0A%3AS%0D%0Anetsh+interface+ipv4+set+dnsservers+name%3D%251+source%3Dstatic+address%3D94.140.14.14+validate%3Dno+%3Enul+2%3E%261%0D%0Anetsh+interface+ipv4+add+dnsservers+name%3D%251+address%3D94.140.15.15+index%3D2+validate%3Dno+%3Enul+2%3E%261%0D%0Anetsh+interface+ipv6+set+dnsservers+name%3D%251+source%3Dstatic+address%3D2a10%3A50c0%3A%3Aad1%3Aff+validate%3Dno+%3Enul+2%3E%261%0D%0Anetsh+interface+ipv6+add+dnsservers+name%3D%251+address%3D2a10%3A50c0%3A%3Aad2%3Aff+index%3D2+validate%3Dno+%3Enul+2%3E%261%0D%0Agoto+%3Aeof&FirstLogonScriptType3=Cmd&FirstLogonScript4=%40echo+off%0D%0Ataskkill+%2Ff+%2Fim+msedge.exe+%3Enul+2%3E%261%0D%0Ataskkill+%2Ff+%2Fim+MicrosoftEdgeUpdate.exe+%3Enul+2%3E%261%0D%0Aset+%22edgedir%3D%22%0D%0Aif+exist+%22%25ProgramFiles%28x86%29%25%5CMicrosoft%5CEdge%5CApplication%22+set+%22edgedir%3D%25ProgramFiles%28x86%29%25%5CMicrosoft%5CEdge%5CApplication%22%0D%0Aif+exist+%22%25ProgramFiles%25%5CMicrosoft%5CEdge%5CApplication%22+set+%22edgedir%3D%25ProgramFiles%25%5CMicrosoft%5CEdge%5CApplication%22%0D%0Aif+defined+edgedir+%28%0D%0A++++for+%2Ff+%22delims%3D%22+%25%25v+in+%28%27dir+%22%25edgedir%25%22+%2Fb+%2Fad+2%5E%3Enul+%5E%7C+findstr+%2Fr+%22%5E%5B0-9%5D%22%27%29+do+%28%0D%0A++++++++if+exist+%22%25edgedir%25%5C%25%25v%5CInstaller%5Csetup.exe%22+%22%25edgedir%25%5C%25%25v%5CInstaller%5Csetup.exe%22+%2D%2Duninstall+%2D%2Dsystem-level+%2D%2Dverbose-logging+%2D%2Dforce-uninstall+%3Enul+2%3E%261%0D%0A++++%29%0D%0A%29%0D%0Areg+delete+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CApp+Paths%5Cmsedge.exe%22+%2Ff+%3Enul+2%3E%261%0D%0Areg+delete+%22HKCU%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CApp+Paths%5Cmsedge.exe%22+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CEdgeUpdate%22+%2Fv+%22InstallDefault%22+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CEdge%22+%2Fv+%22HideFirstRunExperience%22+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Apowershell+-NoProfile+-Command+%22Get-AppxPackage+-AllUsers+*MicrosoftEdge*+%7C+Where-Object+%7B%24_.Name+-notmatch+%27WebView%27%7D+%7C+Remove-AppxPackage+-AllUsers+-ErrorAction+SilentlyContinue%22+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0&FirstLogonScriptType4=Cmd&FirstLogonScript5=%40echo+off%0D%0Apowershell+-NoProfile+-Command+%22%24ErrorActionPreference%3D%27SilentlyContinue%27%3B+foreach+%28%24regpath+in+%40%28%27HKCU%3A%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CRun%27%2C%27HKLM%3A%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CRun%27%2C%27HKLM%3A%5CSOFTWARE%5CWOW6432Node%5CMicrosoft%5CWindows%5CCurrentVersion%5CRun%27%29%29+%7B+if+%28Test-Path+%24regpath%29+%7B+%24props+%3D+%28Get-Item+%24regpath%29.Property%3B+foreach+%28%24name+in+%24props%29+%7B+if+%28%24name+-ne+%27SecurityHealth%27%29+%7B+Remove-ItemProperty+-Path+%24regpath+-Name+%24name+-Force+%7D+%7D+%7D+%7D%22+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0&FirstLogonScriptType5=Cmd&FirstLogonScript6=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0Areg+query+%22HKLM%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUninstall%5CGoogle+Chrome%22+%3Enul+2%3E%261+%26%26+exit+%2Fb+0%0D%0Areg+query+%22HKCU%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUninstall%5CGoogle+Chrome%22+%3Enul+2%3E%261+%26%26+exit+%2Fb+0%0D%0Aset+waitcount%3D0%0D%0A%3Awaitnet%0D%0Acurl+-s+-I+https%3A%2F%2F1.1.1.1+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++set+%2Fa+waitcount%2B%3D1%0D%0A++++if+%21waitcount%21+geq+20+exit+%2Fb+1%0D%0A++++timeout+%2Ft+3+%2Fnobreak+%3Enul%0D%0A++++goto+waitnet%0D%0A%29%0D%0Acurl+-L+-o+%22%25TEMP%25%5CChromeSetup.exe%22+%22https%3A%2F%2Fdl.google.com%2Fchrome%2Finstall%2Flatest%2Fchrome_installer.exe%22+%2D%2Dsilent%0D%0Aif+exist+%22%25TEMP%25%5CChromeSetup.exe%22+%28%0D%0A++++start+%2Fwait+%22%22+%22%25TEMP%25%5CChromeSetup.exe%22+%2Fsilent+%2Finstall%0D%0A++++del+%2Ff+%2Fq+%22%25TEMP%25%5CChromeSetup.exe%22%0D%0A%29%0D%0Aexit+%2Fb+0&FirstLogonScriptType6=Cmd&FirstLogonScript7=%40echo+off%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CPsched%22+%2Fv+NonBestEffortLimit+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0&FirstLogonScriptType7=Cmd&FirstLogonScript8=%40echo+off%0D%0Asetlocal+enabledelayedexpansion%0D%0Aset+waitcount%3D0%0D%0A%3AL%0D%0Aping+-n+1+-w+1000+8.8.8.8+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++set+%2Fa+waitcount%2B%3D1%0D%0A++++if+%21waitcount%21+geq+20+goto+offline%0D%0A++++timeout+%2Ft+3+%2Fnobreak+%3Enul%0D%0A++++goto+L%0D%0A%29%0D%0A%3Aoffline%0D%0Adism+%2Fonline+%2Fadd-capability+%2Fcapabilityname%3AMicrosoft.GroupPolicy.Management~~~~0.0.1.0+%2Fnorestart+%3Enul+2%3E%261%0D%0Adism+%2Fonline+%2Fadd-capability+%2Fcapabilityname%3AMicrosoft.Windows.GroupPolicy~~~~0.0.1.0+%2Fnorestart+%3Enul+2%3E%261%0D%0Areg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CSystem%22+%2Fv+EnableLUA+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0Aexit+%2Fb+0&FirstLogonScriptType8=Cmd&FirstLogonScript9=%40echo+off%0D%0Achcp+65001+%3Enul%0D%0Asetlocal+enabledelayedexpansion%0D%0Anet+session+%3Enul+2%3E%261%0D%0Aif+%25errorlevel%25+neq+0+%28%0D%0A++++PowerShell+-NoProfile+-Command+%22Start-Process+-FilePath+%27%25~f0%27+-Verb+RunAs%22%0D%0A++++exit+%2Fb%0D%0A%29%0D%0Aecho+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aecho++BugOPT+-+Otimiza%C3%A7%C3%A3o+Inteligente%0D%0Aecho+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aecho.%0D%0Aset+%2Fa+TOTAL%3D17%0D%0Aset+%2Fa+STEP%3D0%0D%0Agoto+%3AMAIN%0D%0A%3ADrawBar%0D%0Asetlocal+EnableDelayedExpansion%0D%0Aset+%22N%3D%25~1%22%0D%0Aset+%22T%3D%25~2%22%0D%0Aset+%22LBL%3D%25~3%22%0D%0Aset+%2Fa+PCT%3D%28N*100%29%2FT%0D%0Aset+%2Fa+FILLED%3D%28BARLEN*PCT%29%2F100%0D%0Aset+%2Fa+EMPTY%3DBARLEN-FILLED%0D%0Aset+%22FILL%3D%22%0D%0Aset+%22TRACK%3D%22%0D%0Afor+%2Fl+%25%25i+in+%281%2C1%2C%21FILLED%21%29+do+set+%22FILL%3D%21FILL%21%E2%96%88%22%0D%0Afor+%2Fl+%25%25i+in+%281%2C1%2C%21EMPTY%21%29+do+set+%22TRACK%3D%21TRACK%21%E2%96%91%22%0D%0A%3Cnul+set+%5E%2Fp+%22%3D%21ESC%21%5Bs%21ESC%21%5B%21ROWS%21%3B1H%21ESC%21%5B2K%21ESC%21%5B38%3B5%3B240m%5B%21ESC%21%5B38%3B5%3B51m%21FILL%21%21ESC%21%5B38%3B5%3B238m%21TRACK%21%21ESC%21%5B38%3B5%3B240m%5D%21ESC%21%5B0m+%21ESC%21%5B1%3B38%3B5%3B51m%21PCT%21%25%25%21ESC%21%5B0m++%21ESC%21%5B38%3B5%3B250m%21LBL%21%21ESC%21%5B0m%21ESC%21%5Bu%22%0D%0Aendlocal%0D%0Agoto+%3Aeof%0D%0A%3AMAIN%0D%0Afor+%2Ff+%25%25A+in+%28%27echo+prompt+%24E%5E%7Ccmd%27%29+do+set+%22ESC%3D%25%25A%22%0D%0Afor+%2Ff+%22tokens%3D1%2C2+delims%3D%3B%22+%25%25A+in+%28%27powershell+-NoProfile+-Command+%22%24s%3D%24Host.UI.RawUI.WindowSize%3BWrite-Output+%28%24s.Height.ToString%28%29%2B%27%3B%27%2B%24s.Width.ToString%28%29%29%22%27%29+do+%28set+%22ROWS%3D%25%25A%22+%26+set+%22COLS%3D%25%25B%22%29%0D%0Aif+not+defined+ROWS+set+%22ROWS%3D30%22%0D%0Aif+not+defined+COLS+set+%22COLS%3D120%22%0D%0Aset+%2Fa+SCROLLBOTTOM%3DROWS-1%0D%0Aset+%2Fa+BARLEN%3DCOLS-46%0D%0Aif+%21BARLEN%21+LSS+20+set+%22BARLEN%3D20%22%0D%0Aif+%21BARLEN%21+GTR+50+set+%22BARLEN%3D50%22%0D%0A%3Cnul+set+%5E%2Fp+%22%3D%21ESC%21%5B%3F25l%21ESC%21%5Bs%21ESC%21%5B1%3B%21SCROLLBOTTOM%21r%21ESC%21%5Bu%22%0D%0A%3A%3A+%3D%3D%3D%3D+%5B1%2F17%5D+DNS+%28AdGuard+IPv4%2FIPv6%29+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Verificando+DNS+%28AdGuard%29%22%0D%0Aset+%22DNS4_P%3D94.140.14.14%22%0D%0Aset+%22DNS4_S%3D94.140.15.15%22%0D%0Aset+%22DNS6_P%3D2a10%3A50c0%3A%3Aad1%3Aff%22%0D%0Aset+%22DNS6_S%3D2a10%3A50c0%3A%3Aad2%3Aff%22%0D%0Aset+%22DNS_NEED%3D0%22%0D%0Afor+%2Ff+%22tokens%3D3*%22+%25%25i+in+%28%27netsh+interface+show+interface+%5E%7C+findstr+%2Fi+%22connected%22%27%29+do+%28%0D%0A++++set+%22HAS4%3D%22+%26+set+%22HAS6%3D%22%0D%0A++++for+%2Ff+%22tokens%3D*%22+%25%25D+in+%28%27netsh+interface+ipv4+show+dns+name%3D%22%25%25j%22+2%5E%3Enul%27%29+do+%28%0D%0A++++++++echo+%25%25D+%7C+findstr+%2Fi+%22%21DNS4_P%21%22+%3Enul+2%3E%261+%26%26+set+%22HAS4%3D1%22%0D%0A++++%29%0D%0A++++for+%2Ff+%22tokens%3D*%22+%25%25D+in+%28%27netsh+interface+ipv6+show+dns+name%3D%22%25%25j%22+2%5E%3Enul%27%29+do+%28%0D%0A++++++++echo+%25%25D+%7C+findstr+%2Fi+%22ad1%22+%3Enul+2%3E%261+%26%26+set+%22HAS6%3D1%22%0D%0A++++%29%0D%0A++++if+not+defined+HAS4+set+%22DNS_NEED%3D1%22%0D%0A++++if+not+defined+HAS6+set+%22DNS_NEED%3D1%22%0D%0A%29%0D%0Aecho.%0D%0Aif+%22%21DNS_NEED%21%22%3D%3D%221%22+%28%0D%0A++++for+%2Ff+%22tokens%3D3*%22+%25%25i+in+%28%27netsh+interface+show+interface+%5E%7C+findstr+%2Fi+%22connected%22%27%29+do+%28%0D%0A++++++++netsh+interface+ipv4+set+dns+name%3D%22%25%25j%22+static+%21DNS4_P%21+primary+validate%3Dno+%3Enul+2%3E%261%0D%0A++++++++netsh+interface+ipv4+add+dns+name%3D%22%25%25j%22+addr%3D%21DNS4_S%21+index%3D2+validate%3Dno+%3Enul+2%3E%261%0D%0A++++++++netsh+interface+ipv6+set+dns+name%3D%22%25%25j%22+static+%21DNS6_P%21+validate%3Dno+%3Enul+2%3E%261%0D%0A++++++++netsh+interface+ipv6+add+dns+name%3D%22%25%25j%22+addr%3D%21DNS6_S%21+index%3D2+validate%3Dno+%3Enul+2%3E%261%0D%0A++++%29%0D%0A++++echo+%5BDNS%5D+DNS+AdGuard+aplicado+com+sucesso+%5E%28IPv4+%2B+IPv6%5E%29+em+todas+as+interfaces+conectadas.%0D%0A%29+else+%28%0D%0A++++echo+%5BDNS%5D+DNS+AdGuard+j%C3%A1+estava+configurado+em+todas+as+interfaces+%E2%80%94+nenhuma+altera%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B2%2F17%5D+Cache+DNS+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Verificando+cache+DNS%22%0D%0Aset+%22DNS_ENTRIES%3D0%22%0D%0Afor+%2Ff+%25%25C+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-DnsClientCache%29.Count%7Dcatch%7B0%7D%22%27%29+do+set+%22DNS_ENTRIES%3D%25%25C%22%0D%0Aecho.%0D%0Aif+%21DNS_ENTRIES%21+gtr+0+%28%0D%0A++++ipconfig+%2Fflushdns+%3Enul+2%3E%261%0D%0A++++ipconfig+%2Fregisterdns+%3Enul+2%3E%261%0D%0A++++echo+%5BREDE%5D+Cache+DNS+limpo+%5E%28%21DNS_ENTRIES%21+entrada%5E%28s%5E%29+removida%5E%28s%5E%29%5E%29.%0D%0A%29+else+%28%0D%0A++++echo+%5BREDE%5D+Cache+DNS+j%C3%A1+estava+limpo+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B3%2F17%5D+Memory+Compression+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Verificando+Memory+Compression%22%0D%0Aset+%22MEMCOMP%3DFalse%22%0D%0Afor+%2Ff+%25%25M+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-MMAgent%29.MemoryCompression%7Dcatch%7B%27False%27%7D%22%27%29+do+set+%22MEMCOMP%3D%25%25M%22%0D%0Aecho.%0D%0Aif+%2Fi+%22%21MEMCOMP%21%22%3D%3D%22True%22+%28%0D%0A++++PowerShell+-NoProfile+-Command+%22Disable-MMAgent+-MemoryCompression%22+%3Enul+2%3E%261%0D%0A++++echo+%5BMEM%5D+Memory+Compression+desabilitada+com+sucesso.%0D%0A%29+else+%28%0D%0A++++echo+%5BMEM%5D+Memory+Compression+j%C3%A1+estava+desabilitada+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B4%2F17%5D+SysMain+%2F+Superfetch+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Verificando+SysMain+%28Superfetch%29%22%0D%0Aset+%22SYSMAIN%3DNotFound%22%0D%0Afor+%2Ff+%25%25S+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-Service+SysMain+-ErrorAction+Stop%29.Status%7Dcatch%7B%27NotFound%27%7D%22%27%29+do+set+%22SYSMAIN%3D%25%25S%22%0D%0Aecho.%0D%0Aif+%2Fi+%22%21SYSMAIN%21%22%3D%3D%22Running%22+%28%0D%0A++++PowerShell+-NoProfile+-Command+%22Stop-Service+SysMain+-Force+-ErrorAction+SilentlyContinue%3B+Set-Service+SysMain+-StartupType+Disabled+-ErrorAction+SilentlyContinue%22+%3Enul+2%3E%261%0D%0A++++echo+%5BSYSMAIN%5D+SysMain+%5E%28Superfetch%5E%29+parado+e+desabilitado+com+sucesso.%0D%0A%29+else+%28%0D%0A++++echo+%5BSYSMAIN%5D+SysMain+j%C3%A1+estava+desabilitado+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B5%2F17%5D+Plano+de+Energia+BugOPT+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Configurando+Plano+de+Energia%22%0D%0Aecho.%0D%0Aset+%22BUG_GUID%3D%22%0D%0Aset+%22ULT_GUID%3De9a42b02-d5df-448d-aa00-03f14749eb61%22%0D%0Afor+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Flist+2%5E%3Enul+%5E%7C+findstr+%2Fi+%22BugOPT%22%27%29+do+set+%22BUG_GUID%3D%25%25G%22%0D%0Aif+not+defined+BUG_GUID+%28%0D%0A++++set+%22NEW_GUID%3D%22%0D%0A++++for+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Fduplicatescheme+%21ULT_GUID%21+2%5E%3Enul%27%29+do+set+%22NEW_GUID%3D%25%25G%22%0D%0A++++if+not+defined+NEW_GUID+%28%0D%0A++++++++for+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Flist+2%5E%3Enul+%5E%7C+findstr+%2Fi+%22Ultimate+Performance%22%27%29+do+set+%22NEW_GUID%3D%25%25G%22%0D%0A++++%29%0D%0A++++if+not+defined+NEW_GUID+%28%0D%0A++++++++for+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Flist+2%5E%3Enul+%5E%7C+findstr+%2Fi+%22High+performance%22%27%29+do+set+%22NEW_GUID%3D%25%25G%22%0D%0A++++%29%0D%0A++++if+not+defined+NEW_GUID+%28%0D%0A++++++++echo+%5BPOWER%5D+Falha%3A+nenhum+plano+de+energia+base+dispon%C3%ADvel+para+servir+de+modelo.%0D%0A++++++++goto+%3APOWER_END%0D%0A++++%29%0D%0A++++set+%22BUG_GUID%3D%21NEW_GUID%21%22%0D%0A++++powercfg+%2Fchangename+%22%21BUG_GUID%21%22+%22BugOPT%22+%22Performance+absoluta+-+BugOPT%22+%3Enul+2%3E%261%0D%0A++++echo+%5BPOWER%5D+Plano+de+energia+%22BugOPT%22+criado+com+sucesso.%0D%0A%29+else+%28%0D%0A++++echo+%5BPOWER%5D+Plano+de+energia+%22BugOPT%22+j%C3%A1+existe+%E2%80%94+verificando+se+est%C3%A1+ativo+e+ajustado.%0D%0A%29%0D%0Afor+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Fgetactivescheme+2%5E%3Enul%27%29+do+set+%22ACTIVE_GUID%3D%25%25G%22%0D%0Aif+%2Fi+%22%21ACTIVE_GUID%21%22+neq+%22%21BUG_GUID%21%22+%28%0D%0A++++powercfg+%2Fsetactive+%22%21BUG_GUID%21%22+%3Enul+2%3E%261%0D%0A++++echo+%5BPOWER%5D+Plano+%22BugOPT%22+ativado.%0D%0A%29+else+%28%0D%0A++++echo+%5BPOWER%5D+Plano+%22BugOPT%22+j%C3%A1+estava+ativo+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0Afor+%25%25A+in+%28ac+dc%29+do+%28%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+PROCTHROTTLEMIN+100+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+PROCTHROTTLEMAX+100+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+PERFBOOSTMODE+2+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+PERFBOOSTPOL+100+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_SLEEP+STANDBYIDLE+0+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_SLEEP+HIBERNATEIDLE+0+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_VIDEO+VIDEOIDLE+0+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_DISK+DISKIDLE+0+%3Enul+2%3E%261%0D%0A++++powercfg+%2Fset%25%25Avalueindex+%22%21BUG_GUID%21%22+SUB_PCIEXPRESS+ASPM+0+%3Enul+2%3E%261%0D%0A%29%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+PERFINCPOL+2+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+PERFDECPOL+1+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+PERFINCTHRESHOLD+10+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+PERFDECTHRESHOLD+8+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+CPHEADROOM+0+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_PROCESSOR+LATENCYHINTPERF+100+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_SLEEP+HYBRIDSLEEP+0+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_SLEEP+RTCWAKE+0+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_VIDEO+ADAPTBRIGHT+0+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_DISK+DISKBURST+1+%3Enul+2%3E%261%0D%0Apowercfg+%2Fsetacvalueindex+%22%21BUG_GUID%21%22+SUB_NONE+CONNECTIVITYINSTANDBY+0+%3Enul+2%3E%261%0D%0Aset+%22OTHER_PLANS%3D0%22%0D%0Afor+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Flist+2%5E%3Enul+%5E%7C+findstr+%2Fi+%22Power+Scheme+GUID%22%27%29+do+%28%0D%0A++++if+%2Fi+%22%25%25G%22+neq+%22%21BUG_GUID%21%22+set+%22OTHER_PLANS%3D1%22%0D%0A%29%0D%0Aif+%22%21OTHER_PLANS%21%22%3D%3D%221%22+%28%0D%0A++++for+%2Ff+%22tokens%3D4%22+%25%25G+in+%28%27powercfg+%2Flist+2%5E%3Enul+%5E%7C+findstr+%2Fi+%22Power+Scheme+GUID%22%27%29+do+%28%0D%0A++++++++if+%2Fi+%22%25%25G%22+neq+%22%21BUG_GUID%21%22+powercfg+%2Fdelete+%22%25%25G%22+%3Enul+2%3E%261%0D%0A++++%29%0D%0A++++echo+%5BPOWER%5D+Planos+de+energia+redundantes+removidos+%5E%28apenas+%22BugOPT%22+restou%5E%29.%0D%0A%29+else+%28%0D%0A++++echo+%5BPOWER%5D+Nenhum+outro+plano+de+energia+encontrado+%E2%80%94+nenhuma+limpeza+necess%C3%A1ria.%0D%0A%29%0D%0Aecho+%5BPOWER%5D+Plano+%22BugOPT%22+configurado+e+ativo+com+todos+os+par%C3%A2metros+de+performance+m%C3%A1xima.%0D%0A%3APOWER_END%0D%0A%3A%3A+%3D%3D%3D%3D+%5B6%2F17%5D+Page+File+%28Arquivo+de+Pagina%C3%A7%C3%A3o%29+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Configurando+Page+File+%28SSDs%29%22%0D%0Aecho.%0D%0Adel+%2Ff+%2Fq+%22%25TEMP%25%5CBugOPT_Page.log%22+%3Enul+2%3E%261%0D%0APowerShell+-NoProfile+-Command+%5E%0D%0A++++%22%24ErrorActionPreference%3D%27SilentlyContinue%27%3B%22+%5E%0D%0A++++%22%24out%3D%40%28%29%3B%22+%5E%0D%0A++++%22%24cs%3DGet-CimInstance+-ClassName+Win32_ComputerSystem%3B%22+%5E%0D%0A++++%22if%28%24cs.AutomaticManagedPagefile%29%7BSet-CimInstance+-InputObject+%24cs+-Property+%40%7BAutomaticManagedPagefile%3D%24false%7D+-Confirm%3A%24false+%7C+Out-Null%7D%3B%22+%5E%0D%0A++++%22%24boot%3D%28%24env%3ASystemDrive%29.TrimEnd%28%27%3A%27%29%3B%22+%5E%0D%0A++++%22%24ssd%3D%40%28%29%3B%22+%5E%0D%0A++++%22try%7B%24disks%3DGet-PhysicalDisk+%7C+Where-Object+%7B%24_.MediaType+-eq+%27SSD%27%7D%7Dcatch%7B%24disks%3D%40%28%29%7D%3B%22+%5E%0D%0A++++%22foreach%28%24d+in+%24disks%29%7Btry%7B%24parts%3DGet-Partition+-DiskNumber+%24d.DeviceId+-ErrorAction+SilentlyContinue+%7C+Where-Object+%7B%24_.DriveLetter%7D%7Dcatch%7B%24parts%3D%40%28%29%7D%3Bforeach%28%24p+in+%24parts%29%7B%24l%3D%5Bstring%5D%24p.DriveLetter%3Bif%28%24l+-and+%28%24ssd+-notcontains+%24l%29%29%7B%24ssd%2B%3D%24l%7D%7D%7D%3B%22+%5E%0D%0A++++%22%24order%3D%40%28%29%3Bif%28%24ssd+-contains+%24boot%29%7B%24order%2B%3D%24boot%7D%3B%24order%2B%3D%28%24ssd+%7C+Where-Object+%7B%24_+-ne+%24boot%7D+%7C+Sort-Object%29%3Bif%28%24order.Count+-gt+3%29%7B%24order%3D%24order%5B0..2%5D%7D%3B%22+%5E%0D%0A++++%22%24idx%3D0%3Bforeach%28%24letter+in+%24order%29%7B%24size%3D25600%3Bif%28%24idx+-eq+0%29%7B%24size%3D2048%7D%3B%24idx%2B%2B%3B%24drv%3D%24letter%2B%27%3A%27%3B%24path%3D%24drv%2B%27%5Cpagefile.sys%27%3B%24ex%3DGet-CimInstance+-ClassName+Win32_PageFileSetting+-ErrorAction+SilentlyContinue+%7C+Where-Object+%7B%24_.Name+-eq+%24path%7D%3Bif%28%24ex%29%7Bif%28%24ex.InitialSize+-ne+%24size+-or+%24ex.MaximumSize+-ne+%24size%29%7BSet-CimInstance+-InputObject+%24ex+-Property+%40%7BInitialSize%3D%24size%3BMaximumSize%3D%24size%7D+-Confirm%3A%24false+%7C+Out-Null%3B%24out%2B%3D%28%27SET%3A%27%2B%24letter%2B%27%3A%27%2B%24size%29%7Delse%7B%24out%2B%3D%28%27OK%3A%27%2B%24letter%2B%27%3A%27%2B%24size%29%7D%7Delse%7BNew-CimInstance+-ClassName+Win32_PageFileSetting+-Property+%40%7BName%3D%24path%3BInitialSize%3D%24size%3BMaximumSize%3D%24size%7D+-ErrorAction+SilentlyContinue+%7C+Out-Null%3B%24out%2B%3D%28%27NEW%3A%27%2B%24letter%2B%27%3A%27%2B%24size%29%7D%7D%3B%22+%5E%0D%0A++++%22if%28%24order.Count+-eq+0%29%7B%24out%2B%3D%27NONE%27%7D%3B%22+%5E%0D%0A++++%22%24out+-join+%27%3B%27%22+%3E+%22%25TEMP%25%5CBugOPT_Page.log%22+2%3Enul%0D%0Aset+%22PAGE_RESULT%3D%22%0D%0Aif+exist+%22%25TEMP%25%5CBugOPT_Page.log%22+set+%5E%2Fp+PAGE_RESULT%3D%3C%22%25TEMP%25%5CBugOPT_Page.log%22%0D%0Adel+%2Ff+%2Fq+%22%25TEMP%25%5CBugOPT_Page.log%22+%3Enul+2%3E%261%0D%0Aset+%22PAGE_CHANGED%3D0%22%0D%0Aecho+%21PAGE_RESULT%21+%7C+findstr+%2FC%3A%22SET%3A%22+%2FC%3A%22NEW%3A%22+%3Enul+2%3E%261+%26%26+set+%22PAGE_CHANGED%3D1%22%0D%0Aif+%22%21PAGE_RESULT%21%22%3D%3D%22NONE%22+%28%0D%0A++++echo+%5BPAGE%5D+Nenhum+SSD+eleg%C3%ADvel+foi+encontrado+%E2%80%94+a+pagina%C3%A7%C3%A3o+n%C3%A3o+foi+alterada.%0D%0A%29+else+if+%22%21PAGE_RESULT%21%22%3D%3D%22%22+%28%0D%0A++++echo+%5BPAGE%5D+N%C3%A3o+foi+poss%C3%ADvel+verificar+os+discos+%E2%80%94+a+pagina%C3%A7%C3%A3o+n%C3%A3o+foi+alterada.%0D%0A%29+else+if+%22%21PAGE_CHANGED%21%22%3D%3D%221%22+%28%0D%0A++++echo+%5BPAGE%5D+Pagina%C3%A7%C3%A3o+gerenciada+manualmente+e+otimizada+no%5E%28s%5E%29+SSD%5E%28s%5E%29+detectado%5E%28s%5E%29+%5E%28disco+de+boot+priorizado%5E%29.%0D%0A%29+else+%28%0D%0A++++echo+%5BPAGE%5D+Pagina%C3%A7%C3%A3o+j%C3%A1+estava+corretamente+configurada+%E2%80%94+nenhuma+altera%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B7%2F17%5D+Efeitos+Visuais+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Verificando+Efeitos+Visuais%22%0D%0Aset+%22VFX%3D-1%22+%26+set+%22ICONS%3D-1%22+%26+set+%22FONTS%3D-1%22%0D%0Afor+%2Ff+%25%25V+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-ItemProperty+%27HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CVisualEffects%27%29.VisualFXSetting%7Dcatch%7B-1%7D%22%27%29+do+set+%22VFX%3D%25%25V%22%0D%0Afor+%2Ff+%25%25I+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-ItemProperty+%27HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced%27%29.IconsOnly%7Dcatch%7B-1%7D%22%27%29+do+set+%22ICONS%3D%25%25I%22%0D%0Afor+%2Ff+%25%25F+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-ItemProperty+%27HKCU%3A%5CControl+Panel%5CDesktop%27%29.FontSmoothing%7Dcatch%7B-1%7D%22%27%29+do+set+%22FONTS%3D%25%25F%22%0D%0Aecho.%0D%0Aif+%22%21VFX%21%22%3D%3D%223%22+if+%22%21ICONS%21%22%3D%3D%220%22+if+%22%21FONTS%21%22%3D%3D%222%22+%28%0D%0A++++echo+%5BVISUAL%5D+Efeitos+visuais+j%C3%A1+estavam+configurados+para+performance+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A++++goto+%3AVISUAL_END%0D%0A%29%0D%0APowerShell+-NoProfile+-Command+%5E%0D%0A++++%22%24vfx%3D%27HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CVisualEffects%27%3B%22+%5E%0D%0A++++%22%24adv%3D%27HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced%27%3B%22+%5E%0D%0A++++%22%24desk%3D%27HKCU%3A%5CControl+Panel%5CDesktop%27%3B%22+%5E%0D%0A++++%22%24wm%3D%27HKCU%3A%5CControl+Panel%5CDesktop%5CWindowMetrics%27%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24vfx+-Name+VisualFXSetting+-Value+3+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24desk+-Name+UserPreferencesMask+-Value+%28%5Bbyte%5B%5D%5D%280x90%2C0x12%2C0x03%2C0x80%2C0x10%2C0x00%2C0x00%2C0x00%29%29+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24desk+-Name+FontSmoothing+-Value+%272%27+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24desk+-Name+FontSmoothingType+-Value+2+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24desk+-Name+FontSmoothingGamma+-Value+1450+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24desk+-Name+DragFullWindows+-Value+%270%27+-Force%3B%22+%5E%0D%0A++++%22if%28-not%28Test-Path+%24wm%29%29%7BNew-Item+-Path+%24wm+-Force%7COut-Null%7D%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24wm+-Name+MinAnimate+-Value+%270%27+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24adv+-Name+IconsOnly+-Value+0+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24adv+-Name+TaskbarAnimations+-Value+0+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24adv+-Name+EnableAeroPeek+-Value+0+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24adv+-Name+ListviewShadow+-Value+0+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24adv+-Name+ListviewAlphaSelect+-Value+0+-Force%3B%22+%5E%0D%0A++++%22Set-ItemProperty+-Path+%24adv+-Name+ExtendedUIHoverTime+-Value+0+-Force%22+%3Enul+2%3E%261%0D%0Aecho+%5BVISUAL%5D+Efeitos+visuais+ajustados+para+m%C3%A1xima+performance+com+sucesso.%0D%0A%3AVISUAL_END%0D%0A%3A%3A+%3D%3D%3D%3D+%5B8%2F17%5D+Temp+do+Usu%C3%A1rio+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Limpando+Temp+do+usu%C3%A1rio%22%0D%0Aset+%22TMP_COUNT%3D0%22%0D%0Aif+exist+%22%25temp%25%5C%22+%28%0D%0A++++for+%2Ff+%25%25F+in+%28%27dir+%2Fb+%2Fa+%22%25temp%25%22+2%5E%3Enul+%5E%7C+find+%2Fc+%2Fv+%22%22%27%29+do+set+%22TMP_COUNT%3D%25%25F%22%0D%0A%29%0D%0Aecho.%0D%0Aif+%21TMP_COUNT%21+gtr+0+%28%0D%0A++++for+%2Fd+%25%25D+in+%28%22%25temp%25%5C*%22%29+do+rd+%2Fs+%2Fq+%22%25%25D%22+%3Enul+2%3E%261%0D%0A++++for+%25%25F+in+%28%22%25temp%25%5C*%22%29+do+del+%2Ff+%2Fq+%22%25%25F%22+%3Enul+2%3E%261%0D%0A++++echo+%5BTMP%5D+%21TMP_COUNT%21+item%5E%28ns%5E%29+removido%5E%28s%5E%29+da+pasta+Temp+do+usu%C3%A1rio.%0D%0A%29+else+%28%0D%0A++++echo+%5BTMP%5D+Pasta+Temp+do+usu%C3%A1rio+j%C3%A1+estava+vazia+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B9%2F17%5D+Temp+do+Windows+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Limpando+Temp+do+Windows%22%0D%0Aset+%22TMPW_COUNT%3D0%22%0D%0Aif+exist+%22C%3A%5CWindows%5CTemp%5C%22+%28%0D%0A++++for+%2Ff+%25%25F+in+%28%27dir+%2Fb+%2Fa+%22C%3A%5CWindows%5CTemp%22+2%5E%3Enul+%5E%7C+find+%2Fc+%2Fv+%22%22%27%29+do+set+%22TMPW_COUNT%3D%25%25F%22%0D%0A%29%0D%0Aecho.%0D%0Aif+%21TMPW_COUNT%21+gtr+0+%28%0D%0A++++for+%2Fd+%25%25D+in+%28%22C%3A%5CWindows%5CTemp%5C*%22%29+do+rd+%2Fs+%2Fq+%22%25%25D%22+%3Enul+2%3E%261%0D%0A++++for+%25%25F+in+%28%22C%3A%5CWindows%5CTemp%5C*%22%29+do+del+%2Ff+%2Fq+%22%25%25F%22+%3Enul+2%3E%261%0D%0A++++if+not+exist+%22C%3A%5CWindows%5CTemp%5C%22+mkdir+%22C%3A%5CWindows%5CTemp%22+%3Enul+2%3E%261%0D%0A++++echo+%5BTMPW%5D+%21TMPW_COUNT%21+item%5E%28ns%5E%29+removido%5E%28s%5E%29+da+pasta+Temp+do+Windows.%0D%0A%29+else+%28%0D%0A++++echo+%5BTMPW%5D+Pasta+Temp+do+Windows+j%C3%A1+estava+vazia+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B10%2F17%5D+Prefetch+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Limpando+Prefetch%22%0D%0Aset+%22PRE_COUNT%3D0%22%0D%0Aif+exist+%22C%3A%5CWindows%5CPrefetch%5C%22+%28%0D%0A++++for+%2Ff+%25%25F+in+%28%27dir+%2Fb+%2Fa+%22C%3A%5CWindows%5CPrefetch%5C*.pf%22+2%5E%3Enul+%5E%7C+find+%2Fc+%2Fv+%22%22%27%29+do+set+%22PRE_COUNT%3D%25%25F%22%0D%0A%29%0D%0Aecho.%0D%0Aif+%21PRE_COUNT%21+gtr+0+%28%0D%0A++++del+%2Ff+%2Fs+%2Fq+%22C%3A%5CWindows%5CPrefetch%5C*.pf%22+%3Enul+2%3E%261%0D%0A++++echo+%5BPRE%5D+%21PRE_COUNT%21+arquivo%5E%28s%5E%29+de+Prefetch+removido%5E%28s%5E%29.%0D%0A%29+else+%28%0D%0A++++echo+%5BPRE%5D+Prefetch+j%C3%A1+estava+vazio+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B11%2F17%5D+Cache+do+Sistema+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Limpando+caches+do+sistema%22%0D%0Aset+%22CACHE_LIMPO%3D1%22%0D%0Afor+%25%25D+in+%28%0D%0A++++%22%25LOCALAPPDATA%25%5CMicrosoft%5CWindows%5CINetCache%22%0D%0A++++%22%25LOCALAPPDATA%25%5CTemp%22%0D%0A++++%22%25APPDATA%25%5CMicrosoft%5CWindows%5CRecent%22%0D%0A%29+do+%28%0D%0A++++if+exist+%22%25%25~D%5C%22+%28%0D%0A++++++++for+%2Ff+%25%25F+in+%28%27dir+%2Fb+%2Fa+%22%25%25~D%22+2%5E%3Enul+%5E%7C+find+%2Fc+%2Fv+%22%22%27%29+do+if+%25%25F+gtr+0+set+%22CACHE_LIMPO%3D0%22%0D%0A++++%29%0D%0A%29%0D%0Aecho.%0D%0Aif+%22%21CACHE_LIMPO%21%22%3D%3D%220%22+%28%0D%0A++++for+%25%25D+in+%28%0D%0A++++++++%22%25LOCALAPPDATA%25%5CMicrosoft%5CWindows%5CINetCache%22%0D%0A++++++++%22%25LOCALAPPDATA%25%5CTemp%22%0D%0A++++++++%22%25APPDATA%25%5CMicrosoft%5CWindows%5CRecent%22%0D%0A++++%29+do+%28%0D%0A++++++++if+exist+%22%25%25~D%5C%22+%28%0D%0A++++++++++++for+%2Fd+%25%25X+in+%28%22%25%25~D%5C*%22%29+do+rd+%2Fs+%2Fq+%22%25%25X%22+%3Enul+2%3E%261%0D%0A++++++++++++for+%25%25X+in+%28%22%25%25~D%5C*%22%29+do+del+%2Ff+%2Fq+%22%25%25X%22+%3Enul+2%3E%261%0D%0A++++++++%29%0D%0A++++%29%0D%0A++++echo+%5BCACHE%5D+Caches+do+sistema+%5E%28INetCache%2C+Temp+local%2C+Recentes%5E%29+limpos+com+sucesso.%0D%0A%29+else+%28%0D%0A++++echo+%5BCACHE%5D+Todos+os+caches+do+sistema+j%C3%A1+estavam+limpos+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B12%2F17%5D+Lixeira+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Esvaziando+a+Lixeira%22%0D%0Aset+%22RECYCLE%3D0%22%0D%0Afor+%2Ff+%25%25R+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28New-Object+-ComObject+Shell.Application%29.NameSpace%2810%29.Items%28%29.Count%7Dcatch%7B0%7D%22%27%29+do+set+%22RECYCLE%3D%25%25R%22%0D%0Aecho.%0D%0Aif+%21RECYCLE%21+gtr+0+%28%0D%0A++++PowerShell+-NoProfile+-Command+%22Clear-RecycleBin+-Force+-ErrorAction+SilentlyContinue%22+%3Enul+2%3E%261%0D%0A++++echo+%5BLIXEIRA%5D+%21RECYCLE%21+item%5E%28ns%5E%29+removido%5E%28s%5E%29+da+Lixeira.%0D%0A%29+else+%28%0D%0A++++echo+%5BLIXEIRA%5D+Lixeira+j%C3%A1+estava+vazia+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B13%2F17%5D+Cache+do+Windows+Update+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Limpando+cache+do+Windows+Update%22%0D%0Aset+%22WU_COUNT%3D0%22%0D%0Aif+exist+%22C%3A%5CWindows%5CSoftwareDistribution%5CDownload%5C%22+%28%0D%0A++++for+%2Ff+%25%25F+in+%28%27dir+%2Fb+%2Fa+%22C%3A%5CWindows%5CSoftwareDistribution%5CDownload%22+2%5E%3Enul+%5E%7C+find+%2Fc+%2Fv+%22%22%27%29+do+set+%22WU_COUNT%3D%25%25F%22%0D%0A%29%0D%0Aecho.%0D%0Aif+%21WU_COUNT%21+gtr+0+%28%0D%0A++++net+stop+wuauserv+%2Fy+%3Enul+2%3E%261%0D%0A++++net+stop+bits+%2Fy+%3Enul+2%3E%261%0D%0A++++rd+%2Fs+%2Fq+%22C%3A%5CWindows%5CSoftwareDistribution%5CDownload%22+%3Enul+2%3E%261%0D%0A++++mkdir+%22C%3A%5CWindows%5CSoftwareDistribution%5CDownload%22+%3Enul+2%3E%261%0D%0A++++net+start+bits+%3Enul+2%3E%261%0D%0A++++net+start+wuauserv+%3Enul+2%3E%261%0D%0A++++echo+%5BWU%5D+%21WU_COUNT%21+item%5E%28ns%5E%29+removido%5E%28s%5E%29+do+cache+do+Windows+Update.%0D%0A%29+else+%28%0D%0A++++echo+%5BWU%5D+Cache+do+Windows+Update+j%C3%A1+estava+limpo+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B14%2F17%5D+TRIM+dos+SSDs+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Executando+TRIM+nos+SSDs%22%0D%0Aset+%22SSD_COUNT%3D0%22%0D%0Afor+%2Ff+%25%25T+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%40%28Get-PhysicalDisk%7CWhere-Object%7B%24_.MediaType+-eq+%27SSD%27%7D%29.Count%7Dcatch%7B0%7D%22%27%29+do+set+%22SSD_COUNT%3D%25%25T%22%0D%0Aecho.%0D%0Aif+%21SSD_COUNT%21+gtr+0+%28%0D%0A++++PowerShell+-NoProfile+-Command+%22try%7BGet-PhysicalDisk%7CWhere-Object%7B%24_.MediaType+-eq+%27SSD%27%7D%7CForEach-Object%7B%24n%3D%24_.DeviceId%3BGet-Partition+-DiskNumber+%24n+-ErrorAction+SilentlyContinue%7CWhere-Object%7B%24_.DriveLetter%7D%7CForEach-Object%7BOptimize-Volume+-DriveLetter+%24_.DriveLetter+-ReTrim+-ErrorAction+SilentlyContinue%7D%7D%7Dcatch%7B%7D%22+%3Enul+2%3E%261%0D%0A++++echo+%5BTRIM%5D+TRIM+executado+com+sucesso+em+%21SSD_COUNT%21+SSD%5E%28s%5E%29+detectado%5E%28s%5E%29.%0D%0A%29+else+%28%0D%0A++++echo+%5BTRIM%5D+Nenhum+SSD+detectado+%E2%80%94+TRIM+n%C3%A3o+%C3%A9+aplic%C3%A1vel.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B15%2F17%5D+Servi%C3%A7os+Desnecess%C3%A1rios+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Desabilitando+servi%C3%A7os+desnecess%C3%A1rios%22%0D%0Aset+%22SVC_CHANGED%3D0%22%0D%0Afor+%25%25S+in+%28DiagTrack+WMPNetworkSvc+XblAuthManager+XblGameSave+XboxNetApiSvc+lfsvc+MapsBroker+RetailDemo+WerSvc%29+do+%28%0D%0A++++set+%22SVC_TYPE%3DNotFound%22%0D%0A++++for+%2Ff+%25%25T+in+%28%27PowerShell+-NoProfile+-Command+%22try%7B%28Get-Service+-Name+%27%25%25S%27+-ErrorAction+Stop%29.StartType%7Dcatch%7B%27NotFound%27%7D%22%27%29+do+set+%22SVC_TYPE%3D%25%25T%22%0D%0A++++if+%2Fi+%22%21SVC_TYPE%21%22+neq+%22Disabled%22+if+%2Fi+%22%21SVC_TYPE%21%22+neq+%22NotFound%22+%28%0D%0A++++++++PowerShell+-NoProfile+-Command+%22try%7BStop-Service+-Name+%27%25%25S%27+-Force+-ErrorAction+SilentlyContinue%3BSet-Service+-Name+%27%25%25S%27+-StartupType+Disabled+-ErrorAction+SilentlyContinue%7Dcatch%7B%7D%22+%3Enul+2%3E%261%0D%0A++++++++set+%22SVC_CHANGED%3D1%22%0D%0A++++%29%0D%0A%29%0D%0Aecho.%0D%0Aif+%22%21SVC_CHANGED%21%22%3D%3D%221%22+%28%0D%0A++++echo+%5BSERVI%C3%87OS%5D+Servi%C3%A7os+dispens%C3%A1veis+%5E%28telemetria%2C+Xbox%2C+mapas%2C+etc.%5E%29+desabilitados+com+sucesso.%0D%0A%29+else+%28%0D%0A++++echo+%5BSERVI%C3%87OS%5D+Todos+os+servi%C3%A7os+dispens%C3%A1veis+j%C3%A1+estavam+desabilitados+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B16%2F17%5D+Telemetria+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Desabilitando+telemetria%22%0D%0Aset+%22TEL_OK%3D0%22%0D%0Afor+%2Ff+%22tokens%3D3%22+%25%25T+in+%28%27reg+query+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+AllowTelemetry+2%5E%3Enul%27%29+do+if+%22%25%25T%22%3D%3D%220x0%22+set+%22TEL_OK%3D1%22%0D%0Aecho.%0D%0Aif+%22%21TEL_OK%21%22%3D%3D%220%22+%28%0D%0A++++reg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection%22+%2Fv+AllowTelemetry+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0A++++reg+add+%22HKLM%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CDataCollection%22+%2Fv+AllowTelemetry+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0A++++PowerShell+-NoProfile+-Command+%5E%0D%0A++++++++%22Disable-ScheduledTask+-TaskPath+%27%5CMicrosoft%5CWindows%5CApplication+Experience%5C%27+-TaskName+%27Microsoft+Compatibility+Appraiser%27+-ErrorAction+SilentlyContinue%3B%22+%5E%0D%0A++++++++%22Disable-ScheduledTask+-TaskPath+%27%5CMicrosoft%5CWindows%5CApplication+Experience%5C%27+-TaskName+%27ProgramDataUpdater%27+-ErrorAction+SilentlyContinue%3B%22+%5E%0D%0A++++++++%22Disable-ScheduledTask+-TaskPath+%27%5CMicrosoft%5CWindows%5CCustomer+Experience+Improvement+Program%5C%27+-TaskName+%27Consolidator%27+-ErrorAction+SilentlyContinue%22+%3Enul+2%3E%261%0D%0A++++echo+%5BTELEMETRIA%5D+Telemetria+e+tarefas+de+coleta+de+dados+desabilitadas+com+sucesso.%0D%0A%29+else+%28%0D%0A++++echo+%5BTELEMETRIA%5D+Telemetria+j%C3%A1+estava+desabilitada+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0A%3A%3A+%3D%3D%3D%3D+%5B17%2F17%5D+Game+Mode+%2F+Game+DVR+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aset+%2Fa+STEP%2B%3D1%0D%0Acall+%3ADrawBar+%21STEP%21+%21TOTAL%21+%22Configurando+Game+Mode+%2F+Game+DVR%22%0D%0Aset+%22GMODE%3D%22+%26+set+%22GDVR%3D%22%0D%0Afor+%2Ff+%22tokens%3D3%22+%25%25G+in+%28%27reg+query+%22HKCU%5CSOFTWARE%5CMicrosoft%5CGameBar%22+%2Fv+AutoGameModeEnabled+2%5E%3Enul%27%29+do+if+%22%25%25G%22%3D%3D%220x1%22+set+%22GMODE%3D1%22%0D%0Afor+%2Ff+%22tokens%3D3%22+%25%25G+in+%28%27reg+query+%22HKCU%5CSystem%5CGameConfigStore%22+%2Fv+GameDVR_Enabled+2%5E%3Enul%27%29+do+if+%22%25%25G%22%3D%3D%220x0%22+set+%22GDVR%3D1%22%0D%0Aecho.%0D%0Aif+not+defined+GMODE+%28%0D%0A++++reg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CGameBar%22+%2Fv+AllowAutoGameMode+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0A++++reg+add+%22HKCU%5CSOFTWARE%5CMicrosoft%5CGameBar%22+%2Fv+AutoGameModeEnabled+%2Ft+REG_DWORD+%2Fd+1+%2Ff+%3Enul+2%3E%261%0D%0A++++reg+add+%22HKCU%5CSystem%5CGameConfigStore%22+%2Fv+GameDVR_Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0A++++reg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CGameDVR%22+%2Fv+AllowGameDVR+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0A++++echo+%5BGAME%5D+Game+Mode+ativado+e+Game+DVR+desabilitado+com+sucesso.%0D%0A%29+else+if+not+defined+GDVR+%28%0D%0A++++reg+add+%22HKCU%5CSystem%5CGameConfigStore%22+%2Fv+GameDVR_Enabled+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0A++++reg+add+%22HKLM%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CGameDVR%22+%2Fv+AllowGameDVR+%2Ft+REG_DWORD+%2Fd+0+%2Ff+%3Enul+2%3E%261%0D%0A++++echo+%5BGAME%5D+Game+DVR+desabilitado+com+sucesso.%0D%0A%29+else+%28%0D%0A++++echo+%5BGAME%5D+Game+Mode+e+Game+DVR+j%C3%A1+estavam+configurados+%E2%80%94+nenhuma+a%C3%A7%C3%A3o+necess%C3%A1ria.%0D%0A%29%0D%0Acall+%3ADrawBar+%21TOTAL%21+%21TOTAL%21+%22Conclu%C3%ADdo%22%0D%0Aecho.%0D%0Aecho.%0D%0Aecho+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aecho++Otimiza%C3%A7%C3%A3o+finalizada+com+sucesso.+Todas+as+%21TOTAL%21+etapas%0D%0Aecho++foram+verificadas+e+aplicadas+quando+necess%C3%A1rio.%0D%0Aecho+%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0D%0Aecho.%0D%0A%3Cnul+set+%5E%2Fp+%22%3D%21ESC%21%5Br%21ESC%21%5B%3F25h%22%0D%0Aexit+%2Fb+0&FirstLogonScriptType9=Cmd&AppLockerMode=Skip-->
 	<settings pass="offlineServicing"></settings>
 	<settings pass="windowsPE">
 		<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
@@ -35,7 +35,7 @@
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>8</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:for /R ^%PEDRIVERS_FOLDER^% ^%^%f IN (*.inf^) do drvload.exe ^"^%^%f^"&amp;echo:^)&amp;echo:^&gt;X:\diskpart.txt (&amp;echo:echo:SELECT DISK=0&amp;echo:echo:CLEAN&amp;echo:echo:CONVERT GPT&amp;echo:echo:CREATE PARTITION EFI SIZE=300)</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:for /R ^%PEDRIVERS_FOLDER^% ^%^%f IN (*.inf^) do drvload.exe ^"^%^%f^"&amp;echo:^)&amp;echo:^&gt;X:\GPT.txt (&amp;echo:echo:SELECT DISK=0&amp;echo:echo:CLEAN&amp;echo:echo:CONVERT GPT&amp;echo:echo:CREATE PARTITION EFI SIZE=300)</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>9</Order>
@@ -43,58 +43,70 @@
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>10</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:echo:ASSIGN LETTER=W&amp;echo:^)&amp;echo:call :print ^"diskpart will now partition and format your disk^"&amp;echo:diskpart.exe /s X:\diskpart.txt ^|^| call :fail ^"diskpart.exe encountered an error.^")</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:echo:ASSIGN LETTER=W&amp;echo:^)&amp;echo:^&gt;X:\MBR.txt (&amp;echo:echo:SELECT DISK=0&amp;echo:echo:CLEAN&amp;echo:echo:CREATE PARTITION PRIMARY SIZE=300&amp;echo:echo:FORMAT QUICK FS=NTFS LABEL=^^^"System^^^"&amp;echo:echo:ASSIGN LETTER=S)</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>11</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:set ^"IMG_PARAM=/Name:^"Windows ^%OS_VERSION^% Home^"^"&amp;echo:call :print ^"Applying Windows image to target disk^")</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:echo:ACTIVE&amp;echo:echo:CREATE PARTITION PRIMARY&amp;echo:echo:FORMAT QUICK FS=NTFS LABEL=^^^"Windows^^^"&amp;echo:echo:ASSIGN LETTER=W&amp;echo:^)&amp;echo:wpeutil.exe UpdateBootInfo)</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>12</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:dism.exe /Apply-Image /ImageFile:^%IMAGE_FILE^% ^%SWM_PARAM^% ^%IMG_PARAM^% /ApplyDir:W:\ ^|^| call :fail ^"dism.exe encountered an error.^"&amp;echo:call :print ^"Making system partition bootable^")</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:for /f ^"tokens=3^" ^%^%t in ('reg.exe query HKLM\System\CurrentControlSet\Control /v PEFirmwareType'^) do (&amp;echo:if ^%^%t == 0x1 (&amp;echo:set ^"LAYOUT=MBR^"&amp;echo:^) else if ^%^%t == 0x2 (&amp;echo:set ^"LAYOUT=GPT^"&amp;echo:^) else ()</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>13</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:bcdboot.exe W:\Windows /s S: ^|^| call :fail ^"bcdboot.exe encountered an error.^"&amp;echo:bcdedit.exe /set {fwbootmgr} bootsequence {bootmgr}&amp;echo:call :print ^"Deleting winre.wim file to avoid creation of recovery partition^")</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:call :fail ^"Unexpected value ^%^%t.^"&amp;echo:^)&amp;echo:^)&amp;echo:call :print ^"The target disk will be configured with the ^%LAYOUT^% partition layout^"&amp;echo:call :print ^"diskpart will now partition and format your disk^")</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>14</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:del W:\Windows\System32\Recovery\winre.wim&amp;echo:call :print ^"Copying answer file to target disk^"&amp;echo:mkdir W:\Windows\Panther&amp;echo:copy ^%XML_FILE^% W:\Windows\Panther\unattend.xml&amp;echo:if defined PEDRIVERS_FOLDER ()</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:diskpart.exe /s X:\^%LAYOUT^%.txt ^|^| call :fail ^"diskpart.exe encountered an error.^"&amp;echo:set ^"IMG_PARAM=/Name:^"Windows ^%OS_VERSION^% Home^"^"&amp;echo:call :print ^"Applying Windows image to target disk^")</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>15</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:call :print ^"Adding drivers from $WinPEDriver$ folder to new installation^"&amp;echo:dism.exe /Add-Driver /Image:W:\ /Driver:^"^%PEDRIVERS_FOLDER^%^" /Recurse&amp;echo:^)&amp;echo:call :print ^"Setting time zone^")</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:dism.exe /Apply-Image /ImageFile:^%IMAGE_FILE^% ^%SWM_PARAM^% ^%IMG_PARAM^% /ApplyDir:W:\ ^|^| call :fail ^"dism.exe encountered an error.^"&amp;echo:call :print ^"Making system partition bootable^")</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>16</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:dism.exe /Image:W:\ /Set-TimeZone:^"E. South America Standard Time^"&amp;echo:call :print ^"Disabling 8.3 file names^"&amp;echo:fsutil.exe 8dot3name set W: 1&amp;echo:fsutil.exe 8dot3name strip /s /f W:\)</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:bcdboot.exe W:\Windows /s S: ^|^| call :fail ^"bcdboot.exe encountered an error.^"&amp;echo:bcdedit.exe /set {fwbootmgr} bootsequence {bootmgr}&amp;echo:call :print ^"Deleting winre.wim file to avoid creation of recovery partition^")</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>17</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:reg.exe LOAD HKLM\mount W:\Windows\System32\config\SYSTEM&amp;echo:reg.exe ADD HKLM\mount\ControlSet001\Control\FileSystem /v NtfsDisable8dot3NameCreation /t REG_DWORD /d 1 /f&amp;echo:reg.exe UNLOAD HKLM\mount)</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:del W:\Windows\System32\Recovery\winre.wim&amp;echo:call :print ^"Copying answer file to target disk^"&amp;echo:mkdir W:\Windows\Panther&amp;echo:copy ^%XML_FILE^% W:\Windows\Panther\unattend.xml&amp;echo:if defined PEDRIVERS_FOLDER ()</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>18</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:call :print ^"Disabling Windows Defender^"&amp;echo:reg.exe LOAD HKLM\mount W:\Windows\System32\config\SYSTEM)</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:call :print ^"Adding drivers from $WinPEDriver$ folder to new installation^"&amp;echo:dism.exe /Add-Driver /Image:W:\ /Driver:^"^%PEDRIVERS_FOLDER^%^" /Recurse&amp;echo:^)&amp;echo:call :print ^"Setting time zone^")</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>19</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:for ^%^%s in (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend^) do reg.exe ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f&amp;echo:reg.exe UNLOAD HKLM\mount)</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:dism.exe /Image:W:\ /Set-TimeZone:^"E. South America Standard Time^"&amp;echo:call :print ^"Disabling 8.3 file names^"&amp;echo:fsutil.exe 8dot3name set W: 1&amp;echo:fsutil.exe 8dot3name strip /s /f W:\)</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>20</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:call :print ^"Setting device setup region to Brazil (GeoID 32^)^"&amp;echo:reg.exe LOAD HKLM\mount W:\Windows\System32\config\SOFTWARE)</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:reg.exe LOAD HKLM\mount W:\Windows\System32\config\SYSTEM&amp;echo:reg.exe ADD HKLM\mount\ControlSet001\Control\FileSystem /v NtfsDisable8dot3NameCreation /t REG_DWORD /d 1 /f&amp;echo:reg.exe UNLOAD HKLM\mount)</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>21</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:reg.exe ADD ^"HKLM\mount\Microsoft\Windows\CurrentVersion\Control Panel\DeviceRegion^" /v DeviceRegion /t REG_DWORD /d 32 /f&amp;echo:reg.exe UNLOAD HKLM\mount&amp;echo:call :print ^"Computer will now reboot^"&amp;echo:wpeutil.exe reboot)</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:call :print ^"Disabling Windows Defender^"&amp;echo:reg.exe LOAD HKLM\mount W:\Windows\System32\config\SYSTEM)</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>22</Order>
-					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:goto :eof&amp;echo::fail&amp;echo:echo:&amp;echo:echo:Fatal error: ^%~1&amp;echo:echo:&amp;echo:pause&amp;echo:exit 1&amp;echo::print&amp;echo:echo:&amp;echo:echo:*** ^%~1 ***&amp;echo:echo:&amp;echo:goto :eof)</Path>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:for ^%^%s in (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend^) do reg.exe ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f&amp;echo:reg.exe UNLOAD HKLM\mount)</Path>
 				</RunSynchronousCommand>
 				<RunSynchronousCommand wcm:action="add">
 					<Order>23</Order>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:call :print ^"Setting device setup region to Brazil (GeoID 32^)^"&amp;echo:reg.exe LOAD HKLM\mount W:\Windows\System32\config\SOFTWARE)</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>24</Order>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:reg.exe ADD ^"HKLM\mount\Microsoft\Windows\CurrentVersion\Control Panel\DeviceRegion^" /v DeviceRegion /t REG_DWORD /d 32 /f&amp;echo:reg.exe UNLOAD HKLM\mount&amp;echo:call :print ^"Computer will now reboot^"&amp;echo:wpeutil.exe reboot)</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>25</Order>
+					<Path>cmd.exe /c &gt;&gt;X:\pe.cmd (echo:goto :eof&amp;echo::fail&amp;echo:echo:&amp;echo:echo:Fatal error: ^%~1&amp;echo:echo:&amp;echo:pause&amp;echo:exit 1&amp;echo::print&amp;echo:echo:&amp;echo:echo:*** ^%~1 ***&amp;echo:echo:&amp;echo:goto :eof)</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>26</Order>
 					<Path>cmd.exe /c "X:\pe.cmd"</Path>
 				</RunSynchronousCommand>
 			</RunSynchronous>
@@ -220,7 +232,6 @@ $selectors = @(
 	'Microsoft.WindowsMaps';
 	'Microsoft.MixedReality.Portal';
 	'Microsoft.BingNews';
-	'Microsoft.WindowsNotepad';
 	'Microsoft.MicrosoftOfficeHub';
 	'Microsoft.Office.OneNote';
 	'Microsoft.OutlookForWindows';
@@ -230,7 +241,6 @@ $selectors = @(
 	'Microsoft.PowerAutomateDesktop';
 	'MicrosoftCorporationII.QuickAssist';
 	'Microsoft.SkypeApp';
-	'Microsoft.ScreenSketch';
 	'Microsoft.MicrosoftSolitaireCollection';
 	'Microsoft.MicrosoftStickyNotes';
 	'MicrosoftTeams';
@@ -239,6 +249,7 @@ $selectors = @(
 	'Microsoft.WindowsSoundRecorder';
 	'Microsoft.Wallet';
 	'Microsoft.BingWeather';
+	'Microsoft.WindowsTerminal';
 	'Microsoft.Xbox.TCUI';
 	'Microsoft.XboxApp';
 	'Microsoft.XboxGameOverlay';
@@ -301,7 +312,6 @@ $selectors = @(
 	'Microsoft.Windows.MSPaint';
 	'Microsoft.Windows.PowerShell.ISE';
 	'App.Support.QuickAssist';
-	'Microsoft.Windows.SnippingTool';
 	'Language.Speech';
 	'Language.TextToSpeech';
 	'App.StepsRecorder';
@@ -360,7 +370,6 @@ $selectors = @(
 	'MicrosoftWindowsPowerShellV2Root';
 	'Microsoft-RemoteDesktopConnection';
 	'Recall';
-	'Microsoft-SnippingTool';
 );
 $getCommand = {
   Get-WindowsOptionalFeature -Online | Where-Object -Property 'State' -NotIn -Value @(
@@ -570,7 +579,7 @@ $lightThemeSystem = 0;
 $lightThemeApps = 0;
 $accentColorOnStart = 0;
 $enableTransparency = 0;
-$htmlAccentColor = '#0078D4';
+$htmlAccentColor = '#0096FF';
 &amp; {
 	$params = @{
 		LiteralPath = 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize';
@@ -765,28 +774,22 @@ exit /b 0
 		</File>
 		<File path="C:\Windows\Setup\Scripts\unattend-02.reg">
 Windows Registry Editor Version 5.00
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
 "SvcHostSplitThresholdInKB"=dword:04000000
 "WaitToKillServiceTimeout"="1000"
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer]
 "StartupDelayInMSec"=dword:00000000
-
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Serialize]
 "StartupDelayInMSec"=dword:00000000
-
 [HKEY_CURRENT_USER\Control Panel\Desktop]
 "AutoEndTasks"="1"
 "HungAppTimeout"="1000"
 "WaitToKillAppTimeout"="2000"
 "LowLevelHooksTimeout"="1000"
 "MenuShowDelay"="0"
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile]
 "SystemResponsiveness"=dword:00000000
 "NetworkThrottlingIndex"=dword:ffffffff
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games]
 "GPU Priority"=dword:00000008
 "Priority"=dword:00000006
@@ -795,28 +798,21 @@ Windows Registry Editor Version 5.00
 "Affinity"=dword:00000000
 "Background Only"="False"
 "Clock Rate"=dword:00002710
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
 "EnableLUA"=dword:00000001
 "DisableAutomaticRestartSignOn"=dword:00000001
-
 [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications]
 "GlobalUserDisabled"=dword:00000001
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy]
 "LetAppsRunInBackground"=dword:00000002
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management]
 "ClearPageFileAtShutdown"=dword:00000000
 "DisablePagingExecutive"=dword:00000001
 "LargeSystemCache"=dword:00000000
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\PriorityControl]
 "Win32PrioritySeparation"=dword:00000026
-
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Maintenance]
 "MaintenanceDisabled"=dword:00000001
-
 [HKEY_CURRENT_USER\Control Panel\Mouse]
 "MouseSpeed"="0"
 "MouseThreshold1"="0"
@@ -824,20 +820,18 @@ Windows Registry Editor Version 5.00
 "MouseHoverTime"="0"
 "DoubleClickSpeed"="200"
 "MouseSensitivity"="10"
-
 [HKEY_CURRENT_USER\Control Panel\Keyboard]
 "KeyboardDelay"="0"
 "KeyboardSpeed"="31"
 "InitialKeyboardIndicators"="0"
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\mouclass\Parameters]
 "MouseDataQueueSize"=dword:00000064
-
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\kbdclass\Parameters]
 "KeyboardDataQueueSize"=dword:00000064
 		</File>
 		<File path="C:\Windows\Setup\Scripts\unattend-03.cmd">
 @echo off
+setlocal enabledelayedexpansion
 set param=-new_theme -block_update_on -confirm_spoti_recomended_over
 set url=https://raw.githubusercontent.com/SpotX-Official/SpotX/refs/heads/main/run.ps1
 set url2=https://spotx-official.github.io/SpotX/run.ps1
@@ -873,7 +867,6 @@ for /f "skip=3 tokens=1,2,3*" %%A in ('netsh interface show interface') do (
 )
 ipconfig /flushdns &gt;nul 2&gt;&amp;1
 exit /b 0
-
 :S
 netsh interface ipv4 set dnsservers name=%1 source=static address=94.140.14.14 validate=no &gt;nul 2&gt;&amp;1
 netsh interface ipv4 add dnsservers name=%1 address=94.140.15.15 index=2 validate=no &gt;nul 2&gt;&amp;1
@@ -908,8 +901,8 @@ exit /b 0
 		<File path="C:\Windows\Setup\Scripts\unattend-07.cmd">
 @echo off
 setlocal enabledelayedexpansion
-reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\BraveSoftware Brave-Browser" &gt;nul 2&gt;&amp;1 &amp;&amp; exit /b 0
-reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall\BraveSoftware Brave-Browser" &gt;nul 2&gt;&amp;1 &amp;&amp; exit /b 0
+reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Google Chrome" &gt;nul 2&gt;&amp;1 &amp;&amp; exit /b 0
+reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Uninstall\Google Chrome" &gt;nul 2&gt;&amp;1 &amp;&amp; exit /b 0
 set waitcount=0
 :waitnet
 curl -s -I https://1.1.1.1 &gt;nul 2&gt;&amp;1
@@ -919,10 +912,10 @@ if %errorlevel% neq 0 (
     timeout /t 3 /nobreak &gt;nul
     goto waitnet
 )
-curl -L -o "%TEMP%\BraveSetup.exe" "https://referrals.brave.com/latest/BraveBrowserSetup-BRV010.exe" --silent
-if exist "%TEMP%\BraveSetup.exe" (
-    start /wait "" "%TEMP%\BraveSetup.exe" --silent --install
-    del /f /q "%TEMP%\BraveSetup.exe"
+curl -L -o "%TEMP%\ChromeSetup.exe" "https://dl.google.com/chrome/install/latest/chrome_installer.exe" --silent
+if exist "%TEMP%\ChromeSetup.exe" (
+    start /wait "" "%TEMP%\ChromeSetup.exe" /silent /install
+    del /f /q "%TEMP%\ChromeSetup.exe"
 )
 exit /b 0
 		</File>
@@ -932,58 +925,6 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Psched" /v NonBestEffortLimit 
 exit /b 0
 		</File>
 		<File path="C:\Windows\Setup\Scripts\unattend-09.cmd">
-@echo off
-setlocal enabledelayedexpansion
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" /v "PowerThrottlingOff" /t REG_DWORD /d 1 /f &gt;nul 2&gt;&amp;1
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\intelppm" /v "Start" /t REG_DWORD /d 3 /f &gt;nul 2&gt;&amp;1
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" /v "GlobalTimerResolutionRequests" /t REG_DWORD /d 1 /f &gt;nul 2&gt;&amp;1
-
-set "ULT_GUID=e9a42b02-d5df-448d-aa00-03f14749eb61"
-set "BRUTUS_GUID="
-for /f "tokens=4" %%G in ('powercfg /list 2^&gt;nul ^| findstr /i "Brutus OPT"') do set "BRUTUS_GUID=%%G"
-
-if not defined BRUTUS_GUID (
-    for /f "tokens=4" %%G in ('powercfg /duplicatescheme !ULT_GUID! 2^&gt;nul') do set "BRUTUS_GUID=%%G"
-    if not defined BRUTUS_GUID (
-        for /f "tokens=4" %%G in ('powercfg /list 2^&gt;nul ^| findstr /i "High performance"') do set "BRUTUS_GUID=%%G"
-    )
-    if defined BRUTUS_GUID (
-        powercfg /changename "!BRUTUS_GUID!" "Brutus OPT" "Performance absoluta - BrutusOpt" &gt;nul 2&gt;&amp;1
-    )
-)
-
-if defined BRUTUS_GUID (
-    powercfg /setactive "!BRUTUS_GUID!" &gt;nul 2&gt;&amp;1
-    for %%A in (ac dc) do (
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PROCTHROTTLEMIN 100 &gt;nul 2&gt;&amp;1
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PROCTHROTTLEMAX 100 &gt;nul 2&gt;&amp;1
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PERFBOOSTMODE 2 &gt;nul 2&gt;&amp;1
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PERFBOOSTPOL 100 &gt;nul 2&gt;&amp;1
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_SLEEP STANDBYIDLE 0 &gt;nul 2&gt;&amp;1
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_SLEEP HIBERNATEIDLE 0 &gt;nul 2&gt;&amp;1
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_VIDEO VIDEOIDLE 0 &gt;nul 2&gt;&amp;1
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_DISK DISKIDLE 0 &gt;nul 2&gt;&amp;1
-        powercfg /set%%Avalueindex "!BRUTUS_GUID!" SUB_PCIEXPRESS ASPM 0 &gt;nul 2&gt;&amp;1
-    )
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PERFINCPOL 2 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PERFDECPOL 1 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PERFINCTHRESHOLD 10 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_PROCESSOR PERFDECTHRESHOLD 8 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_PROCESSOR CPHEADROOM 0 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_PROCESSOR LATENCYHINTPERF 100 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_SLEEP HYBRIDSLEEP 0 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_SLEEP RTCWAKE 0 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_VIDEO ADAPTBRIGHT 0 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_DISK DISKBURST 1 &gt;nul 2&gt;&amp;1
-    powercfg /setacvalueindex "!BRUTUS_GUID!" SUB_NONE CONNECTIVITYINSTANDBY 0 &gt;nul 2&gt;&amp;1
-
-    for /f "tokens=4" %%G in ('powercfg /list 2^&gt;nul ^| findstr /i "Power Scheme GUID"') do (
-        if /i "%%G" neq "!BRUTUS_GUID!" powercfg /delete "%%G" &gt;nul 2&gt;&amp;1
-    )
-)
-exit /b 0
-		</File>
-		<File path="C:\Windows\Setup\Scripts\unattend-0a.cmd">
 @echo off
 setlocal enabledelayedexpansion
 set waitcount=0
@@ -1001,128 +942,430 @@ dism /online /add-capability /capabilityname:Microsoft.Windows.GroupPolicy~~~~0.
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 1 /f &gt;nul 2&gt;&amp;1
 exit /b 0
 		</File>
-		<File path="C:\Windows\Setup\Scripts\unattend-0b.cmd">
+		<File path="C:\Windows\Setup\Scripts\unattend-0a.cmd">
 @echo off
+chcp 65001 &gt;nul
 setlocal enabledelayedexpansion
-
+net session &gt;nul 2&gt;&amp;1
+if %errorlevel% neq 0 (
+    PowerShell -NoProfile -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+    exit /b
+)
 echo ============================================================
-echo  BrutusOpt - Limpeza e Ajustes Finais
+echo  BugOPT - Otimiza&#xE7;&#xE3;o Inteligente
 echo ============================================================
 echo.
-
-:: &#x2500;&#x2500;&#x2500; MEMORY COMPRESSION &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+set /a TOTAL=17
+set /a STEP=0
+goto :MAIN
+:DrawBar
+setlocal EnableDelayedExpansion
+set "N=%~1"
+set "T=%~2"
+set "LBL=%~3"
+set /a PCT=(N*100)/T
+set /a FILLED=(BARLEN*PCT)/100
+set /a EMPTY=BARLEN-FILLED
+set "FILL="
+set "TRACK="
+for /l %%i in (1,1,!FILLED!) do set "FILL=!FILL!&#x2588;"
+for /l %%i in (1,1,!EMPTY!) do set "TRACK=!TRACK!&#x2591;"
+&lt;nul set ^/p "=!ESC![s!ESC![!ROWS!;1H!ESC![2K!ESC![38;5;240m[!ESC![38;5;51m!FILL!!ESC![38;5;238m!TRACK!!ESC![38;5;240m]!ESC![0m !ESC![1;38;5;51m!PCT!%%!ESC![0m  !ESC![38;5;250m!LBL!!ESC![0m!ESC![u"
+endlocal
+goto :eof
+:MAIN
+for /f %%A in ('echo prompt $E^|cmd') do set "ESC=%%A"
+for /f "tokens=1,2 delims=;" %%A in ('powershell -NoProfile -Command "$s=$Host.UI.RawUI.WindowSize;Write-Output ($s.Height.ToString()+';'+$s.Width.ToString())"') do (set "ROWS=%%A" &amp; set "COLS=%%B")
+if not defined ROWS set "ROWS=30"
+if not defined COLS set "COLS=120"
+set /a SCROLLBOTTOM=ROWS-1
+set /a BARLEN=COLS-46
+if !BARLEN! LSS 20 set "BARLEN=20"
+if !BARLEN! GTR 50 set "BARLEN=50"
+&lt;nul set ^/p "=!ESC![?25l!ESC![s!ESC![1;!SCROLLBOTTOM!r!ESC![u"
+:: ==== [1/17] DNS (AdGuard IPv4/IPv6) ========================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Verificando DNS (AdGuard)"
+set "DNS4_P=94.140.14.14"
+set "DNS4_S=94.140.15.15"
+set "DNS6_P=2a10:50c0::ad1:ff"
+set "DNS6_S=2a10:50c0::ad2:ff"
+set "DNS_NEED=0"
+for /f "tokens=3*" %%i in ('netsh interface show interface ^| findstr /i "connected"') do (
+    set "HAS4=" &amp; set "HAS6="
+    for /f "tokens=*" %%D in ('netsh interface ipv4 show dns name="%%j" 2^&gt;nul') do (
+        echo %%D | findstr /i "!DNS4_P!" &gt;nul 2&gt;&amp;1 &amp;&amp; set "HAS4=1"
+    )
+    for /f "tokens=*" %%D in ('netsh interface ipv6 show dns name="%%j" 2^&gt;nul') do (
+        echo %%D | findstr /i "ad1" &gt;nul 2&gt;&amp;1 &amp;&amp; set "HAS6=1"
+    )
+    if not defined HAS4 set "DNS_NEED=1"
+    if not defined HAS6 set "DNS_NEED=1"
+)
+echo.
+if "!DNS_NEED!"=="1" (
+    for /f "tokens=3*" %%i in ('netsh interface show interface ^| findstr /i "connected"') do (
+        netsh interface ipv4 set dns name="%%j" static !DNS4_P! primary validate=no &gt;nul 2&gt;&amp;1
+        netsh interface ipv4 add dns name="%%j" addr=!DNS4_S! index=2 validate=no &gt;nul 2&gt;&amp;1
+        netsh interface ipv6 set dns name="%%j" static !DNS6_P! validate=no &gt;nul 2&gt;&amp;1
+        netsh interface ipv6 add dns name="%%j" addr=!DNS6_S! index=2 validate=no &gt;nul 2&gt;&amp;1
+    )
+    echo [DNS] DNS AdGuard aplicado com sucesso ^(IPv4 + IPv6^) em todas as interfaces conectadas.
+) else (
+    echo [DNS] DNS AdGuard j&#xE1; estava configurado em todas as interfaces &#x2014; nenhuma altera&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [2/17] Cache DNS =======================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Verificando cache DNS"
+set "DNS_ENTRIES=0"
+for /f %%C in ('PowerShell -NoProfile -Command "try{(Get-DnsClientCache).Count}catch{0}"') do set "DNS_ENTRIES=%%C"
+echo.
+if !DNS_ENTRIES! gtr 0 (
+    ipconfig /flushdns &gt;nul 2&gt;&amp;1
+    ipconfig /registerdns &gt;nul 2&gt;&amp;1
+    echo [REDE] Cache DNS limpo ^(!DNS_ENTRIES! entrada^(s^) removida^(s^)^).
+) else (
+    echo [REDE] Cache DNS j&#xE1; estava limpo &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [3/17] Memory Compression =============================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Verificando Memory Compression"
 set "MEMCOMP=False"
 for /f %%M in ('PowerShell -NoProfile -Command "try{(Get-MMAgent).MemoryCompression}catch{'False'}"') do set "MEMCOMP=%%M"
+echo.
 if /i "!MEMCOMP!"=="True" (
-    echo [MEM] Desabilitando Memory Compression...
     PowerShell -NoProfile -Command "Disable-MMAgent -MemoryCompression" &gt;nul 2&gt;&amp;1
-    echo [MEM] Concluido.
+    echo [MEM] Memory Compression desabilitada com sucesso.
 ) else (
-    echo [MEM] Memory Compression ja desabilitada. Ignorando.
+    echo [MEM] Memory Compression j&#xE1; estava desabilitada &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
 )
-
-:: &#x2500;&#x2500;&#x2500; VISUAL EFFECTS &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
-set "VFX=-1"
+:: ==== [4/17] SysMain / Superfetch ============================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Verificando SysMain (Superfetch)"
+set "SYSMAIN=NotFound"
+for /f %%S in ('PowerShell -NoProfile -Command "try{(Get-Service SysMain -ErrorAction Stop).Status}catch{'NotFound'}"') do set "SYSMAIN=%%S"
+echo.
+if /i "!SYSMAIN!"=="Running" (
+    PowerShell -NoProfile -Command "Stop-Service SysMain -Force -ErrorAction SilentlyContinue; Set-Service SysMain -StartupType Disabled -ErrorAction SilentlyContinue" &gt;nul 2&gt;&amp;1
+    echo [SYSMAIN] SysMain ^(Superfetch^) parado e desabilitado com sucesso.
+) else (
+    echo [SYSMAIN] SysMain j&#xE1; estava desabilitado &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [5/17] Plano de Energia BugOPT =========================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Configurando Plano de Energia"
+echo.
+set "BUG_GUID="
+set "ULT_GUID=e9a42b02-d5df-448d-aa00-03f14749eb61"
+for /f "tokens=4" %%G in ('powercfg /list 2^&gt;nul ^| findstr /i "BugOPT"') do set "BUG_GUID=%%G"
+if not defined BUG_GUID (
+    set "NEW_GUID="
+    for /f "tokens=4" %%G in ('powercfg /duplicatescheme !ULT_GUID! 2^&gt;nul') do set "NEW_GUID=%%G"
+    if not defined NEW_GUID (
+        for /f "tokens=4" %%G in ('powercfg /list 2^&gt;nul ^| findstr /i "Ultimate Performance"') do set "NEW_GUID=%%G"
+    )
+    if not defined NEW_GUID (
+        for /f "tokens=4" %%G in ('powercfg /list 2^&gt;nul ^| findstr /i "High performance"') do set "NEW_GUID=%%G"
+    )
+    if not defined NEW_GUID (
+        echo [POWER] Falha: nenhum plano de energia base dispon&#xED;vel para servir de modelo.
+        goto :POWER_END
+    )
+    set "BUG_GUID=!NEW_GUID!"
+    powercfg /changename "!BUG_GUID!" "BugOPT" "Performance absoluta - BugOPT" &gt;nul 2&gt;&amp;1
+    echo [POWER] Plano de energia "BugOPT" criado com sucesso.
+) else (
+    echo [POWER] Plano de energia "BugOPT" j&#xE1; existe &#x2014; verificando se est&#xE1; ativo e ajustado.
+)
+for /f "tokens=4" %%G in ('powercfg /getactivescheme 2^&gt;nul') do set "ACTIVE_GUID=%%G"
+if /i "!ACTIVE_GUID!" neq "!BUG_GUID!" (
+    powercfg /setactive "!BUG_GUID!" &gt;nul 2&gt;&amp;1
+    echo [POWER] Plano "BugOPT" ativado.
+) else (
+    echo [POWER] Plano "BugOPT" j&#xE1; estava ativo &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+for %%A in (ac dc) do (
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_PROCESSOR PROCTHROTTLEMIN 100 &gt;nul 2&gt;&amp;1
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_PROCESSOR PROCTHROTTLEMAX 100 &gt;nul 2&gt;&amp;1
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_PROCESSOR PERFBOOSTMODE 2 &gt;nul 2&gt;&amp;1
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_PROCESSOR PERFBOOSTPOL 100 &gt;nul 2&gt;&amp;1
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_SLEEP STANDBYIDLE 0 &gt;nul 2&gt;&amp;1
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_SLEEP HIBERNATEIDLE 0 &gt;nul 2&gt;&amp;1
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_VIDEO VIDEOIDLE 0 &gt;nul 2&gt;&amp;1
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_DISK DISKIDLE 0 &gt;nul 2&gt;&amp;1
+    powercfg /set%%Avalueindex "!BUG_GUID!" SUB_PCIEXPRESS ASPM 0 &gt;nul 2&gt;&amp;1
+)
+powercfg /setacvalueindex "!BUG_GUID!" SUB_PROCESSOR PERFINCPOL 2 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_PROCESSOR PERFDECPOL 1 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_PROCESSOR PERFINCTHRESHOLD 10 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_PROCESSOR PERFDECTHRESHOLD 8 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_PROCESSOR CPHEADROOM 0 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_PROCESSOR LATENCYHINTPERF 100 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_SLEEP HYBRIDSLEEP 0 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_SLEEP RTCWAKE 0 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_VIDEO ADAPTBRIGHT 0 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_DISK DISKBURST 1 &gt;nul 2&gt;&amp;1
+powercfg /setacvalueindex "!BUG_GUID!" SUB_NONE CONNECTIVITYINSTANDBY 0 &gt;nul 2&gt;&amp;1
+set "OTHER_PLANS=0"
+for /f "tokens=4" %%G in ('powercfg /list 2^&gt;nul ^| findstr /i "Power Scheme GUID"') do (
+    if /i "%%G" neq "!BUG_GUID!" set "OTHER_PLANS=1"
+)
+if "!OTHER_PLANS!"=="1" (
+    for /f "tokens=4" %%G in ('powercfg /list 2^&gt;nul ^| findstr /i "Power Scheme GUID"') do (
+        if /i "%%G" neq "!BUG_GUID!" powercfg /delete "%%G" &gt;nul 2&gt;&amp;1
+    )
+    echo [POWER] Planos de energia redundantes removidos ^(apenas "BugOPT" restou^).
+) else (
+    echo [POWER] Nenhum outro plano de energia encontrado &#x2014; nenhuma limpeza necess&#xE1;ria.
+)
+echo [POWER] Plano "BugOPT" configurado e ativo com todos os par&#xE2;metros de performance m&#xE1;xima.
+:POWER_END
+:: ==== [6/17] Page File (Arquivo de Pagina&#xE7;&#xE3;o) ================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Configurando Page File (SSDs)"
+echo.
+del /f /q "%TEMP%\BugOPT_Page.log" &gt;nul 2&gt;&amp;1
+PowerShell -NoProfile -Command ^
+    "$ErrorActionPreference='SilentlyContinue';" ^
+    "$out=@();" ^
+    "$cs=Get-CimInstance -ClassName Win32_ComputerSystem;" ^
+    "if($cs.AutomaticManagedPagefile){Set-CimInstance -InputObject $cs -Property @{AutomaticManagedPagefile=$false} -Confirm:$false | Out-Null};" ^
+    "$boot=($env:SystemDrive).TrimEnd(':');" ^
+    "$ssd=@();" ^
+    "try{$disks=Get-PhysicalDisk | Where-Object {$_.MediaType -eq 'SSD'}}catch{$disks=@()};" ^
+    "foreach($d in $disks){try{$parts=Get-Partition -DiskNumber $d.DeviceId -ErrorAction SilentlyContinue | Where-Object {$_.DriveLetter}}catch{$parts=@()};foreach($p in $parts){$l=[string]$p.DriveLetter;if($l -and ($ssd -notcontains $l)){$ssd+=$l}}};" ^
+    "$order=@();if($ssd -contains $boot){$order+=$boot};$order+=($ssd | Where-Object {$_ -ne $boot} | Sort-Object);if($order.Count -gt 3){$order=$order[0..2]};" ^
+    "$idx=0;foreach($letter in $order){$size=25600;if($idx -eq 0){$size=2048};$idx++;$drv=$letter+':';$path=$drv+'\pagefile.sys';$ex=Get-CimInstance -ClassName Win32_PageFileSetting -ErrorAction SilentlyContinue | Where-Object {$_.Name -eq $path};if($ex){if($ex.InitialSize -ne $size -or $ex.MaximumSize -ne $size){Set-CimInstance -InputObject $ex -Property @{InitialSize=$size;MaximumSize=$size} -Confirm:$false | Out-Null;$out+=('SET:'+$letter+':'+$size)}else{$out+=('OK:'+$letter+':'+$size)}}else{New-CimInstance -ClassName Win32_PageFileSetting -Property @{Name=$path;InitialSize=$size;MaximumSize=$size} -ErrorAction SilentlyContinue | Out-Null;$out+=('NEW:'+$letter+':'+$size)}};" ^
+    "if($order.Count -eq 0){$out+='NONE'};" ^
+    "$out -join ';'" &gt; "%TEMP%\BugOPT_Page.log" 2&gt;nul
+set "PAGE_RESULT="
+if exist "%TEMP%\BugOPT_Page.log" set ^/p PAGE_RESULT=&lt;"%TEMP%\BugOPT_Page.log"
+del /f /q "%TEMP%\BugOPT_Page.log" &gt;nul 2&gt;&amp;1
+set "PAGE_CHANGED=0"
+echo !PAGE_RESULT! | findstr /C:"SET:" /C:"NEW:" &gt;nul 2&gt;&amp;1 &amp;&amp; set "PAGE_CHANGED=1"
+if "!PAGE_RESULT!"=="NONE" (
+    echo [PAGE] Nenhum SSD eleg&#xED;vel foi encontrado &#x2014; a pagina&#xE7;&#xE3;o n&#xE3;o foi alterada.
+) else if "!PAGE_RESULT!"=="" (
+    echo [PAGE] N&#xE3;o foi poss&#xED;vel verificar os discos &#x2014; a pagina&#xE7;&#xE3;o n&#xE3;o foi alterada.
+) else if "!PAGE_CHANGED!"=="1" (
+    echo [PAGE] Pagina&#xE7;&#xE3;o gerenciada manualmente e otimizada no^(s^) SSD^(s^) detectado^(s^) ^(disco de boot priorizado^).
+) else (
+    echo [PAGE] Pagina&#xE7;&#xE3;o j&#xE1; estava corretamente configurada &#x2014; nenhuma altera&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [7/17] Efeitos Visuais ==================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Verificando Efeitos Visuais"
+set "VFX=-1" &amp; set "ICONS=-1" &amp; set "FONTS=-1"
 for /f %%V in ('PowerShell -NoProfile -Command "try{(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects').VisualFXSetting}catch{-1}"') do set "VFX=%%V"
-if "!VFX!"=="3" (
-    echo [VISUAL] Efeitos visuais ja configurados. Ignorando.
-) else (
-    echo [VISUAL] Aplicando configuracao custom de efeitos visuais...
-    PowerShell -NoProfile -Command ^
-        "$vfx='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects';" ^
-        "$adv='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced';" ^
-        "$desk='HKCU:\Control Panel\Desktop';" ^
-        "$wm='HKCU:\Control Panel\Desktop\WindowMetrics';" ^
-        "Set-ItemProperty -Path $vfx -Name VisualFXSetting -Value 3 -Force;" ^
-        "Set-ItemProperty -Path $desk -Name UserPreferencesMask -Value ([byte[]](0x90,0x12,0x03,0x80,0x10,0x00,0x00,0x00)) -Force;" ^
-        "Set-ItemProperty -Path $desk -Name FontSmoothing -Value '2' -Force;" ^
-        "Set-ItemProperty -Path $desk -Name FontSmoothingType -Value 2 -Force;" ^
-        "Set-ItemProperty -Path $desk -Name FontSmoothingGamma -Value 1450 -Force;" ^
-        "Set-ItemProperty -Path $desk -Name DragFullWindows -Value '0' -Force;" ^
-        "if(-not(Test-Path $wm)){New-Item -Path $wm -Force|Out-Null};" ^
-        "Set-ItemProperty -Path $wm -Name MinAnimate -Value '0' -Force;" ^
-        "Set-ItemProperty -Path $adv -Name IconsOnly -Value 0 -Force;" ^
-        "Set-ItemProperty -Path $adv -Name TaskbarAnimations -Value 0 -Force;" ^
-        "Set-ItemProperty -Path $adv -Name EnableAeroPeek -Value 0 -Force;" ^
-        "Set-ItemProperty -Path $adv -Name ListviewShadow -Value 0 -Force;" ^
-        "Set-ItemProperty -Path $adv -Name ListviewAlphaSelect -Value 0 -Force;" ^
-        "Set-ItemProperty -Path $adv -Name ExtendedUIHoverTime -Value 0 -Force" &gt;nul 2&gt;&amp;1
-    echo [VISUAL] Concluido.
+for /f %%I in ('PowerShell -NoProfile -Command "try{(Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced').IconsOnly}catch{-1}"') do set "ICONS=%%I"
+for /f %%F in ('PowerShell -NoProfile -Command "try{(Get-ItemProperty 'HKCU:\Control Panel\Desktop').FontSmoothing}catch{-1}"') do set "FONTS=%%F"
+echo.
+if "!VFX!"=="3" if "!ICONS!"=="0" if "!FONTS!"=="2" (
+    echo [VISUAL] Efeitos visuais j&#xE1; estavam configurados para performance &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+    goto :VISUAL_END
 )
-
-:: &#x2500;&#x2500;&#x2500; TEMP DO USUARIO &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+PowerShell -NoProfile -Command ^
+    "$vfx='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects';" ^
+    "$adv='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced';" ^
+    "$desk='HKCU:\Control Panel\Desktop';" ^
+    "$wm='HKCU:\Control Panel\Desktop\WindowMetrics';" ^
+    "Set-ItemProperty -Path $vfx -Name VisualFXSetting -Value 3 -Force;" ^
+    "Set-ItemProperty -Path $desk -Name UserPreferencesMask -Value ([byte[]](0x90,0x12,0x03,0x80,0x10,0x00,0x00,0x00)) -Force;" ^
+    "Set-ItemProperty -Path $desk -Name FontSmoothing -Value '2' -Force;" ^
+    "Set-ItemProperty -Path $desk -Name FontSmoothingType -Value 2 -Force;" ^
+    "Set-ItemProperty -Path $desk -Name FontSmoothingGamma -Value 1450 -Force;" ^
+    "Set-ItemProperty -Path $desk -Name DragFullWindows -Value '0' -Force;" ^
+    "if(-not(Test-Path $wm)){New-Item -Path $wm -Force|Out-Null};" ^
+    "Set-ItemProperty -Path $wm -Name MinAnimate -Value '0' -Force;" ^
+    "Set-ItemProperty -Path $adv -Name IconsOnly -Value 0 -Force;" ^
+    "Set-ItemProperty -Path $adv -Name TaskbarAnimations -Value 0 -Force;" ^
+    "Set-ItemProperty -Path $adv -Name EnableAeroPeek -Value 0 -Force;" ^
+    "Set-ItemProperty -Path $adv -Name ListviewShadow -Value 0 -Force;" ^
+    "Set-ItemProperty -Path $adv -Name ListviewAlphaSelect -Value 0 -Force;" ^
+    "Set-ItemProperty -Path $adv -Name ExtendedUIHoverTime -Value 0 -Force" &gt;nul 2&gt;&amp;1
+echo [VISUAL] Efeitos visuais ajustados para m&#xE1;xima performance com sucesso.
+:VISUAL_END
+:: ==== [8/17] Temp do Usu&#xE1;rio ===================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Limpando Temp do usu&#xE1;rio"
+set "TMP_COUNT=0"
 if exist "%temp%\" (
+    for /f %%F in ('dir /b /a "%temp%" 2^&gt;nul ^| find /c /v ""') do set "TMP_COUNT=%%F"
+)
+echo.
+if !TMP_COUNT! gtr 0 (
     for /d %%D in ("%temp%\*") do rd /s /q "%%D" &gt;nul 2&gt;&amp;1
     for %%F in ("%temp%\*") do del /f /q "%%F" &gt;nul 2&gt;&amp;1
+    echo [TMP] !TMP_COUNT! item^(ns^) removido^(s^) da pasta Temp do usu&#xE1;rio.
+) else (
+    echo [TMP] Pasta Temp do usu&#xE1;rio j&#xE1; estava vazia &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
 )
-echo [TMP] Concluido.
-
-:: &#x2500;&#x2500;&#x2500; TEMP DO WINDOWS &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+:: ==== [9/17] Temp do Windows ===================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Limpando Temp do Windows"
+set "TMPW_COUNT=0"
 if exist "C:\Windows\Temp\" (
+    for /f %%F in ('dir /b /a "C:\Windows\Temp" 2^&gt;nul ^| find /c /v ""') do set "TMPW_COUNT=%%F"
+)
+echo.
+if !TMPW_COUNT! gtr 0 (
     for /d %%D in ("C:\Windows\Temp\*") do rd /s /q "%%D" &gt;nul 2&gt;&amp;1
     for %%F in ("C:\Windows\Temp\*") do del /f /q "%%F" &gt;nul 2&gt;&amp;1
+    if not exist "C:\Windows\Temp\" mkdir "C:\Windows\Temp" &gt;nul 2&gt;&amp;1
+    echo [TMPW] !TMPW_COUNT! item^(ns^) removido^(s^) da pasta Temp do Windows.
+) else (
+    echo [TMPW] Pasta Temp do Windows j&#xE1; estava vazia &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
 )
-echo [TMPW] Concluido.
-
-:: &#x2500;&#x2500;&#x2500; PREFETCH &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+:: ==== [10/17] Prefetch =========================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Limpando Prefetch"
+set "PRE_COUNT=0"
 if exist "C:\Windows\Prefetch\" (
-    del /f /s /q "C:\Windows\Prefetch\*.pf" &gt;nul 2&gt;&amp;1
+    for /f %%F in ('dir /b /a "C:\Windows\Prefetch\*.pf" 2^&gt;nul ^| find /c /v ""') do set "PRE_COUNT=%%F"
 )
-echo [PRE] Concluido.
-
-:: &#x2500;&#x2500;&#x2500; CACHE DO SISTEMA &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+echo.
+if !PRE_COUNT! gtr 0 (
+    del /f /s /q "C:\Windows\Prefetch\*.pf" &gt;nul 2&gt;&amp;1
+    echo [PRE] !PRE_COUNT! arquivo^(s^) de Prefetch removido^(s^).
+) else (
+    echo [PRE] Prefetch j&#xE1; estava vazio &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [11/17] Cache do Sistema ==================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Limpando caches do sistema"
+set "CACHE_LIMPO=1"
 for %%D in (
     "%LOCALAPPDATA%\Microsoft\Windows\INetCache"
     "%LOCALAPPDATA%\Temp"
     "%APPDATA%\Microsoft\Windows\Recent"
 ) do (
     if exist "%%~D\" (
-        for /d %%X in ("%%~D\*") do rd /s /q "%%X" &gt;nul 2&gt;&amp;1
-        for %%X in ("%%~D\*") do del /f /q "%%X" &gt;nul 2&gt;&amp;1
+        for /f %%F in ('dir /b /a "%%~D" 2^&gt;nul ^| find /c /v ""') do if %%F gtr 0 set "CACHE_LIMPO=0"
     )
 )
-echo [CACHE] Concluido.
-
-:: &#x2500;&#x2500;&#x2500; LIXEIRA &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
-PowerShell -NoProfile -Command "Clear-RecycleBin -Force -ErrorAction SilentlyContinue" &gt;nul 2&gt;&amp;1
-echo [LIXEIRA] Concluido.
-
-:: &#x2500;&#x2500;&#x2500; WINDOWS UPDATE CACHE &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
+echo.
+if "!CACHE_LIMPO!"=="0" (
+    for %%D in (
+        "%LOCALAPPDATA%\Microsoft\Windows\INetCache"
+        "%LOCALAPPDATA%\Temp"
+        "%APPDATA%\Microsoft\Windows\Recent"
+    ) do (
+        if exist "%%~D\" (
+            for /d %%X in ("%%~D\*") do rd /s /q "%%X" &gt;nul 2&gt;&amp;1
+            for %%X in ("%%~D\*") do del /f /q "%%X" &gt;nul 2&gt;&amp;1
+        )
+    )
+    echo [CACHE] Caches do sistema ^(INetCache, Temp local, Recentes^) limpos com sucesso.
+) else (
+    echo [CACHE] Todos os caches do sistema j&#xE1; estavam limpos &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [12/17] Lixeira ============================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Esvaziando a Lixeira"
+set "RECYCLE=0"
+for /f %%R in ('PowerShell -NoProfile -Command "try{(New-Object -ComObject Shell.Application).NameSpace(10).Items().Count}catch{0}"') do set "RECYCLE=%%R"
+echo.
+if !RECYCLE! gtr 0 (
+    PowerShell -NoProfile -Command "Clear-RecycleBin -Force -ErrorAction SilentlyContinue" &gt;nul 2&gt;&amp;1
+    echo [LIXEIRA] !RECYCLE! item^(ns^) removido^(s^) da Lixeira.
+) else (
+    echo [LIXEIRA] Lixeira j&#xE1; estava vazia &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [13/17] Cache do Windows Update =============================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Limpando cache do Windows Update"
 set "WU_COUNT=0"
 if exist "C:\Windows\SoftwareDistribution\Download\" (
     for /f %%F in ('dir /b /a "C:\Windows\SoftwareDistribution\Download" 2^&gt;nul ^| find /c /v ""') do set "WU_COUNT=%%F"
 )
+echo.
 if !WU_COUNT! gtr 0 (
-    net stop wuauserv &gt;nul 2&gt;&amp;1
-    net stop cryptSvc &gt;nul 2&gt;&amp;1
-    net stop bits &gt;nul 2&gt;&amp;1
+    net stop wuauserv /y &gt;nul 2&gt;&amp;1
+    net stop bits /y &gt;nul 2&gt;&amp;1
     rd /s /q "C:\Windows\SoftwareDistribution\Download" &gt;nul 2&gt;&amp;1
     mkdir "C:\Windows\SoftwareDistribution\Download" &gt;nul 2&gt;&amp;1
     net start bits &gt;nul 2&gt;&amp;1
-    net start cryptSvc &gt;nul 2&gt;&amp;1
     net start wuauserv &gt;nul 2&gt;&amp;1
-)
-echo [WU] Concluido.
-
-:: &#x2500;&#x2500;&#x2500; TRIM SSD &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
-PowerShell -NoProfile -Command "try{Get-PhysicalDisk|Where-Object{$_.MediaType -eq 'SSD'}|ForEach-Object{$n=$_.DeviceId;Get-Partition -DiskNumber $n -ErrorAction SilentlyContinue|Where-Object{$_.DriveLetter}|ForEach-Object{Optimize-Volume -DriveLetter $_.DriveLetter -ReTrim -ErrorAction SilentlyContinue}}}catch{}" &gt;nul 2&gt;&amp;1
-echo [TRIM] Concluido.
-
-:: &#x2500;&#x2500;&#x2500; PAGINACAO / VIRTUAL MEMORY &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;
-set "RAM_GB=0"
-for /f %%R in ('PowerShell -NoProfile -Command "try{[math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory/1GB)}catch{0}"') do set "RAM_GB=%%R"
-if !RAM_GB! geq 16 (
-    echo [PAGE] RAM !RAM_GB!GB - Fixando tamanho de paginacao...
-    PowerShell -NoProfile -Command "$cs=Get-WmiObject Win32_ComputerSystem -EnableAllPrivileges;$cs.AutomaticManagedPagefile=$false;$cs.Put()|Out-Null;$pf=Get-WmiObject Win32_PageFileSetting;if($pf){$pf.InitialSize=2048;$pf.MaximumSize=4096;$pf.Put()|Out-Null}else{Set-WmiInstance -Class Win32_PageFileSetting -Arguments @{Name='C:\pagefile.sys';InitialSize=2048;MaximumSize=4096}|Out-Null}" &gt;nul 2&gt;&amp;1
-    echo [PAGE] Concluido.
+    echo [WU] !WU_COUNT! item^(ns^) removido^(s^) do cache do Windows Update.
 ) else (
-    echo [PAGE] RAM !RAM_GB!GB. Mantendo paginacao automatica.
+    echo [WU] Cache do Windows Update j&#xE1; estava limpo &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
 )
-
+:: ==== [14/17] TRIM dos SSDs ========================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Executando TRIM nos SSDs"
+set "SSD_COUNT=0"
+for /f %%T in ('PowerShell -NoProfile -Command "try{@(Get-PhysicalDisk|Where-Object{$_.MediaType -eq 'SSD'}).Count}catch{0}"') do set "SSD_COUNT=%%T"
+echo.
+if !SSD_COUNT! gtr 0 (
+    PowerShell -NoProfile -Command "try{Get-PhysicalDisk|Where-Object{$_.MediaType -eq 'SSD'}|ForEach-Object{$n=$_.DeviceId;Get-Partition -DiskNumber $n -ErrorAction SilentlyContinue|Where-Object{$_.DriveLetter}|ForEach-Object{Optimize-Volume -DriveLetter $_.DriveLetter -ReTrim -ErrorAction SilentlyContinue}}}catch{}" &gt;nul 2&gt;&amp;1
+    echo [TRIM] TRIM executado com sucesso em !SSD_COUNT! SSD^(s^) detectado^(s^).
+) else (
+    echo [TRIM] Nenhum SSD detectado &#x2014; TRIM n&#xE3;o &#xE9; aplic&#xE1;vel.
+)
+:: ==== [15/17] Servi&#xE7;os Desnecess&#xE1;rios ===============================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Desabilitando servi&#xE7;os desnecess&#xE1;rios"
+set "SVC_CHANGED=0"
+for %%S in (DiagTrack WMPNetworkSvc XblAuthManager XblGameSave XboxNetApiSvc lfsvc MapsBroker RetailDemo WerSvc) do (
+    set "SVC_TYPE=NotFound"
+    for /f %%T in ('PowerShell -NoProfile -Command "try{(Get-Service -Name '%%S' -ErrorAction Stop).StartType}catch{'NotFound'}"') do set "SVC_TYPE=%%T"
+    if /i "!SVC_TYPE!" neq "Disabled" if /i "!SVC_TYPE!" neq "NotFound" (
+        PowerShell -NoProfile -Command "try{Stop-Service -Name '%%S' -Force -ErrorAction SilentlyContinue;Set-Service -Name '%%S' -StartupType Disabled -ErrorAction SilentlyContinue}catch{}" &gt;nul 2&gt;&amp;1
+        set "SVC_CHANGED=1"
+    )
+)
+echo.
+if "!SVC_CHANGED!"=="1" (
+    echo [SERVI&#xC7;OS] Servi&#xE7;os dispens&#xE1;veis ^(telemetria, Xbox, mapas, etc.^) desabilitados com sucesso.
+) else (
+    echo [SERVI&#xC7;OS] Todos os servi&#xE7;os dispens&#xE1;veis j&#xE1; estavam desabilitados &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [16/17] Telemetria =============================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Desabilitando telemetria"
+set "TEL_OK=0"
+for /f "tokens=3" %%T in ('reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry 2^&gt;nul') do if "%%T"=="0x0" set "TEL_OK=1"
+echo.
+if "!TEL_OK!"=="0" (
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f &gt;nul 2&gt;&amp;1
+    reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f &gt;nul 2&gt;&amp;1
+    PowerShell -NoProfile -Command ^
+        "Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Application Experience\' -TaskName 'Microsoft Compatibility Appraiser' -ErrorAction SilentlyContinue;" ^
+        "Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Application Experience\' -TaskName 'ProgramDataUpdater' -ErrorAction SilentlyContinue;" ^
+        "Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Customer Experience Improvement Program\' -TaskName 'Consolidator' -ErrorAction SilentlyContinue" &gt;nul 2&gt;&amp;1
+    echo [TELEMETRIA] Telemetria e tarefas de coleta de dados desabilitadas com sucesso.
+) else (
+    echo [TELEMETRIA] Telemetria j&#xE1; estava desabilitada &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+:: ==== [17/17] Game Mode / Game DVR ====================================================
+set /a STEP+=1
+call :DrawBar !STEP! !TOTAL! "Configurando Game Mode / Game DVR"
+set "GMODE=" &amp; set "GDVR="
+for /f "tokens=3" %%G in ('reg query "HKCU\SOFTWARE\Microsoft\GameBar" /v AutoGameModeEnabled 2^&gt;nul') do if "%%G"=="0x1" set "GMODE=1"
+for /f "tokens=3" %%G in ('reg query "HKCU\System\GameConfigStore" /v GameDVR_Enabled 2^&gt;nul') do if "%%G"=="0x0" set "GDVR=1"
+echo.
+if not defined GMODE (
+    reg add "HKCU\SOFTWARE\Microsoft\GameBar" /v AllowAutoGameMode /t REG_DWORD /d 1 /f &gt;nul 2&gt;&amp;1
+    reg add "HKCU\SOFTWARE\Microsoft\GameBar" /v AutoGameModeEnabled /t REG_DWORD /d 1 /f &gt;nul 2&gt;&amp;1
+    reg add "HKCU\System\GameConfigStore" /v GameDVR_Enabled /t REG_DWORD /d 0 /f &gt;nul 2&gt;&amp;1
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR /t REG_DWORD /d 0 /f &gt;nul 2&gt;&amp;1
+    echo [GAME] Game Mode ativado e Game DVR desabilitado com sucesso.
+) else if not defined GDVR (
+    reg add "HKCU\System\GameConfigStore" /v GameDVR_Enabled /t REG_DWORD /d 0 /f &gt;nul 2&gt;&amp;1
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR /t REG_DWORD /d 0 /f &gt;nul 2&gt;&amp;1
+    echo [GAME] Game DVR desabilitado com sucesso.
+) else (
+    echo [GAME] Game Mode e Game DVR j&#xE1; estavam configurados &#x2014; nenhuma a&#xE7;&#xE3;o necess&#xE1;ria.
+)
+call :DrawBar !TOTAL! !TOTAL! "Conclu&#xED;do"
+echo.
 echo.
 echo ============================================================
-echo  Limpeza finalizada com sucesso.
+echo  Otimiza&#xE7;&#xE3;o finalizada com sucesso. Todas as !TOTAL! etapas
+echo  foram verificadas e aplicadas quando necess&#xE1;rio.
 echo ============================================================
+echo.
+&lt;nul set ^/p "=!ESC![r!ESC![?25h"
 exit /b 0
 		</File>
 		<File path="C:\Windows\Setup\Scripts\Specialize.ps1">
@@ -1132,12 +1375,6 @@ $scripts = @(
 	};
 	{
 		Remove-Item -LiteralPath 'Registry::HKLM\Software\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate' -Force -ErrorAction 'SilentlyContinue';
-	};
-	{
-		reg.exe add "HKCR\.txt\ShellNew" /v ItemName /t REG_EXPAND_SZ /d "@C:\Windows\system32\notepad.exe,-470" /f;
-		reg.exe add "HKCR\.txt\ShellNew" /v NullFile /t REG_SZ /f;
-		reg.exe add "HKCR\txtfilelegacy" /v FriendlyTypeName /t REG_EXPAND_SZ /d "@C:\Windows\system32\notepad.exe,-469" /f;
-		reg.exe add "HKCR\txtfilelegacy" /ve /t REG_SZ /d "Text Document" /f;
 	};
 	{
 		Remove-Item -LiteralPath 'C:\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk', 'C:\Windows\System32\OneDriveSetup.exe', 'C:\Windows\SysWOW64\OneDriveSetup.exe' -ErrorAction 'Continue';
@@ -1372,9 +1609,6 @@ $scripts = @(
 		reg.exe add "HKU\DefaultUser\Software\Microsoft\Internet Explorer\LowRegistry\Audio\PolicyConfig\PropertyStore" /f;
 	};
 	{
-		reg.exe add "HKU\DefaultUser\Software\Microsoft\Notepad" /v ShowStoreBanner /t REG_DWORD /d 0 /f;
-	};
-	{
 		Remove-ItemProperty -LiteralPath 'Registry::HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'OneDriveSetup' -Force -ErrorAction 'Continue';
 	};
 	{
@@ -1519,9 +1753,6 @@ $scripts = @(
 	};
 	{
 		C:\Windows\Setup\Scripts\unattend-0a.cmd;
-	};
-	{
-		C:\Windows\Setup\Scripts\unattend-0b.cmd;
 	};
 	{
 		Remove-Item -LiteralPath @(
