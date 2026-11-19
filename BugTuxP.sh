@@ -6,7 +6,13 @@ if [ "$EUID" -ne 0 ]; then
     REAL_USER="$(whoami)"
     REAL_HOME="$HOME"
     export REAL_USER REAL_HOME
-    exec sudo --preserve-env=REAL_USER,REAL_HOME bash "$0" "$@"
+    if command -v sudo &>/dev/null; then
+        exec sudo --preserve-env=REAL_USER,REAL_HOME bash "$0" "$@"
+    elif command -v doas &>/dev/null; then
+        exec doas env REAL_USER="$REAL_USER" REAL_HOME="$REAL_HOME" bash "$0" "$@"
+    else
+        exec su root -c "env REAL_USER=$(printf '%q' "$REAL_USER") REAL_HOME=$(printf '%q' "$REAL_HOME") bash $(printf '%q' "$0")"
+    fi
 fi
 
 : "${REAL_USER:=${SUDO_USER:-root}}"
@@ -188,23 +194,253 @@ pause() {
     echo
 }
 
+# ══════════════════════════════════════════════════════════════════════════════
+#  DETECÇÃO UNIVERSAL DE DISTRO / GERENCIADOR DE PACOTES
+#  (pacman · apt · dnf · yum · zypper · apk · xbps · emerge · eopkg · nix)
+# ══════════════════════════════════════════════════════════════════════════════
+INSTALL_FAILED=()
+__PM_REFRESHED=0
+
+_distro_id()   { ( . /etc/os-release 2>/dev/null; echo "${ID:-unknown}" ); }
+_distro_like() { ( . /etc/os-release 2>/dev/null; echo "${ID_LIKE:-}" ); }
+
 detect_pkg_manager() {
-    command -v pacman &>/dev/null && echo pacman && return
-    command -v apt    &>/dev/null && echo apt    && return
-    command -v dnf    &>/dev/null && echo dnf    && return
-    command -v zypper &>/dev/null && echo zypper && return
+    local id like
+    id=$(_distro_id); like=$(_distro_like)
+
+    [ -e /etc/NIXOS ] && { echo nix; return; }
+
+    # 1) pela família da distro (ID / ID_LIKE)
+    case " $id $like " in
+        *" arch "*|*" archlinux "*|*" cachyos "*|*" manjaro "*|*" endeavouros "*)
+            command -v pacman &>/dev/null && { echo pacman; return; } ;;
+        *" debian "*|*" ubuntu "*)
+            command -v apt-get &>/dev/null && { echo apt; return; } ;;
+        *" fedora "*|*" rhel "*|*" centos "*)
+            command -v dnf &>/dev/null && { echo dnf; return; }
+            command -v yum &>/dev/null && { echo yum; return; } ;;
+        *" suse "*|*" opensuse "*|*" sles "*)
+            command -v zypper &>/dev/null && { echo zypper; return; } ;;
+        *" alpine "*)
+            command -v apk &>/dev/null && { echo apk; return; } ;;
+        *" void "*)
+            command -v xbps-install &>/dev/null && { echo xbps; return; } ;;
+        *" gentoo "*)
+            command -v emerge &>/dev/null && { echo emerge; return; } ;;
+        *" solus "*)
+            command -v eopkg &>/dev/null && { echo eopkg; return; } ;;
+    esac
+
+    # 2) fallback: pelos binários disponíveis
+    command -v pacman       &>/dev/null && { echo pacman; return; }
+    command -v apt-get      &>/dev/null && { echo apt;    return; }
+    command -v dnf          &>/dev/null && { echo dnf;    return; }
+    command -v yum          &>/dev/null && { echo yum;    return; }
+    command -v zypper       &>/dev/null && { echo zypper; return; }
+    command -v apk          &>/dev/null && { echo apk;    return; }
+    command -v xbps-install &>/dev/null && { echo xbps;   return; }
+    command -v emerge       &>/dev/null && { echo emerge; return; }
+    command -v eopkg        &>/dev/null && { echo eopkg;  return; }
     echo unknown
+}
+
+_pm_immutable() { [ -e /run/ostree-booted ] || [ -e /etc/NIXOS ]; }
+
+# Nomes lógicos = nomes estilo Arch. Aqui são traduzidos por gerenciador.
+_pkg_name() {
+    local pm="$1" p="$2"
+    case "$pm" in
+        apt)
+            case "$p" in
+                fd)        echo "fd-find" ;;
+                gptfdisk)  echo "gdisk" ;;
+                ncurses)   echo "ncurses-bin" ;;
+                procps-ng) echo "procps" ;;
+                *)         echo "$p" ;;
+            esac ;;
+        dnf|yum)
+            case "$p" in
+                fd)        echo "fd-find" ;;
+                gptfdisk)  echo "gdisk" ;;
+                *)         echo "$p" ;;
+            esac ;;
+        zypper)
+            case "$p" in
+                ncurses)   echo "ncurses-utils" ;;
+                procps-ng) echo "procps" ;;
+                *)         echo "$p" ;;
+            esac ;;
+        apk)
+            case "$p" in
+                gptfdisk)   echo "sgdisk" ;;
+                util-linux) echo "util-linux util-linux-misc util-linux-login lsblk blkid findmnt" ;;
+                *)          echo "$p" ;;
+            esac ;;
+        emerge)
+            case "$p" in
+                pciutils)   echo "sys-apps/pciutils" ;;
+                rsync)      echo "net-misc/rsync" ;;
+                parted)     echo "sys-block/parted" ;;
+                gptfdisk)   echo "sys-apps/gptfdisk" ;;
+                xfsprogs)   echo "sys-fs/xfsprogs" ;;
+                psmisc)     echo "sys-process/psmisc" ;;
+                procps-ng)  echo "sys-process/procps" ;;
+                util-linux) echo "sys-apps/util-linux" ;;
+                ncurses)    echo "sys-libs/ncurses" ;;
+                grep)       echo "sys-apps/grep" ;;
+                zsh)        echo "app-shells/zsh" ;;
+                fzf)        echo "app-shells/fzf" ;;
+                fd)         echo "sys-apps/fd" ;;
+                bat)        echo "sys-apps/bat" ;;
+                btop)       echo "sys-process/btop" ;;
+                procs)      echo "sys-process/procs" ;;
+                sbctl)      echo "app-crypt/sbctl" ;;
+                *)          echo "$p" ;;
+            esac ;;
+        *) echo "$p" ;;
+    esac
+}
+
+_install_hint() {
+    local pm p; pm=$(detect_pkg_manager); p=$(_pkg_name "$pm" "$1")
+    case "$pm" in
+        pacman) echo "sudo pacman -S $p" ;;
+        apt)    echo "sudo apt install $p" ;;
+        dnf)    echo "sudo dnf install $p" ;;
+        yum)    echo "sudo yum install $p" ;;
+        zypper) echo "sudo zypper install $p" ;;
+        apk)    echo "sudo apk add $p" ;;
+        xbps)   echo "sudo xbps-install $p" ;;
+        emerge) echo "sudo emerge $p" ;;
+        eopkg)  echo "sudo eopkg install $p" ;;
+        nix)    echo "adicione '$1' ao configuration.nix" ;;
+        *)      echo "instale '$1' com o gerenciador de pacotes da sua distro" ;;
+    esac
+}
+
+_pm_refresh() {
+    [ "$__PM_REFRESHED" = "1" ] && return 0
+    __PM_REFRESHED=1
+    case "$1" in
+        apt)    DEBIAN_FRONTEND=noninteractive apt-get update -y &>/dev/null || true ;;
+        zypper) zypper --non-interactive refresh &>/dev/null || true ;;
+        apk)    apk update &>/dev/null || true ;;
+        xbps)   xbps-install -S -y &>/dev/null || true ;;
+        eopkg)  eopkg update-repo -y &>/dev/null || true ;;
+        *)      : ;;   # pacman/dnf/yum/emerge: sem refresh (evita upgrade parcial)
+    esac
+}
+
+_pm_install_one() {
+    local pm="$1" pkg="$2"
+    case "$pm" in
+        pacman) pacman -S --noconfirm --needed "$pkg" &>/dev/null ;;
+        apt)    DEBIAN_FRONTEND=noninteractive apt-get install -y "$pkg" &>/dev/null ;;
+        dnf)    dnf install -y "$pkg" &>/dev/null ;;
+        yum)    yum install -y "$pkg" &>/dev/null ;;
+        zypper) zypper --non-interactive install --no-recommends "$pkg" &>/dev/null ;;
+        apk)    apk add --no-cache "$pkg" &>/dev/null ;;
+        xbps)   xbps-install -y "$pkg" &>/dev/null ;;
+        emerge) emerge --noreplace --quiet "$pkg" &>/dev/null ;;
+        eopkg)  eopkg install -y "$pkg" &>/dev/null ;;
+        *)      return 1 ;;
+    esac
 }
 
 install_pkgs() {
     local pm; pm=$(detect_pkg_manager)
     case "$pm" in
-        pacman)  pacman -S --noconfirm --needed "$@" 2>/dev/null || true ;;
-        apt)     apt-get install -y "$@" 2>/dev/null || true ;;
-        dnf)     dnf install -y "$@" 2>/dev/null || true ;;
-        zypper)  zypper install -y "$@" 2>/dev/null || true ;;
-        *)       warn "Package manager not detected" ;;
+        unknown) warn "Package manager not detected"; return 0 ;;
+        nix)     warn "NixOS: declare os pacotes no configuration.nix ($*)"; return 0 ;;
     esac
+    if _pm_immutable; then
+        warn "Sistema imutável — instale manualmente: $*"
+        return 0
+    fi
+    _pm_refresh "$pm"
+    local logical mapped p
+    for logical in "$@"; do
+        mapped=$(_pkg_name "$pm" "$logical")
+        for p in $mapped; do
+            _pm_install_one "$pm" "$p" || INSTALL_FAILED+=("$p")
+        done
+    done
+    return 0
+}
+
+# Debian/Ubuntu instalam "fd" como fdfind e "bat" como batcat
+_fix_pkg_binary_names() {
+    if command -v fdfind &>/dev/null && ! command -v fd &>/dev/null; then
+        ln -sf "$(command -v fdfind)" /usr/local/bin/fd 2>/dev/null || true
+    fi
+    if command -v batcat &>/dev/null && ! command -v bat &>/dev/null; then
+        ln -sf "$(command -v batcat)" /usr/local/bin/bat 2>/dev/null || true
+    fi
+}
+
+# comando:pacote-lógico
+DEP_TABLE=(
+    "lspci:pciutils"
+    "rsync:rsync"
+    "parted:parted"
+    "sgdisk:gptfdisk"
+    "mkfs.xfs:xfsprogs"
+    "fuser:psmisc"
+    "sysctl:procps-ng"
+    "lsblk:util-linux"
+    "runuser:util-linux"
+    "zramctl:util-linux"
+    "tput:ncurses"
+)
+
+ensure_dependencies() {
+    local pm; pm=$(detect_pkg_manager)
+    local -a missing_pkgs=() missing_cmds=()
+    local entry cmd pkg
+    for entry in "${DEP_TABLE[@]}"; do
+        cmd="${entry%%:*}"; pkg="${entry##*:}"
+        command -v "$cmd" &>/dev/null && continue
+        missing_cmds+=("$cmd")
+        [[ " ${missing_pkgs[*]} " == *" $pkg "* ]] || missing_pkgs+=("$pkg")
+    done
+    if ! echo x | grep -qP 'x' 2>/dev/null; then
+        missing_cmds+=("grep -P")
+        missing_pkgs+=("grep")
+    fi
+
+    local no_systemd=0
+    { command -v systemctl &>/dev/null && [ -d /run/systemd/system ]; } || no_systemd=1
+
+    [ "${#missing_pkgs[@]}" -eq 0 ] && [ "$no_systemd" -eq 0 ] && return 0
+
+    header
+    hdr "DEPENDÊNCIAS"
+    log "Distro: $(_sys_distro) · Gerenciador: $pm"
+
+    if [ "$no_systemd" -eq 1 ]; then
+        warn "systemd não detectado — serviços de boot (CPU/IO/GPU/THP/ZRAM) podem não funcionar."
+    fi
+
+    if [ "${#missing_pkgs[@]}" -gt 0 ]; then
+        warn "Faltando: ${missing_cmds[*]}"
+        step "Instalando: ${missing_pkgs[*]}"
+        INSTALL_FAILED=()
+        install_pkgs "${missing_pkgs[@]}"
+        _fix_pkg_binary_names
+
+        local still=()
+        for entry in "${DEP_TABLE[@]}"; do
+            cmd="${entry%%:*}"
+            command -v "$cmd" &>/dev/null || still+=("$cmd")
+        done
+        if [ "${#still[@]}" -eq 0 ]; then
+            ok "Todas as dependências instaladas."
+        else
+            fail "Não foi possível instalar: ${still[*]}"
+            log  "Instale manualmente: $(_install_hint "${missing_pkgs[0]}")"
+        fi
+    fi
+    pause
 }
 
 rebuild_kde_cache() {
@@ -418,7 +654,11 @@ status_scx() {
 
 apply_scx() {
     if ! command -v scx_lavd &>/dev/null && ! [ -f /usr/lib/scx/scx_lavd ]; then
-        fail "scx_lavd not found — install: sudo pacman -S scx-scheds"; return
+        step "scx_lavd not found — trying to install scx-scheds..."
+        install_pkgs scx-scheds
+    fi
+    if ! command -v scx_lavd &>/dev/null && ! [ -f /usr/lib/scx/scx_lavd ]; then
+        fail "scx_lavd not found — install: $(_install_hint scx-scheds)"; return
     fi
     mkdir -p "$(dirname "$SCX_DROP")"
     if write_if_changed "$SCX_DROP" "$(scx_content)"; then
@@ -603,8 +843,8 @@ After=local-fs.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/bin/bash -c 'modprobe zram num_devices=1 2>/dev/null||true && echo 1>/sys/block/zram0/reset 2>/dev/null||true && zramctl --size ${size} --algorithm zstd /dev/zram0 && mkswap /dev/zram0 && swapon -p ${ZRAM_PRIO} /dev/zram0'
-ExecStop=/usr/bin/bash -c 'swapoff /dev/zram0 2>/dev/null||true; echo 1>/sys/block/zram0/reset 2>/dev/null||true'
+ExecStart=/usr/bin/env bash -c 'modprobe zram num_devices=1 2>/dev/null||true && echo 1>/sys/block/zram0/reset 2>/dev/null||true && zramctl --size ${size} --algorithm zstd /dev/zram0 && mkswap /dev/zram0 && swapon -p ${ZRAM_PRIO} /dev/zram0'
+ExecStop=/usr/bin/env bash -c 'swapoff /dev/zram0 2>/dev/null||true; echo 1>/sys/block/zram0/reset 2>/dev/null||true'
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -1350,6 +1590,64 @@ ZSHRC_PATH="$REAL_HOME/.zshrc"
 ZSHRC_BACKUP_PATH="$REAL_HOME/.zshrc.bugtuxp.bak"
 ZSH_DEPS=(fzf fd bat procs btop)
 
+# Aliases de pacote adaptados ao gerenciador detectado (pacman = original)
+_zsh_pkg_aliases() {
+    case "$(detect_pkg_manager)" in
+        apt) cat << 'EOF'
+alias update='sudo apt update && sudo apt upgrade'; alias install='sudo apt install'; alias remove='sudo apt remove'
+alias search='apt search'; alias clean='sudo apt clean'
+alias autoremove='sudo apt autoremove'
+EOF
+        ;;
+        dnf) cat << 'EOF'
+alias update='sudo dnf upgrade'; alias install='sudo dnf install'; alias remove='sudo dnf remove'
+alias search='dnf search'; alias clean='sudo dnf clean all'
+alias autoremove='sudo dnf autoremove'
+EOF
+        ;;
+        yum) cat << 'EOF'
+alias update='sudo yum update'; alias install='sudo yum install'; alias remove='sudo yum remove'
+alias search='yum search'; alias clean='sudo yum clean all'
+alias autoremove='sudo yum autoremove'
+EOF
+        ;;
+        zypper) cat << 'EOF'
+alias update='sudo zypper dup'; alias install='sudo zypper install'; alias remove='sudo zypper remove'
+alias search='zypper search'; alias clean='sudo zypper clean'
+EOF
+        ;;
+        apk) cat << 'EOF'
+alias update='sudo apk update && sudo apk upgrade'; alias install='sudo apk add'; alias remove='sudo apk del'
+alias search='apk search'; alias clean='sudo apk cache clean'
+EOF
+        ;;
+        xbps) cat << 'EOF'
+alias update='sudo xbps-install -Su'; alias install='sudo xbps-install'; alias remove='sudo xbps-remove'
+alias search='xbps-query -Rs'; alias clean='sudo xbps-remove -O'
+alias autoremove='sudo xbps-remove -o'
+EOF
+        ;;
+        emerge) cat << 'EOF'
+alias update='sudo emerge --update --deep --newuse @world'; alias install='sudo emerge'; alias remove='sudo emerge --unmerge'
+alias search='emerge --search'; alias clean='sudo eclean-dist'
+alias autoremove='sudo emerge --depclean'
+EOF
+        ;;
+        eopkg) cat << 'EOF'
+alias update='sudo eopkg upgrade'; alias install='sudo eopkg install'; alias remove='sudo eopkg remove'
+alias search='eopkg search'; alias clean='sudo eopkg delete-cache'
+alias autoremove='sudo eopkg remove-orphans'
+EOF
+        ;;
+        *) cat << 'EOF'
+alias update='sudo pacman -Syu'; alias install='sudo pacman -S'; alias remove='sudo pacman -R'
+alias search='pacman -Ss'; alias clean='sudo pacman -Sc'
+alias autoremove='sudo pacman -Rs $(pacman -Qdtq)'
+EOF
+        ;;
+    esac
+}
+
 zshrc_content() {
     cat << 'EOF'
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
@@ -1389,9 +1687,9 @@ if command -v fzf &>/dev/null; then
 fi
 
 alias ll='ls -lAhS'; alias la='ls -lah'; alias l='ls -CF'; alias cl='clear'
-alias update='sudo pacman -Syu'; alias install='sudo pacman -S'; alias remove='sudo pacman -R'
-alias search='pacman -Ss'; alias clean='sudo pacman -Sc'
-alias autoremove='sudo pacman -Rs $(pacman -Qdtq)'
+EOF
+    _zsh_pkg_aliases
+    cat << 'EOF'
 alias v='nvim'; alias vi='nvim'; alias vim='nvim'
 alias ..='cd ..'; alias ...='cd ../..'; alias ....='cd ../../..'
 alias mkdir='mkdir -pv'; alias cp='cp -iv'; alias mv='mv -iv'; alias rm='rm -iv'
@@ -1703,7 +2001,7 @@ apply_zsh() {
     else
         local conf; conf=$(confirm_dialog "Sobrescrever ~/.zshrc? (backup em .zshrc.bugtuxp.bak)")
         [[ "$conf" != "0" ]] && { skip "Cancelled"; pause; return; }
-        step "Installing dependencies..."; install_pkgs "${ZSH_DEPS[@]}"
+        step "Installing dependencies..."; install_pkgs "${ZSH_DEPS[@]}"; _fix_pkg_binary_names
         [ -f "$ZSHRC_PATH" ] && cp "$ZSHRC_PATH" "$ZSHRC_BACKUP_PATH" && ok "Backup → ~/.zshrc.bugtuxp.bak"
         zshrc_content > "$ZSHRC_PATH"
         own_back "$ZSHRC_PATH" "$ZSHRC_BACKUP_PATH" 2>/dev/null || true
@@ -1959,7 +2257,7 @@ apply_secureboot() {
         step "sbctl not found — installing..."
         install_pkgs sbctl
         if ! command -v sbctl &>/dev/null; then
-            fail "Falha ao instalar sbctl. Verifique sua conexão e tente:"; log "sudo pacman -S sbctl"
+            fail "Falha ao instalar sbctl. Verifique sua conexão e tente:"; log "$(_install_hint sbctl)"
             pause; return
         fi
         ok "sbctl installed successfully"
@@ -2155,6 +2453,12 @@ main_menu() {
         esac
     done
 }
+
+# _plasma_refresh_check não existe no arquivo original (chamada sem definição).
+# Stub seguro para não gerar "command not found" — não altera nada se já existir.
+declare -F _plasma_refresh_check &>/dev/null || _plasma_refresh_check() { :; }
+
+ensure_dependencies
 
 printf "  ${DIM}Verificando atualizações do KDE Plasma...${N}"
 _plasma_refresh_check
